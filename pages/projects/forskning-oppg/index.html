@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hvorfor ikke div</title>
+    <link rel="stylesheet" href="../../../css/projects/forskning-opg/style.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="javascript:history.back()" class="back-button">Tilbake</a>
+    </nav>
+
+    <!-- Main Content Wrapper -->
+    <main class="container">
+        <!-- Article Section -->
+        <section class="content text-center">
+            <h1 class="large-text margin-bottom">Hva er problemet med div</h1>
+        </section>
+
+        <!-- Article Body Content -->
+        <article class="content text-justify small-text">
+            <p class="margin-bottom">
+                I denne artikkelen skal vi se på hva problemet med &lt;div&gt; er, hva &lt;section&gt; brukes til,
+                og hvordan begge kan hjelpe oss med å lage en bedre struktur på nettsider. Vi kommer også til å bruke
+                eksempler med HTML-kode og et lite eksperiment for å vise hvordan dette fungerer i praksis.
+            </p>
+
+            <section class="margin-bottom">
+                <h2>&lt;div&gt;</h2>
+                <p>
+                    &lt;div&gt; er en grunnleggende beholder i HTML som brukes til å organisere og gruppere innhold.
+                    Den har ingen spesifikk betydning i seg selv, noe som betyr at den ikke sier noe om hva slags type
+                    innhold
+                    den inneholder. Den fungerer som en fleksibel, nøytral "boks" som man kan bruke til å bygge layout
+                    eller
+                    struktur på nettsiden. Selv om &lt;div&gt; ofte er nyttig, gjør den koden mindre beskrivende og
+                    vanskeligere
+                    å forstå for både mennesker og datamaskiner, som for eksempel skjermlesere. Derfor bør man helst
+                    unngå å bruke
+                    &lt;div&gt; unødvendig, og heller velge tagger som har en mer spesifikk funksjon.
+                </p>
+
+                <br>
+                <h2>&lt;section&gt;</h2>
+                <p>
+                    &lt;section&gt; er en HTML-tagg som har en klar funksjon: den grupperer innhold som hører sammen
+                    i en tematisk seksjon. For eksempel kan den brukes til kapitler i en artikkel eller deler av en
+                    nettside
+                    som har et felles tema. I motsetning til &lt;div&gt; forteller &lt;section&gt; nettleseren og andre
+                    verktøy
+                    at dette innholdet er relatert og utgjør en egen logisk del av siden. Dette gjør koden lettere å
+                    forstå,
+                    både for utviklere som leser koden og for teknologier som skjermlesere.
+                </p>
+                <br>
+
+                <figure>
+                    <img src="../../../assets/images/projects/forskning-opg/div.png" alt="">
+                    <img src="../../../assets/images/projects/forskning-opg/section.png" alt="">
+                </figure>
+                <br>
+                <h2>Semantisk HTML</h2>
+                <p>
+                    Semantisk HTML er når man skriver koden på en strukturert og meningsfull måte ved å bruke
+                    HTML-elementer
+                    som er designet for å beskrive innholdet deres, som &lt;p&gt; for avsnitt, &lt;header&gt; for
+                    overskrifter,
+                    og &lt;article&gt; for artikler. Dette gjør koden mye enklere å lese og forstå, både for utviklere
+                    og nettlesere.
+                </p>
+                <br>
+                <p>
+                    Som vist i bildet ovenfor, blir det langt enklere for en utvikler å navigere i og forstå strukturen
+                    i koden når semantiske elementer brukes, sammenlignet med ikke-semantisk kode der &lt;div&gt;-tagger
+                    ofte blir brukt uten spesifikasjon.
+                </p>
+                <br>
+                <p>
+                    En annen ulempe med &lt;div&gt; er at det ikke gir noen kontekst om hva innholdet inneholder.
+                    Som nevnt tidligere, fungerer &lt;div&gt; som en "tom beholder." Dette kan gjøre nettsiden
+                    vanskeligere
+                    å lese for skjermlesere og andre tilgjengelighetsverktøy. En organisasjon som jobber med
+                    tilgjengelighet
+                    i Norge er <a href="https://www.uutilsynet.no/" target="_blank" rel="noopener">UU-tilsynet</a>.
+                    Ved å bruke semantisk HTML, som &lt;header&gt; og &lt;article&gt;, kan vi gjøre nettsider mer
+                    brukervennlige
+                    og inkluderende.
+                </p>
+                <br>
+                <p>Om nettsiden ikke er universelt utformet, kan man få bøter fra ti-tusenvis til flere hundre-tusen
+                    kroner.</p>
+                <br>
+                <h2>Eksperimentet</h2>
+                <p>
+                    I dette eksperimentet skal vi se hvordan en nettleser ser &lt;div&gt; og &lt;section&gt;.
+                </p>
+                <br>
+                <h3>Utstyr</h3>
+                <p>
+
+                    <li>10 lapper uten farge</li>
+                    <li>10 lapper med farge</li>
+
+
+                </p>
+                <br>
+                <h3>Fremgangsmåte</h3>
+                <p>
+                <ol>
+                    <li>finn fram de 10 lappene uten farge og lag en bunke med dem</li>
+                    <li>finn fram de 10 lappene med farge og lag en bunke med dem</li>
+
+                </ol>
+                </p>
+                <br>
+                <h2 class="centre">da skal det se slik ut: </h2>
+                <figure id="nam">
+
+                    <img src="../../../assets/images/projects/forskning-opg/diveksp.jpg" alt="bildet er en bunke med 10 lapper uten farge som ligger på et bord">
+                    <img src="../../../assets/images/projects/forskning-opg/semanticeks.jpg" alt="bildet er en bunke med 10 lapper med farge som ligger på et bord">
+                </figure>
+                <br>
+                <br>
+
+                <p>
+                    Grunnen til at vi gjennomførte dette eksperimentet var for å demonstrere hvordan mangelen på visuell
+                    eller semantisk struktur
+                    kan gjøre det vanskeligere å forstå informasjon. Akkurat som fargene hjelper oss med å organisere
+                    lappene, hjelper semantisk HTML
+                    utviklere og verktøy med å forstå innholdet på en nettside. Dette gjør nettsider både mer
+                    brukervennlige og lettere å vedlikeholde.
+
+                </p>
+
+
+            </section>
+
+
+        </article>
+    </main>
+
+
+    <footer>
+        <p>&copy; 2024 William Berge Grønsberg | <a href="../forskning-oppg/kilder.html">Kilder</a> | laget i naturfag</p>
+    </footer>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

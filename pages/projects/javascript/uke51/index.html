@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mine Fag</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #3b3b3b;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #output {
+            margin-top: 20px;
+        }
+        section {
+            margin-top: 20px;
+        }
+        footer {
+            background-color: #3b3b3b;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+<main>
+    <section>
+        <h2>Legg til eller fjern fag</h2>
+        <form>
+            <label for="etnyttfag">Skriv inn et fag:</label>
+            <input type="text" id="etnyttfag" placeholder="Fagnavn">
+            <div>
+                <button type="button" onclick="sok()">Søk</button>
+                <button type="button" onclick="nyttfag()">Legg til nytt fag</button>
+                <button type="button" onclick="fjernfag()">Fjern siste fag</button>
+            </div>
+        </form>
+    </section>
+
+    <section id="output">
+        <h2>Fag og Timer</h2>
+        <!-- Fagene og timer vil vises her -->
+    </section>
+
+    <section id="added_a_new_subject"></section>
+    <section id="removed_a_subject"></section>
+    <section id="searched_a_subject"></section>
+</main>
+
+<script>
+// Arrays to store subjects and hours
+let minefag = ["Matematikk", "Konseptutvikling og Programmering", "Teknologi-forståelse"];
+let timer = ["2", "5", "3"];
+
+// Function to add a new subject
+function nyttfag() {
+    minefag.push("Nytt fag");
+    timer.push("4"); // Add hours for the new subject
+    document.getElementById("added_a_new_subject").innerHTML = "Du har lagt til et nytt fag.";
+    visFagOgTimer();
+}
+
+// Function to remove the last subject
+function fjernfag() {
+    minefag.pop();
+    timer.pop(); // Remove hours for the last subject
+    document.getElementById("removed_a_subject").innerHTML = "Du har fjernet et fag.";
+    visFagOgTimer();
+}
+
+// Function to search for a subject using indexOf
+function sok() {
+    let fagnavninput = document.getElementById("etnyttfag").value;
+    let outputElement = document.getElementById("searched_a_subject");
+
+    // Use indexOf to find the index of the subject
+    let index = minefag.indexOf(fagnavninput);
+
+    if (index !== -1) {  // If the index is not -1, the subject exists
+        outputElement.innerHTML = `Dette er et av fagene mine: ${minefag[index]} i ${timer[index]} timer.`;
+    } else if (fagnavninput === "") {
+        outputElement.innerHTML = "Du må skrive inn noe.";
+    } else {
+        outputElement.innerHTML = "Jeg har dessverre ikke dette faget.";
+    }
+}
+
+// Function to display subjects and their corresponding hours
+function visFagOgTimer() {
+    let output = document.getElementById("output");
+    output.innerHTML = "<h2>Fag og Timer</h2>"; // Reset and add header
+    for (let i = 0; i < minefag.length; i++) {
+        output.innerHTML += `<p>${minefag[i]}: ${timer[i]} timer</p>`;
+    }
+}
+
+// Display subjects and hours when the page loads
+visFagOgTimer();
+
+</script>
+
+</body>
+</html>

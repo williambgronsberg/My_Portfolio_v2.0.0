@@ -1,0 +1,514 @@
+*{
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+
+
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: rgb(64, 120, 140);
+  color: white;
+}
+
+main {
+ padding: 2rem;
+  text-align: center;
+}
+
+
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+   border: 1px black solid;}
+   
+ /*color tek.forståelse*/
+.tekforcolor {background-color: rgb(166, 0, 181)}
+/*color prod. historie*/
+.cprod{background-color: rgb(214, 175, 92);}
+/*color yff*/
+.cyff{background-color: rgb(223, 83, 83);}
+/* color programering*/
+.cprg{background-color: blueviolet;}
+/* color gym*/
+.cgym{background-color: aqua;}
+/* color naturfag*/
+.cnat{background-color: chocolate;}
+/* color english*/
+.ceng{background-color: hotpink;}
+/*color matte*/
+.cmat{background-color: brown;}
+/*color pause*/
+.pause{background-color: rgb(100, 100, 100);}
+
+
+
+table {
+  background-color: rgb(58, 158, 171);
+}
+
+
+
+.header{
+  ul {
+  
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #2e626f;
+}
+
+li {
+  float: left;
+}
+
+
+
+li a {
+  display: block;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+
+
+
+}
+
+
+.overskrift{
+ display: flex;
+    justify-content: center; 
+    align-items: center;    
+    height: 300px;
+    margin-bottom: 100px;   
+    color: white;
+    font-style: bold;
+    font-size: 100px;
+padding-top: 30vh;
+margin: 100px;
+    
+  }
+
+
+
+
+
+.btn{
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+
+
+/*css for bilde galeri*/
+
+
+
+
+.overskrift_mine_projecter {
+  text-decoration: none;
+  color: #ffffff;
+
+}
+
+.overskrift-nam{
+  color: #ffff;
+  margin-left: 15px;
+}
+
+
+@media (max-width:572px){
+  body{
+          height: 100%;
+          
+  
+}
+
+.overskrift{
+  font-size: 50px;
+}
+
+}
+
+.bildeavmeg{
+ 
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    width: 200px;
+    border-radius: 100px;
+}
+
+
+
+/*code for project.html-design*/
+
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.photo-block {
+  margin-bottom: 2rem;
+  text-align: left;
+  background-color: #2e626f;
+  padding: 1.5rem;
+  border-radius: 10px;
+}
+
+.photo-block h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.photo-block p {
+  margin-bottom: 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #e6e6e6;
+}
+
+.photo-placeholder {
+  width: 100%;
+  height: 200px;
+  background-color: #B0C5CB;
+  margin-top: 1rem;
+  border-radius: 10px;
+}
+
+
+
+
+
+
+/*code for bilde.html*/
+
+
+
+
+
+.container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  width: 100%;
+  margin: 5rem auto 0 auto;
+  flex-wrap: wrap; 
+}
+
+.box {
+  flex: 1 1 calc(33.33% - 1rem); 
+  max-width: calc(33.33% - 1rem); 
+}
+
+.container img {
+  width: 100%; 
+  aspect-ratio: 16/9;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+@media (max-width: 768px) {
+  .box {
+      flex: 1 1 calc(50% - 1rem); 
+      max-width: calc(50% - 1rem);
+  }
+}
+
+@media (max-width: 572px) {
+  .box {
+      flex: 1 1 100%; 
+      max-width: 100%;
+  }
+}
+
+
+
+
+
+
+/*for hamburger*/
+
+@media (max-width: 572px) {
+  
+
+.site-header {
+  background: #ffffff;
+}
+
+.hamburger {
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  float: right;
+  font-size: 2rem;
+  min-height: 3rem;
+  min-width: 3rem;
+  outline: none;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+}
+
+.hamburger:before,
+.hamburger:after {
+  width: 100%;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.hamburger:before {
+  content: "\2630";
+  color: #fff;
+}
+
+.hamburger:after {
+  content: "\2A2F";
+  color: #fff;
+}
+
+.site-nav {
+  background: #40788c;
+  height: 100vh;
+  position: fixed;
+
+  width: 100%;
+  transform: translatex(-100%);
+  will-change: transform;
+}
+
+.site-nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav ul li {
+  border-bottom: 1px solid #ffffff;
+  font-size: 1rem;
+  font-variant: all-small-caps;
+  padding: 0.8rem;
+  text-align: center;
+  /* 	text-transform: uppercase; */
+  transition: all 0.15s;
+}
+
+.site-nav ul li a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+/* ANIMATIONS AND TRANSITIONS */
+
+.hamburger:after,
+.hamburger.active:before {
+  transform: scale(0.01) rotate(180deg);
+}
+
+.hamburger:before,
+.hamburger.active:after {
+  transform: scale(1) rotate(-180deg);
+}
+
+.hamburger.animatable:before,
+.hamburger.animatable:after {
+  transition: all 0.35s;
+}
+
+.site-nav.active {
+  transform: none;
+}
+
+.site-nav.animatable {
+  transition: all 0.15s;
+  transition-timing-function: ease-in;
+}
+
+.site-nav.active.animatable {
+  transition: all 0.3s;
+  transition-timing-function: ease-out;
+}
+
+.site-nav ul li:hover {
+  background-color: #2e626f;
+  /* background-color: #f78fb3; */
+  cursor: pointer;
+}
+
+@media all and (min-width: 1200px) {
+  html {
+      font-size: 120%;
+  }
+}
+
+}
+
+
+@media only screen and (max-width: 572px) {
+  .header {
+      display: none;
+  }
+  .head {
+    display: none;
+}
+}
+
+
+@media only screen and (min-width: 573px) {
+  .device {
+      display: none;
+  }
+}
+
+
+
+#index-page {
+  background: radial-gradient(ellipse at bottom, #2a265f 0%, #090a0f 100%);
+  height: 100vh;
+ 
+  
+}
+
+
+
+
+
+
+
+  .head{
+    ul {
+    
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #1b2735;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  li a:hover {
+    background-color: #111;
+  }
+
+}
+
+.glowing-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 30px;
+  border: 2px solid white;  /* White outline */
+  border-radius: 50px;  /* Rounded edges */
+  background-color: #0A192F;  /* Dark background */
+  color: rgb(156, 22, 22);
+  font-family: 'Anton', sans-serif;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 20px pink;  /* Pink glow always active */
+  transition: box-shadow 0.3s ease;
+}
+
+.glowing-button .arrow {
+  margin-left: 15px;
+  font-size: 1.5rem;  /* Adjust icon size */
+}
+
+.glowing-button:before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50px;
+  border: 2px solid pink;  /* Pink glowing border */
+  box-shadow: 0 0 15px 5px pink;  /* Constant glow effect */
+  opacity: 1;  /* Always visible */
+  transition: opacity 0.3s ease;
+}
+
+
+
+
+
+
+.boxoncv{
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+
+
+}
+
+
+
+.section1{
+border: #ffffff 2px solid;
+  background-color: #325e6e;
+width: 300px;
+margin: 10px;
+padding: 10px;
+border-radius: 10px;
+}
+
+
+
+.sidesection{
+
+display: block;
+height: 10px;
+float: right;
+background-color: #0c2dd1;
+width: 10px;
+color: #0c2dd1;
+}
+
+
+
+

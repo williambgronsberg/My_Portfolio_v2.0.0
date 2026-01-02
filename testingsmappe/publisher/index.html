@@ -1,0 +1,48 @@
+<!-- 
+  @Author: William Berge Groensberg
+  @Date:   2025-07-13 19:55:58
+  @Last Modified by:   William Berge Groensberg
+  @Last Modified time: 2025-07-15 01:00:53
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Webify Login & Publisher</title>
+  <style>
+    .step { display: none; }
+    .active { display: block; }
+  </style>
+</head>
+<body>
+  <h1 id="title">Login to Webify 🔐</h1>
+
+  <button id="loginBtn">Sign in with Google</button>
+  <button id="logoutBtn" style="display:none;">Log out</button>
+
+  <p id="user"></p>
+
+  <!-- Step 1: Project Title -->
+  <div id="step1" class="step">
+    <label for="projectName">Project Name (a-z, 0-9, _ and - only):</label><br />
+    <input type="text" id="projectName" autofocus /><br /><br />
+    <button id="nextBtn">Next</button>
+  </div>
+
+  <!-- Step 2: Paste code -->
+  <div id="step2" class="step">
+    <label for="codeInput">Paste your HTML code here:</label><br />
+    <textarea id="codeInput" rows="15" cols="70" placeholder="Paste HTML code"></textarea><br /><br />
+    <button id="backBtn">Back</button>
+    <button id="publishBtn">Publish</button>
+    <pre id="response"></pre>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-auth-compat.js"></script>
+
+  <script src="app.js"></script>
+</body>
+</html>

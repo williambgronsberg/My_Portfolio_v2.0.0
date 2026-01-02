@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f8f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #eee;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .done {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>To-Do List</h2>
+        <input type="text" id="title" placeholder="Task Title">
+        <textarea id="task" placeholder="Task Description"></textarea>
+        <button onclick="addTask()">Add New Task</button>
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", loadTasks);
+
+        function addTask() {
+            let title = document.getElementById("title").value;
+            let task = document.getElementById("task").value;
+            if (!title || !task) return;
+            
+            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            tasks.push({ title, task, done: false });
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+            renderTasks();
+            document.getElementById("title").value = "";
+            document.getElementById("task").value = "";
+        }
+
+        function renderTasks() {
+            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            let taskList = document.getElementById("taskList");
+            taskList.innerHTML = "";
+            tasks.forEach((t, index) => {
+                let li = document.createElement("li");
+                li.innerHTML = `<span class="${t.done ? 'done' : ''}">${t.title}: ${t.task}</span> 
+                                <button onclick="finishTask(${index})">✔</button>`;
+                taskList.appendChild(li);
+            });
+        }
+
+        function finishTask(index) {
+            let tasks = JSON.parse(localStorage.getItem("tasks"));
+            tasks[index].done = !tasks[index].done;
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+            renderTasks();
+        }
+
+        function loadTasks() {
+            renderTasks();
+        }
+    </script>
+</body>
+</html>

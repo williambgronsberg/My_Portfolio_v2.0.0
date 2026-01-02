@@ -1,0 +1,89 @@
+
+
+<!--denne koden er alget av william berge grønsberg-->
+
+
+
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bensinpumpa</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* tabell for kvittering */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        /* stil for tabellceller */
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+        /* farge for partall linjer */
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        /* farge for tabellheader */
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- input felt for antall liter -->
+    <input type="number" id="liter" placeholder="Skriv inn antall liter her">
+    <!-- knapp for å kjøre funksjonen sjekkTall -->
+    <button onclick="sjekkTall()">Trykk her</button>
+    <br><br>
+    <!-- p element for å vise resultatet av funksjonen -->
+    <p id="resultat">Skriv inn i feltet ovenfor for å regne ut pris på bensin</p>
+    <br>
+    <!-- overskrift for kvitteringen -->
+    <h2>Kvitteringen din:</h2>
+    <!-- tabell for kvitteringen -->
+    <table id="kvittering">
+        <!-- header for tabellen -->
+        <tr>
+            <th>Beskrivelse</th>
+            <th>Verdi</th>
+        </tr>
+        <!-- rad for antall liter -->
+        <tr>
+            <td>Antall liter:</td>
+            <td id="mengde"></td>
+        </tr>
+        <!-- rad for pris per liter -->
+        <tr>
+            <td>Pris per liter:</td>
+            <td>21.75 kr</td>
+        </tr>
+        <!-- rad for totalpris før rabatt -->
+        <tr>
+            <td>Totalpris før rabatt:</td>
+            <td id="totaltFørRabatt"></td>
+        </tr>
+        <!-- rad for rabatt (10% over 50 liter) -->
+        <tr>
+            <td>Rabatt (10% over 50 liter):</td>
+            <td id="avslag"></td>
+        </tr>
+        <!-- rad for mva (25%) -->
+        <tr>
+            <td>Mva (25%):</td>
+            <td id="mva"></td>
+        </tr>
+        <!-- rad for totalt inkl. mva -->
+        <tr>
+            <td>Totalt inkl. mva:</td>
+            <td id="totaltMEDmva"></td>
+        </tr>
+    </table>
+    <!-- script for funksjonen sjekkTall -->
+    <script src="script.js"></script>
+</body>
+</html>
+

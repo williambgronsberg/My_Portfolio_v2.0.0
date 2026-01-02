@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3-Section Website</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            
+  font-family: "Lilita One", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+        }
+
+        html, body {
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .section-1 {
+            background-color: #f4a261;
+        }
+
+        .section-2 {
+            background-color: #2a9d8f;
+            flex-direction: column;
+        }
+
+        .section-3 {
+            background-color: #264653;
+        }
+
+        h1 {
+            color: #fff;
+        }
+
+        .my-work {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: #fff;
+        }
+
+        /* Root Variables for Easy Customization */
+        :root {
+            --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+                "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei", "Source Han Sans CN", sans-serif;
+        }
+
+        .template-container {
+            position: relative;
+            width: 360px;
+            height: 148px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .rectangle {
+            position: absolute;
+            width: 148px;
+            height: 148px;
+            top: 0;
+            left: 0;
+            background: #d9d9d9;
+            border-radius: 17px;
+            z-index: 2;
+        }
+
+        h1.william-vs {
+            position: absolute;
+            width: 194px;
+            height: 82px;
+            top: 0;
+            left: 166px;
+            text-align: left;
+            margin: 0;
+            color: #323841;
+            font-family: 'Lilita One', var(--default-font-family);
+            font-size: 38px;
+            line-height: 43.434px;
+            z-index: 3;
+        }
+
+        p.easier-language {
+            position: absolute;
+            width: 173px;
+            text-align: left;
+            height: 82px;
+            top: 44px;
+            left: 167px;
+            margin: 0;
+            color: #323841;
+            font-family: 'Lilita One', var(--default-font-family);
+            font-size: 16px;
+            line-height: 18.288px;
+            letter-spacing: -0.32px;
+            z-index: 1;
+        }
+
+        button.rectangle-1 {
+            position: absolute;
+            width: 173px;
+            height: 45px;
+            top: 103px;
+            left: 167px;
+            cursor: pointer;
+            background: #323841;
+            border: none;
+            border-radius: 7px;
+            z-index: 3;
+        }
+
+        button.rectangle-1 .learn-more {
+            position: absolute;
+            top: 10px;
+            left: 41px;
+            margin: 0;
+            color: #b3b9c1;
+            font-family: 'Lilita One', var(--default-font-family);
+            font-size: 20px;
+            line-height: 22.86px;
+            white-space: nowrap;
+            z-index: 4;
+        }
+    </style>
+</head>
+<body>
+    <main>
+       
+
+        <section class="section section-2">
+        
+            <div class="template-container">
+                <div class="rectangle"></div>
+                <h1 class="william-vs">WilliamVS</h1>
+                <p class="easier-language">An easier-to-learn language<br />for non-programmers</p>
+                <button class="rectangle-1">
+                    <span class="learn-more">Learn More</span>
+                </button>
+            </div>
+            <div class="template-container">
+                <div class="rectangle"></div>
+                <h1 class="william-vs">WilliamVS</h1>
+                <p class="easier-language">An easier-to-learn language<br />for non-programmers</p>
+                <button class="rectangle-1">
+                    <span class="learn-more">Learn More</span>
+                </button>
+            </div>
+            <div class="template-container">
+                <div class="rectangle"></div>
+                <h1 class="william-vs">WilliamVS</h1>
+                <p class="easier-language">An easier-to-learn language<br />for non-programmers</p>
+                <button class="rectangle-1">
+                    <span class="learn-more">Learn More</span>
+                </button>
+            </div>
+        </section>
+
+        
+    </main>
+</body>
+</html>

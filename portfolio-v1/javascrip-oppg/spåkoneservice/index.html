@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spådame Automat</title>
+</head>
+<body>
+    <h2>Velkommen til Spådame Automat</h2>
+    <form id="spadame-form">
+        <label for="navn">Navn:</label>
+        <input type="text" id="navn" required><br><br>
+
+        <label for="alder">Alder:</label>
+        <input type="number" id="alder" required><br><br>
+
+        <label for="hoyde">Høyde (cm):</label>
+        <input type="number" id="hoyde" required><br><br>
+
+        <button type="button" onclick="genererSpadom()">Se din spådom</button>
+
+
+<br><br>
+
+
+<button type="button" onclick="briber()">bestikk meg med 1000 kr</button>
+
+    </form>
+
+    <h3>Din spådom:</h3>
+    <p id="spadom-resultat"></p>
+
+    <script src="script.js"></script>
+</body>
+</html>

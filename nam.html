@@ -1,0 +1,352 @@
+<!-- 
+  @Author: William Berge Groensberg
+  @Date:   2025-06-07 22:10:13
+  @Last Modified by:   William Berge Groensberg
+  @Last Modified time: 2025-08-24 16:02:45
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #fdfdfd;
+    }
+
+    .card {
+      width: 320px;
+      height: 180px;
+      position: relative;
+      padding: 25px;
+      background: radial-gradient(circle at 26% 106%, #FFF7B1 0%, rgba(255, 255, 255, 0) 72%), #FFFFFF;
+      box-shadow: 0 155px 62px rgba(0, 0, 0, 0.01), 0 87px 52px rgba(0, 0, 0, 0.05), 0 39px 39px rgba(0, 0, 0, 0.09), 0 10px 21px rgba(0, 0, 0, 0.1), 0 0 0 rgba(0, 0, 0, 0.1);
+      border-radius: 23px;
+      transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .container {
+      width: 250px;
+      height: 250px;
+      position: absolute;
+      right: -35px;
+      top: -50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: scale(0.7);
+    }
+
+    .sun, .cloud, .rain, .snow, .thunder {
+      position: absolute;
+      animation: floaty 6s infinite ease-in-out;
+    }
+
+    .sun {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(to right, #fcbb04, #fffc00);
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    .sunshine {
+      animation: sunshines 2s infinite;
+    }
+
+    .cloud span,
+    .rain span,
+    .snow span {
+      display: inline-block;
+      background-color: #4c9beb;
+      border-radius: 50%;
+    }
+
+    .front {
+      padding-top: 45px;
+      margin-left: 25px;
+      animation: clouds 8s infinite ease-in-out;
+    }
+
+    .back {
+      margin-top: -30px;
+      margin-left: 150px;
+      animation: clouds 12s infinite ease-in-out;
+    }
+
+    .left-front { width: 65px; height: 65px; border-radius: 50% 50% 0 50%; }
+    .right-front { width: 45px; height: 45px; border-radius: 50% 50% 50% 0%; margin-left: -25px; }
+    .left-back { width: 30px; height: 30px; border-radius: 50% 50% 0 50%; }
+    .right-back { width: 50px; height: 50px; border-radius: 50% 50% 50% 0%; margin-left: -20px; }
+
+    .rain::after {
+      content: "💧";
+      font-size: 40px;
+      animation: rainDrop 1s infinite linear;
+    }
+
+    .snow::after {
+      content: "❄️";
+      font-size: 40px;
+      animation: snowFall 2s infinite linear;
+    }
+
+    .thunder::after {
+      content: "⚡";
+      font-size: 50px;
+      color: #f5c518;
+      animation: thunderFlash 1.5s infinite ease-in-out;
+    }
+
+    .loading {
+      color: #666;
+      font-style: italic;
+    }
+
+    .error {
+      color: #e96269;
+      font-size: 12px;
+    }
+
+    @keyframes sunshines {
+      0% { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+
+    @keyframes clouds {
+      0%, 100% { transform: translateX(15px); }
+      50% { transform: translateX(0); }
+    }
+
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes rainDrop {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(50px); opacity: 0; }
+    }
+
+    @keyframes snowFall {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(40px); opacity: 0; }
+    }
+
+    @keyframes thunderFlash {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    .card-header {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card-header span:first-child {
+      font-weight: 800;
+      font-size: 15px;
+      color: rgba(87, 77, 51, 0.66);
+    }
+
+    .card-header span:last-child {
+      font-weight: 700;
+      font-size: 15px;
+      color: rgba(87, 77, 51, 0.33);
+    }
+
+    .temp {
+      position: absolute;
+      left: 25px;
+      bottom: 12px;
+      font-weight: 700;
+      font-size: 64px;
+      color: rgba(87, 77, 51, 1);
+    }
+
+    .temp-scale {
+      width: 80px;
+      height: 36px;
+      position: absolute;
+      right: 25px;
+      bottom: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.06);
+      border-radius: 9px;
+    }
+
+    .temp-scale span {
+      font-weight: 700;
+      font-size: 13px;
+      color: rgba(87, 77, 51, 0.66);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="container" id="icon-container">
+      <!-- Weather icons will be injected here -->
+    </div>
+
+    <div class="card-header">
+      <span id="loc">Loading...</span>
+      <span id="date">---</span>
+    </div>
+
+    <span id="temp" class="temp">--</span>
+
+    <div class="temp-scale">
+      <span>Celsius</span>
+    </div>
+  </div>
+
+  <script>
+    const apiKey = 'b839cdaf5037e1863d3fa014c80399be';
+
+    // Get user's current position
+    function getCurrentLocation() {
+      return new Promise((resolve, reject) => {
+        if (!navigator.geolocation) {
+          reject(new Error('Geolocation is not supported by this browser.'));
+          return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            resolve({
+              lat: position.coords.latitude,
+              lon: position.coords.longitude
+            });
+          },
+          error => {
+            reject(new Error('Unable to retrieve your location: ' + error.message));
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 300000 // 5 minutes
+          }
+        );
+      });
+    }
+
+    // Fetch weather by coordinates
+    async function fetchWeatherByCoords(lat, lon) {
+      try {
+        const res = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
+        );
+        
+        if (!res.ok) {
+          throw new Error(`Weather API error: ${res.status}`);
+        }
+        
+        return await res.json();
+      } catch (error) {
+        throw new Error('Failed to fetch weather data: ' + error.message);
+      }
+    }
+
+    // Fallback to a default city if geolocation fails
+    async function fetchWeatherByCity(city = 'Lysaker') {
+      try {
+        const res = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+        );
+        
+        if (!res.ok) {
+          throw new Error(`Weather API error: ${res.status}`);
+        }
+        
+        return await res.json();
+      } catch (error) {
+        throw new Error('Failed to fetch weather data: ' + error.message);
+      }
+    }
+
+    // Update the UI with weather data
+    function updateWeatherDisplay(data) {
+      const temp = Math.round(data.main.temp);
+      const location = `${data.name}, ${data.sys.country}`;
+      const date = new Date().toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+      });
+
+      const weatherMain = data.weather[0].main.toLowerCase();
+      const container = document.getElementById('icon-container');
+
+      let iconHTML = '';
+
+      if (weatherMain.includes('cloud')) {
+        iconHTML = `
+          <div class="cloud front">
+            <span class="left-front"></span>
+            <span class="right-front"></span>
+          </div>
+          <div class="cloud back">
+            <span class="left-back"></span>
+            <span class="right-back"></span>
+          </div>`;
+      } else if (weatherMain.includes('rain')) {
+        iconHTML = `<div class="rain"></div>`;
+      } else if (weatherMain.includes('snow')) {
+        iconHTML = `<div class="snow"></div>`;
+      } else if (weatherMain.includes('thunder')) {
+        iconHTML = `<div class="thunder"></div>`;
+      } else if (weatherMain.includes('clear')) {
+        iconHTML = `<span class="sun sunshine"></span><span class="sun"></span>`;
+      } else {
+        // fallback: partly cloudy
+        iconHTML = `<span class="sun"></span>
+                    <div class="cloud front">
+                      <span class="left-front"></span>
+                      <span class="right-front"></span>
+                    </div>`;
+      }
+
+      container.innerHTML = iconHTML;
+      document.getElementById('temp').textContent = `${temp}°`;
+      document.getElementById('loc').textContent = location;
+      document.getElementById('date').textContent = date;
+    }
+
+    // Main function to get weather
+    async function fetchWeather() {
+      try {
+        // Try to get user's current location first
+        try {
+          const coords = await getCurrentLocation();
+          const data = await fetchWeatherByCoords(coords.lat, coords.lon);
+          updateWeatherDisplay(data);
+        } catch (geoError) {
+          console.log('Geolocation failed, using fallback location:', geoError.message);
+          // Fallback to Lysaker (your location based on the prompt)
+          const data = await fetchWeatherByCity('Lysaker');
+          updateWeatherDisplay(data);
+        }
+      } catch (error) {
+        console.error('Weather fetch failed:', error);
+        document.getElementById('loc').innerHTML = '<span class="error">Weather unavailable</span>';
+        document.getElementById('temp').textContent = '--';
+      }
+    }
+
+    // Initialize
+    fetchWeather();
+  </script>
+</body>
+</html>

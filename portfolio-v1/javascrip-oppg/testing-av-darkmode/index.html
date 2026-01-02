@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Switch CSS Stylesheet</title>
+  <!-- Default style -->
+  <link id="stilark" rel="stylesheet" href="stil1.css">
+</head>
+<body>
+  <h1>Welcome!</h1>
+  <button onclick="byttStil()">Switch Style</button>
+
+  <script>
+    // Function to toggle the stylesheet and remember choice
+    function byttStil() {
+      const stilark = document.getElementById("stilark");
+
+      // Toggle between stylesheets
+      if (stilark.getAttribute("href") === "stil1.css") {
+        stilark.setAttribute("href", "stil2.css");
+        localStorage.setItem("selectedStyle", "stil2.css"); // Remember choice
+      } else {
+        stilark.setAttribute("href", "stil1.css");
+        localStorage.setItem("selectedStyle", "stil1.css"); // Remember choice
+      }
+    }
+
+    // Apply saved style on page load
+    window.addEventListener("load", () => {
+      const savedStyle = localStorage.getItem("selectedStyle");
+
+      // If there's a saved style, apply it
+      if (savedStyle) {
+        document.getElementById("stilark").setAttribute("href", savedStyle);
+      }
+    });
+  </script>
+</body>
+</html>

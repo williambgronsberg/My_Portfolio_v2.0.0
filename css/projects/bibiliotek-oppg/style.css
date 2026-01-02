@@ -1,0 +1,244 @@
+*{
+  background-color: #fe0000;
+  color: #FFC72C;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+main{
+  text-align: center;
+  padding: 2rem;
+
+
+}
+.header
+    ul {
+
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #db0000;
+    top: 0px;
+    width: 100%;
+
+  }
+
+ li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    background-color: #db0000;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  li a:hover {
+    background-color: #111;
+  }
+  
+
+  img{ float: left;}
+
+
+/*code for låneskjema*/
+
+
+  input[type=text], select {
+    width: 98%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #3e3e3e;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #111;
+    text-align: left;
+  }
+  
+
+
+
+  input[type=submit] {
+    width: 98%;
+    background-color: #FFC72C;
+    color: #fe0000;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type=submit]:hover {
+    background-color: #ca9e23;
+  }
+  
+ 
+
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.section1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+img {
+    margin: 0 0px;
+}
+
+
+/*anbefalt section*/
+.section-anbe{
+  height: 300px;
+  width: full;
+  background-color: #00a8e0;
+  padding-top: 0px;
+  
+}
+
+.anbef1{
+  
+  color: azure;
+  padding: 0px;
+  text-align: center;
+  width: 200px;
+  
+  
+}
+
+.artikkel{
+  padding: 20px;
+
+}
+
+.anbeff > h1 {
+  text-align: center;
+}
+
+
+
+
+
+
+/* asatt section*/
+.section2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 0, 0);
+  height: 350px;
+  width: 100%;
+}
+
+
+.artikkel-ansatt{
+  padding: 25px;
+  background-color: rgb(255, 0, 0);
+  ;
+}
+
+.artikkel-ansatt > img{
+  border-radius: 100px;
+  background-color: rgb(255, 0, 0);
+}
+
+
+.anbef2{
+  
+  color: azure;
+  padding: 0px;
+  text-align: center;
+  width: 200px;
+  background-color: rgb(255, 0, 0);
+  
+}
+
+.superman{
+  background-color: rgb(255, 0, 0);
+}
+
+.overskrift{
+  display: flex;
+     justify-content: center; 
+     align-items: center;    
+     height: 500px;   
+     font-style: bold;
+     font-size: 100px;
+ 
+     
+   }
+
+.hvor-finne-oss{
+  text-align: center;
+}
+
+
+#fname{
+  background-color: lightgray;
+}
+
+
+#lname{
+  background-color: lightgray;
+
+}
+#avdeling{
+  background-color: lightgray;
+}
+
+
+.photo-block {
+  
+  margin-bottom: 2rem;
+  text-align: center;
+  background-color:#FFC72C ;
+  padding: 1.6rem;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.photo-block h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.photo-block p {
+  margin-bottom: 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  background-color: rgb(255, 0, 0);
+  border: none;
+  border-radius: 5px;
+  color:#FFC72C;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #a80000;
+}
+
+
+
+.maantens{
+  color: #fe0000;
+  background-color: #FFC72C;
+  
+}
+
+
+.blokkjustert{
+  text-align: justify;
+}

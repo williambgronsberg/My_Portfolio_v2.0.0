@@ -1,0 +1,211 @@
+<!-- 
+  @Author: William Berge Groensberg
+  @Date:   2025-04-29 11:05:54
+  @Last Modified by:   William Berge Groensberg
+  @Last Modified time: 2025-08-11 01:37:29
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive CMD</title>
+    <style>
+        /* Styling for the body to resemble a terminal */
+        body {
+            background-color: #000; /* Black background */
+            color: #0f0; /* Green text */
+            font-family: monospace; /* Monospaced font for terminal effect */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container for the terminal window */
+        #cmd-window {
+            width: 100%;
+            height: 100vh;
+            overflow-y: auto; /* Allows scrolling if content overflows */
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        /* Input line for user commands */
+        #input-line {
+            display: flex;
+            visibility: hidden; /* Hidden initially until the user starts interacting */
+        }
+
+        /* Styling for the command prompt */
+        #prompt {
+            margin-right: 5px;
+        }
+
+        /* Input box for user commands */
+        input {
+            background: none;
+            color: #0f0; /* Green text */
+            border: none;
+            outline: none; /* Removes default border */
+            flex-grow: 1; /* Fills available space */
+            font-family: inherit;
+            font-size: inherit;
+        }
+
+        /* Styling for output lines */
+        .output {
+            white-space: pre-wrap; /* Preserves whitespace and line breaks */
+        }
+
+        /* Highlighted text style */
+        .nerdy-text {
+            color: #0ff; /* Cyan text for special emphasis */
+        }
+
+        /* Styling for links */
+        a {
+            color: #0ff; /* Cyan links */
+            text-decoration: none;
+        }
+
+        /* Underline links on hover */
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Inline spinner animation */
+        .spinner {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <div id="cmd-window">
+        <div id="output-area"></div> <!-- Area to display command output -->
+        <div id="input-line">
+            <span id="prompt">C:\></span> <!-- Command prompt -->
+            <input type="text" id="cmd-input" autocomplete="off" autofocus> <!-- User input field -->
+        </div>
+    </div>
+
+    <script>
+         console.log((221
+         ).toString(2));
+
+         console.log((1035).toString(16)); // Output: "3a"
+         let hex = "1e";
+let num = parseInt(hex, 16);
+console.log(num); // Output: 679
+
+        const cmdInput = document.getElementById('cmd-input');
+        const outputArea = document.getElementById('output-area');
+        const inputLine = document.getElementById('input-line');
+
+        // Displays the initial welcome message
+        appendOutput("Welcome to Nerdy CMD!\nPress any key to continue...");
+        
+        // Activates interactive mode after the user presses a key
+        document.addEventListener('keydown', startInteractiveMode, { once: true });
+
+        function startInteractiveMode() {
+            appendOutput("\nNerdy CMD loaded. Type 'projects' to see available projects, or 'help' for more commands.");
+            inputLine.style.visibility = 'visible'; // Makes the input line visible
+            cmdInput.focus();
+        }
+
+        // Handles user input when pressing Enter
+        cmdInput.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                const command = cmdInput.value.trim(); // Gets and trims the input
+                if (command) {
+                    appendOutput(`C:\>${command}`); // Echoes the command
+                    processCommand(command); // Processes the command
+                }
+                cmdInput.value = ''; // Clears the input field
+            }
+        });
+
+        // Appends text to the output area
+        function appendOutput(text) {
+            const outputLine = document.createElement('div'); // Creates a new output line
+            outputLine.classList.add('output');
+            outputLine.innerHTML = text; // Sets the text as HTML to allow links
+            outputArea.appendChild(outputLine);
+            outputArea.scrollTop = outputArea.scrollHeight; // Scrolls to the bottom
+        }
+
+        // Simulates a download spinner before opening a link
+        function simulateDownloadAndOpen(link) {
+            const spinnerFrames = ['|', '/', '-', '\\'];
+            let i = 0;
+            const spinnerLine = document.createElement('div');
+            spinnerLine.classList.add('output');
+            outputArea.appendChild(spinnerLine);
+
+            const spinnerInterval = setInterval(() => {
+                spinnerLine.textContent = `Opening... ${spinnerFrames[i % spinnerFrames.length]}`;
+                outputArea.scrollTop = outputArea.scrollHeight;
+                i++;
+            }, 200);
+
+            setTimeout(() => {
+                clearInterval(spinnerInterval); // Stops the spinner
+                spinnerLine.textContent = "Opening... Done!"; // Final message
+                outputArea.scrollTop = outputArea.scrollHeight;
+                window.open(link, '_blank'); // Opens the link
+            }, 2000); // Simulates a 2-second delay
+        }
+
+        // Processes commands entered by the user
+        function processCommand(command) {
+            const projects = {
+                1: { name: 'Portfolio Website', link: 'https://example.com/portfolio' },
+                2: { name: 'School Management System', link: 'https://example.com/school' },   
+            };
+
+            const nam = {
+                1: { name: 'rick roll', link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'},  
+            };
+
+            // Handles different commands
+            switch (command.toLowerCase()) {
+                case 'help':
+                    appendOutput('Available commands:\nhelp - Show this help message\nprojects - List available projects\nclear - Clear the screen');
+                    break;
+                    
+                case 'nam': 
+                appendOutput(`you got rick rolled...`);
+                    simulateDownloadAndOpen(nam[1].link);
+                    break;
+                case 'projects':
+                    appendOutput('Available projects:');
+                    // Lists all projects with numbers and names
+                    Object.keys(projects).forEach(key => {
+                        appendOutput(`${key}. ${projects[key].name}`);
+                    });
+                    appendOutput('Type the number or name of a project to open it.');
+                    break;
+                case '1':
+                case 'portfolio website':
+                    appendOutput(`Opening Portfolio Website...`);
+                    simulateDownloadAndOpen(projects[1].link);
+                    break;
+                case '2':
+                case 'school management system':
+                    appendOutput(`Opening School Management System...`);
+                    simulateDownloadAndOpen(projects[2].link);
+                    break;
+            
+        
+                    
+
+                
+                case 'clear':
+                    outputArea.innerHTML = ''; // Clears all output
+                    break;
+                default:
+                    appendOutput(`'${command}' is not recognized as an internal or external command.`); // Default error message
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!-- 
+  @Author: William Berge Groensberg
+  @Date:   2025-12-06 20:48:03
+  @Last Modified by:   William Berge Groensberg
+  @Last Modified time: 2025-12-06 20:48:07
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Blackjack Game</title>
+  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+  <style>
+    body { font-family: monospace; }
+    #output { white-space: pre; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+<h1>Blackjack Game</h1>
+
+<div id="output"></div>
+
+<label for="bet_input">Sats beløp:</label>
+<input id="bet_input" type="number" min="1" />
+<button id="bet_btn">Plasser innsats</button>
+
+<label for="choice_input">Velg handling (1 = trekk, 2 = stopp):</label>
+<input id="choice_input" type="text" />
+<button id="choice_btn">Send</button>
+
+<py-script>
+import random
+from js import document
+
+# ------------------------------
+# Game variables
+pengebok = 1000
+deck = []
+player_hand = []
+dealer_hand = []
+current_bet = 0
+in_round = False
+
+output = document.getElementById("output")
+
+# ------------------------------
+# Helper functions
+def create_deck():
+    suits = ['♠','♥','♦','♣']
+    values = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
+    deck = [v+s for v in values for s in suits]
+    random.shuffle(deck)
+    return deck
+
+def draw_card(card):
+    if card == "??":  # hidden dealer card
+        return [
+            "┌───────┐",
+            "|░░░░░░░|",
+            "|░░░░░░░|",
+            "|░░░░░░░|",
+            "└───────┘"
+        ]
+    v, s = card[:-1], card[-1]
+    return [
+        "┌───────┐",
+        f"|{v:<2}     |",
+        f"|   {s}   |",
+        f"|     {v:>2}|",
+        "└───────┘"
+    ]
+
+def draw_hand(cards, hide_second=False):
+    if hide_second and len(cards) > 1:
+        cards = [cards[0], "??"] + cards[2:]
+    lines = [draw_card(c) for c in cards]
+    return "\n".join("  ".join(card[i] for card in lines) for i in range(5))
+
+def hand_value(hand):
+    value = 0
+    aces = 0
+    for card in hand:
+        v = card[:-1]
+        if v in ["J","Q","K"]:
+            value += 10
+        elif v == "A":
+            value += 11
+            aces += 1
+        else:
+            value += int(v)
+    while value > 21 and aces:
+        value -= 10
+        aces -= 1
+    return value
+
+def show_table(hide_dealer=True):
+    table_str = "=== DEALER ===\n"
+    table_str += draw_hand(dealer_hand, hide_second=hide_dealer) + "\n\n"
+    table_str += "=== DU ===\n"
+    table_str += draw_hand(player_hand) + "\n"
+    table_str += f"\nPengebeholdning: {pengebok} chips\n"
+    if current_bet:
+        table_str += f"Innsats: {current_bet} chips\n"
+    output.innerText = table_str
+
+def start_round(bet):
+    global deck, player_hand, dealer_hand, current_bet, in_round
+    if bet > pengebok or bet <= 0:
+        output.innerText += "\nUgyldig innsats!\n"
+        return
+    current_bet = bet
+    deck = create_deck()
+    player_hand = [deck.pop(), deck.pop()]
+    dealer_hand = [deck.pop(), deck.pop()]
+    in_round = True
+    show_table()
+
+def end_round(message):
+    global pengebok, in_round, current_bet
+    output.innerText += f"\n{message}\n"
+    in_round = False
+    current_bet = 0
+    show_table(hide_dealer=False)
+
+# ------------------------------
+# Event handlers
+def place_bet(event=None):
+    bet_input = document.getElementById("bet_input").value
+    try:
+        bet = int(bet_input)
+        start_round(bet)
+    except:
+        output.innerText += "\nSkriv et gyldig tall for innsats.\n"
+
+def player_turn(event=None):
+    global pengebok, in_round
+    if not in_round:
+        output.innerText += "\nPlasser først en innsats!\n"
+        return
+    choice = document.getElementById("choice_input").value
+    if choice == "1":
+        player_hand.append(deck.pop())
+        show_table()
+        if hand_value(player_hand) > 21:
+            pengebok -= current_bet
+            end_round(f"Du bustet! -{current_bet} chips")
+        elif hand_value(player_hand) == 21:
+            dealer_turn()
+    elif choice == "2":
+        dealer_turn()
+    else:
+        output.innerText += "\nUgyldig valg! Tast 1 eller 2.\n"
+
+def dealer_turn():
+    global pengebok
+    show_table(hide_dealer=False)
+    while hand_value(dealer_hand) < 17:
+        dealer_hand.append(deck.pop())
+        show_table(hide_dealer=False)
+    player_total = hand_value(player_hand)
+    dealer_total = hand_value(dealer_hand)
+    if dealer_total > 21 or player_total > dealer_total:
+        pengebok += current_bet
+        end_round(f"Du vinner! +{current_bet} chips")
+    elif player_total < dealer_total:
+        pengebok -= current_bet
+        end_round(f"Dealer vinner! -{current_bet} chips")
+    else:
+        end_round(f"Uavgjort! Du får tilbake innsatsen: {current_bet} chips")
+
+document.getElementById("bet_btn").addEventListener("click", place_bet)
+document.getElementById("choice_btn").addEventListener("click", player_turn)
+
+</py-script>
+
+</body>
+</html>

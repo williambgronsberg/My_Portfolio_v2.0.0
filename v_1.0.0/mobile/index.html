@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Root Variables */
+        :root {
+            --default-font-family: 'Lilita One', serif;
+            --background-dark: #323841;
+            --background-light: #B3B9C1;
+            --text-dark: #323841;
+            --text-light: #fff;
+        }
+
+        /* Global Styles */
+        body {
+            background-color: #000;
+            font-family: var(--default-font-family);
+            color: var(--text-light);
+        }
+
+        /* Hero Section (Mobile) */
+        #herosection-mobile {
+            background-color: var(--background-dark);
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        
+
+        #sign p {
+            font-size: 50px;
+            font-weight: bold;
+            color: var(--text-dark);
+            color: aqua;
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #herosection-mobile button {
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            border: none;
+            border-radius: 50px;
+            height: 60px;
+            width: 70%;
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Project Section (Mobile) */
+        #projectsection-mobile {
+            background-color: var(--background-light);
+            width: 100%;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        #projectsection-mobile svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+        }
+
+        .project-header {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 150px;
+            color: var(--text-dark);
+        }
+
+        .template-container {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 400px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .rectangle {
+            width: 80px;
+            height: 80px;
+            background: #d9d9d9;
+            border-radius: 10px;
+            margin-right: 15px;
+        }
+
+        .template-content {
+            flex: 1;
+        }
+
+        .template-content h1 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        .template-content p {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .template-content button {
+            background: var(--text-dark);
+            color: var(--background-light);
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Hero Section -->
+    <section id="herosection-mobile">
+        <article id="sign">
+            <p>MY<br>PORTFOLIO</p>
+        </article>
+        <button>JUST SCROLL</button>
+    </section>
+
+    <!-- Project Section -->
+    <section id="projectsection-mobile">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+            <path fill="#323841" fill-opacity="1" d="M0,96L48,117.3C96,139,192,181,288,202.7C384,224,480,224,576,186.7C672,149,768,75,864,42.7C960,11,1056,21,1152,42.7C1248,64,1344,96,1392,112L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>        </svg>
+        <h1 class="project-header">MY WORK</h1>
+        
+        <div class="template-container">
+            <div class="rectangle"></div>
+            <div class="template-content">
+                <h1>WilliamVS</h1>
+                <p>A easier-to-learn language for non-programmers</p>
+                <button>Learn More</button>
+            </div>
+        </div>
+        <div class="template-container">
+            <div class="rectangle"></div>
+            <div class="template-content">
+                <h1>WilliamVS</h1>
+                <p>A easier-to-learn language for non-programmers</p>
+                <button>Learn More</button>
+            </div>
+        </div>
+        <div class="template-container">
+            <div class="rectangle"></div>
+            <div class="template-content">
+                <h1>WilliamVS</h1>
+                <p>A easier-to-learn language for non-programmers</p>
+                <button>Learn More</button>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

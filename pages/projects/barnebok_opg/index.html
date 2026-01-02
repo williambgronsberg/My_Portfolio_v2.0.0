@@ -1,0 +1,146 @@
+<!-- 
+  @Author: william
+  @Date:   2025-04-29 11:05:54
+  @Last Modified by:   William Berge Groensberg
+  @Last Modified time: 2025-05-19 14:31:42
+-->
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hjem</title>
+   
+</head>
+<body>
+
+    <style>
+               * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f49f1c;
+            color: #030e4f;
+            font-family: sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            gap: 30px;
+        }
+
+        .image-title-wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .image-container {
+            width: 500px;
+            height: 500px;
+           
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            background-color: #f49f1c;
+        }
+
+        #title {
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            letter-spacing: 4px;
+            font-size: 85px;
+            color: #030e4f;
+            text-align: center;
+            margin-left: -60px;
+            z-index: 1px;
+            padding-top: 110px;
+        }
+
+        #sub-title {
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            letter-spacing: 4px;
+            font-size: 22px;
+            color: #ffffff;
+            margin-left: 0px;
+            
+            z-index: 1px;
+        }
+
+        .nam {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .nam button {
+            background-color: #030e4f;
+            color: #f49f1c;
+            border: none;
+            height: 100px;
+            width: 400px;
+            font-size: 30px;
+            cursor: pointer;
+            border-radius: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .image-title-wrapper {
+                flex-direction: column;
+            }
+
+            #title {
+                font-size: 50px;
+            }
+
+            .nam button {
+                width: 80%;
+            }
+        }
+    </style>
+    <main>
+    
+    
+        <div class="image-title-wrapper">
+            <section class="image-container">
+                <img src="assets/gubbevektor.svg" alt="Illustrasjon fra boken">
+            </section>
+
+            <div>
+                <section id="title">
+                    <h1>IT  eller HTML</h1>
+                </section>
+                <section id="sub-title">
+                    
+                        
+                    <h2>LAGET AV BG Production</h2>
+                </section>
+            </div>
+        </div>
+
+        <section class="nam">
+            <button onclick="start()">Start</button>
+        </section>
+    </main>
+</body>
+<script src="script.js"></script>
+</html>

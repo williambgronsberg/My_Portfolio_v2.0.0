@@ -1,0 +1,1329 @@
+<!-- 
+  @Author: William Berge Groensberg
+  @Date:   2025-05-29 21:49:55
+  @Last Modified by:   William Berge Groensberg
+  @Last Modified time: 2025-06-05 00:18:22
+-->
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Minimalist Notes</title>
+        <style>
+            :root {
+                --color-bg-body: #275684;
+                --color-bg-container: #5b84ae;
+                --color-bg-note-item: #e9ecef;
+                --color-bg-modal: #ffffff;
+                --color-bg-input: #ffffff;
+                --color-bg-icon: #285ba7;
+                --color-bg-icon-hover: #1f457d;
+
+                --color-text-on-dark-bg: #ffffff;
+                --color-text-on-light-bg: #333333;
+                --color-text-muted-on-light-bg: #555555;
+                --color-text-placeholder: #777777;
+                --color-text-button: #ffffff;
+                --color-text-no-notes: #4a6a8a;
+
+                --color-primary: #285ba7;
+                --color-primary-hover: rgb(23, 79, 139);
+                --color-danger: #dc3545;
+                --color-danger-hover: #c82333;
+                --color-neutral: #6c757d;
+                --color-neutral-hover: #545b62;
+                --color-success: #285ba7;
+                --color-success-hover: #204986;
+
+                --color-border-input: #d4d4d4;
+                --color-border-divider: #e0e0e0;
+                --color-shadow: rgba(0, 0, 0, 0.1);
+                --color-shadow-popup: rgba(0, 0, 0, 0.15);
+
+                --font-family-system: -apple-system, BlinkMacSystemFont,
+                    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+                --border-radius-small: 4px;
+                --border-radius-medium: 6px;
+                --border-radius-large: 8px;
+                --border-radius-round: 50%;
+
+                --shadow-container: 0 2px 8px var(--color-shadow);
+                --shadow-modal: 0 4px 15px rgba(0, 0, 0, 0.2);
+                --shadow-popup-menu: 0 2px 10px var(--color-shadow-popup);
+
+                --min-touch-target: 44px;
+            }
+
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                font-family: var(--font-family-system);
+                line-height: 1.6;
+                background-color: var(--color-bg-body);
+                color: var(--color-text-on-dark-bg);
+                padding: 16px;
+                min-height: 100vh;
+            }
+
+            .container {
+                max-width: 600px;
+                margin: 20px auto;
+                padding: 25px;
+                background-color: var(--color-bg-container);
+                box-shadow: var(--shadow-container);
+                border-radius: var(--border-radius-large);
+                width: 100%;
+            }
+
+            .skip-link {
+                position: absolute;
+                top: -40px;
+                left: 6px;
+                background: var(--color-primary);
+                color: var(--color-text-button);
+                padding: 8px 16px;
+                text-decoration: none;
+                border-radius: var(--border-radius-small);
+                z-index: 9999;
+                font-weight: 500;
+                transition: top 0.3s ease;
+            }
+
+            .skip-link:focus {
+                top: 6px;
+            }
+
+            h1 {
+                color: var(--color-text-on-dark-bg);
+                text-align: center;
+                font-size: 2rem;
+                margin-bottom: 25px;
+                font-weight: 600;
+            }
+
+            h2 {
+                color: var(--color-text-on-dark-bg);
+                text-align: center;
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+                margin-top: 25px;
+                font-weight: 500;
+            }
+
+            #auth-container {
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            #app-container {
+                margin-top: 0;
+            }
+
+            .app-header-controls {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                margin-bottom: 20px;
+                min-height: var(--min-touch-target);
+            }
+
+            .account-area {
+                position: relative;
+                display: none;
+            }
+
+            .account-icon {
+                width: var(--min-touch-target);
+                height: var(--min-touch-target);
+                border-radius: var(--border-radius-round);
+                background-color: var(--color-bg-icon);
+                color: var(--color-text-button);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                font-weight: bold;
+                font-size: 16px;
+                overflow: hidden;
+                transition:
+                    background-color 0.2s ease,
+                    transform 0.1s ease;
+                border: 2px solid transparent;
+            }
+
+            .account-icon:hover {
+                background-color: var(--color-bg-icon-hover);
+                transform: scale(1.05);
+            }
+
+            .account-icon img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .account-popup {
+                position: absolute;
+                top: calc(100% + 8px);
+                right: 0;
+                background-color: var(--color-bg-modal);
+                color: var(--color-text-on-light-bg);
+                border-radius: var(--border-radius-medium);
+                box-shadow: var(--shadow-popup-menu);
+                z-index: 1001;
+                padding: 12px;
+                min-width: 240px;
+                display: none;
+                border: 1px solid var(--color-border-divider);
+            }
+
+            .popup-user-info {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            .popup-user-photo {
+                width: 40px;
+                height: 40px;
+                border-radius: var(--border-radius-round);
+                margin-right: 10px;
+                object-fit: cover;
+                display: none;
+            }
+
+            .account-icon-placeholder-popup {
+                width: 40px;
+                height: 40px;
+                border-radius: var(--border-radius-round);
+                background-color: var(--color-bg-icon);
+                color: var(--color-text-button);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-size: 16px;
+                margin-right: 10px;
+            }
+
+            .popup-user-details {
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                flex: 1;
+            }
+
+            .popup-user-name {
+                font-weight: 600;
+                font-size: 0.95rem;
+                color: var(--color-text-on-light-bg);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .popup-user-email {
+                font-size: 0.85rem;
+                color: var(--color-text-muted-on-light-bg);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .popup-divider {
+                border: 0;
+                border-top: 1px solid var(--color-border-divider);
+                margin: 10px 0;
+            }
+
+            .popup-logout-btn {
+                background: none;
+                border: none;
+                color: var(--color-danger);
+                padding: 8px 4px;
+                width: 100%;
+                text-align: left;
+                cursor: pointer;
+                font-size: 0.9rem;
+                border-radius: var(--border-radius-small);
+                font-weight: 500;
+                transition: background-color 0.2s ease;
+                min-height: var(--min-touch-target);
+                display: flex;
+                align-items: center;
+            }
+
+            .popup-logout-btn:hover {
+                background-color: rgba(220, 53, 69, 0.08);
+            }
+
+            button {
+                border: none;
+                padding: 10px 18px;
+                border-radius: var(--border-radius-small);
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: 500;
+                transition:
+                    background-color 0.2s ease,
+                    transform 0.1s ease;
+                color: var(--color-text-button);
+                min-height: var(--min-touch-target);
+                min-width: var(--min-touch-target);
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+
+            button:active {
+                transform: translateY(1px);
+            }
+
+            button:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+                transform: none;
+            }
+
+            #loginBtn,
+            #addNoteBtn {
+                background-color: var(--color-primary);
+            }
+
+            #loginBtn:hover,
+            #addNoteBtn:hover {
+                background-color: var(--color-primary-hover);
+            }
+
+            .note-form {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                margin-bottom: 25px;
+            }
+
+            .note-title-input {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid var(--color-border-input);
+                border-radius: var(--border-radius-small);
+                font-family: var(--font-family-system);
+                font-size: 1rem;
+                font-weight: 600;
+                background-color: var(--color-bg-input);
+                color: var(--color-text-on-light-bg);
+                line-height: 1.5;
+            }
+
+            .note-title-input::placeholder {
+                color: var(--color-text-placeholder);
+                font-weight: normal;
+            }
+
+            .note-title-input:focus {
+                border-color: var(--color-primary);
+                box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+                outline: none;
+            }
+
+            textarea#noteInput {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid var(--color-border-input);
+                border-radius: var(--border-radius-small);
+                min-height: 80px;
+                font-family: var(--font-family-system);
+                font-size: 1rem;
+                background-color: var(--color-bg-input);
+                color: var(--color-text-on-light-bg);
+                resize: vertical;
+                overflow: auto;
+                line-height: 1.5;
+            }
+
+            textarea#noteInput::placeholder {
+                color: var(--color-text-placeholder);
+            }
+
+            textarea#noteInput:focus {
+                border-color: var(--color-primary);
+                box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+                outline: none;
+            }
+
+            ul#notesList {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .note-item {
+                background-color: var(--color-bg-note-item);
+                color: var(--color-text-on-light-bg);
+                padding: 12px 15px;
+                margin-bottom: 10px;
+                border-radius: var(--border-radius-small);
+                word-break: break-word;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+                transition: all 0.2s ease;
+            }
+
+            .note-item.no-notes-message {
+                background-color: transparent;
+                color: var(--color-text-on-dark-bg);
+                justify-content: center;
+                box-shadow: none;
+                font-style: italic;
+                display: flex;
+            }
+
+            .note-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 12px;
+                cursor: pointer;
+                user-select: none;
+            }
+
+            .note-header:hover {
+                opacity: 0.8;
+            }
+
+            .note-title-section {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                flex: 1;
+            }
+
+            .note-expand-icon {
+                width: 16px;
+                height: 16px;
+                transition: transform 0.2s ease;
+                color: var(--color-text-muted-on-light-bg);
+                flex-shrink: 0;
+            }
+
+            .note-expand-icon.expanded {
+                transform: rotate(90deg);
+            }
+
+            .note-title {
+                font-weight: 600;
+                font-size: 1rem;
+                line-height: 1.4;
+                flex: 1;
+            }
+
+            .note-content {
+                margin-top: 12px;
+                padding-top: 12px;
+                border-top: 1px solid var(--color-border-divider);
+                line-height: 1.5;
+                white-space: pre-wrap;
+                overflow: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .note-content.collapsed {
+                max-height: 0;
+                margin-top: 0;
+                padding-top: 0;
+                border-top: none;
+                opacity: 0;
+            }
+
+            .note-content.expanded {
+                max-height: 1000px;
+                opacity: 1;
+            }
+
+            .note-actions {
+                display: flex;
+                align-items: center;
+                flex-shrink: 0;
+            }
+
+            /* Custom delete button */
+            .delete-button {
+                position: relative;
+                padding: 0.5em;
+                border: none;
+                background: transparent;
+                cursor: pointer;
+                font-size: 1em;
+                transition: transform 0.2s ease;
+                flex-shrink: 0;
+                min-height: var(--min-touch-target);
+                min-width: var(--min-touch-target);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .trash-svg {
+                width: 2em;
+                height: 2em;
+                transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+                filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+                overflow: visible;
+            }
+
+            #lid-group {
+                transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+
+            .delete-button:hover #lid-group {
+                transform: rotate(-28deg) translateY(2px);
+            }
+
+            .delete-button:active #lid-group {
+                transform: rotate(-12deg) scale(0.98);
+            }
+
+            .delete-button:hover .trash-svg {
+                transform: scale(1.08) rotate(3deg);
+            }
+
+            .delete-button:active .trash-svg {
+                transform: scale(0.96) rotate(-1deg);
+            }
+
+            /* Modal Styles */
+            .modal-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+                padding: 15px;
+            }
+
+            .modal-content {
+                background-color: var(--color-bg-modal);
+                padding: 25px 30px;
+                border-radius: var(--border-radius-medium);
+                box-shadow: var(--shadow-modal);
+                min-width: 300px;
+                max-width: 500px;
+                width: 100%;
+                text-align: center;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+
+            .modal-content h3 {
+                margin-top: 0;
+                margin-bottom: 15px;
+                color: var(--color-text-on-light-bg);
+                font-size: 1.3rem;
+                font-weight: 600;
+            }
+
+            .modal-content p {
+                margin-bottom: 25px;
+                color: var(--color-text-muted-on-light-bg);
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+
+            .modal-buttons {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            .modal-buttons button {
+                padding: 9px 20px;
+                font-size: 15px;
+            }
+
+            .modal-button-confirm {
+                background-color: var(--color-success);
+            }
+
+            .modal-button-confirm:hover {
+                background-color: var(--color-success-hover);
+            }
+
+            .modal-button-cancel {
+                background-color: var(--color-neutral);
+            }
+
+            .modal-button-cancel:hover {
+                background-color: var(--color-neutral-hover);
+            }
+
+            /* Screen reader only content */
+            .sr-only {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                border: 0;
+            }
+
+            /* Remove focus rings from dropdown and clickable elements */
+            .note-header:focus,
+            .note-header:focus-visible,
+            .account-icon:focus,
+            .account-icon:focus-visible,
+            .popup-logout-btn:focus,
+            .popup-logout-btn:focus-visible,
+            button:focus:not(:focus-visible),
+            .delete-button:focus,
+            .delete-button:focus-visible {
+                outline: none;
+                box-shadow: none;
+            }
+
+            /* Keep focus visible for keyboard navigation on important elements */
+            button:focus-visible:not(.note-header):not(.delete-button):not(.popup-logout-btn),
+            .account-icon:focus-visible {
+                outline: 2px solid var(--color-primary);
+                outline-offset: 2px;
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                body {
+                    padding: 8px;
+                }
+
+                .container {
+                    margin: 8px auto;
+                    padding: 16px;
+                    border-radius: var(--border-radius-medium);
+                }
+
+                h1 {
+                    font-size: 1.75rem;
+                    margin-bottom: 20px;
+                }
+
+                h2 {
+                    font-size: 1.25rem;
+                    margin-bottom: 12px;
+                    margin-top: 20px;
+                }
+
+                .note-form {
+                    gap: 10px;
+                    margin-bottom: 20px;
+                }
+
+                textarea#noteInput {
+                    min-height: 100px;
+                    font-size: 16px;
+                    padding: 14px;
+                }
+
+                .note-title-input {
+                    font-size: 16px;
+                    padding: 14px;
+                }
+
+                button {
+                    padding: 12px 20px;
+                    font-size: 16px;
+                }
+
+                .trash-svg {
+                    width: 1.8em;
+                    height: 1.8em;
+                }
+
+                .account-popup {
+                    right: -8px;
+                    min-width: 200px;
+                    max-width: calc(100vw - 32px);
+                }
+
+                .modal-content {
+                    padding: 20px;
+                    min-width: 280px;
+                    max-width: 90vw;
+                }
+
+                .modal-buttons {
+                    flex-direction: column;
+                    gap: 8px;
+                }
+
+                .modal-buttons button {
+                    width: 100%;
+                    min-height: var(--min-touch-target);
+                }
+            }
+
+            @media (max-width: 480px) {
+                .container {
+                    padding: 12px;
+                    margin: 4px auto;
+                }
+
+                h1 {
+                    font-size: 1.5rem;
+                    margin-bottom: 16px;
+                }
+
+                h2 {
+                    font-size: 1.125rem;
+                    margin-bottom: 10px;
+                    margin-top: 16px;
+                }
+
+                .modal-content {
+                    padding: 16px;
+                    min-width: 0;
+                    max-width: 95vw;
+                }
+            }
+
+            /* Reduced motion support */
+            @media (prefers-reduced-motion: reduce) {
+                *,
+                *::before,
+                *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                    scroll-behavior: auto !important;
+                }
+            }
+
+            /* Loading state */
+            .loading {
+                opacity: 0.7;
+                pointer-events: none;
+            }
+        </style>
+    </head>
+    <body>
+       
+
+        <div class="container">
+            <header>
+                <h1 id="app-title">My Notes</h1>
+            </header>
+
+            <main id="main-content">
+                <div id="auth-container">
+                    <button id="loginBtn">Get Started</button>
+                </div>
+
+                <div id="app-container" style="display: none">
+                    <div class="app-header-controls">
+                        <div id="account-area" class="account-area">
+                            <div id="accountIcon" class="account-icon">
+                                <!-- User Initials or Photo dynamically inserted by JS -->
+                            </div>
+
+                            <div id="accountPopup" class="account-popup">
+                                <div class="popup-user-info">
+                                    <img
+                                        id="popupUserPhoto"
+                                        src=""
+                                        alt="User Photo"
+                                        class="popup-user-photo"
+                                    />
+                                    <div
+                                        id="accountIconPlaceholderInPopup"
+                                        class="account-icon-placeholder-popup"
+                                    >
+                                        <!-- Initials in popup if no photo -->
+                                    </div>
+                                    <div class="popup-user-details">
+                                        <div
+                                            id="popupUserName"
+                                            class="popup-user-name"
+                                        >
+                                            User Name
+                                        </div>
+                                        <div
+                                            id="popupUserEmail"
+                                            class="popup-user-email"
+                                        >
+                                            user@example.com
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="popup-divider" />
+                                <button
+                                    id="popupLogoutBtn"
+                                    class="popup-logout-btn"
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <section aria-labelledby="add-note-heading">
+                        <h3 id="add-note-heading" class="sr-only">
+                            Add New Note
+                        </h3>
+                        
+                        <div
+                            class="note-form"
+                            role="form"
+                            aria-label="Add new note form"
+                        >
+                            <label for="noteTitleInput" class="sr-only"
+                                >Note title</label
+                            >
+                            <input
+                                id="noteTitleInput"
+                                class="note-title-input"
+                                placeholder="Note title (optional)..."
+                                aria-describedby="note-title-description"
+                            />
+                            <p id="note-title-description" class="sr-only">
+                                Enter an optional title for your note
+                            </p>
+
+                            <label for="noteInput" class="sr-only"
+                                >Note content</label
+                            >
+                            <textarea
+                                id="noteInput"
+                                placeholder="Write your note here..."
+                                aria-describedby="note-input-description"
+                            ></textarea>
+                            <p id="note-input-description" class="sr-only">
+                                Enter the content for your new note. Press
+                                Ctrl+Enter to quickly add the note.
+                            </p>
+
+                            <button id="addNoteBtn">Add Note</button>
+                            
+                            <p id="add-note-description" class="sr-only">
+                                Click to save your note to the list
+                            </p>
+                        </div>
+                    </section>
+
+                    <section aria-labelledby="notes-list-heading">
+                        <h2 id="notes-list-heading">Your Notes:</h2>
+                        <ul
+                            id="notesList"
+                            aria-live="polite"
+                            aria-relevant="additions removals"
+                        >
+                            <!-- Notes will be dynamically added here -->
+                        </ul>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <!-- Custom Modal HTML -->
+        <div id="customModalOverlay" class="modal-overlay">
+            <div id="customModal" class="modal-content">
+                <h3 id="modalTitle">Modal Title</h3>
+                <p id="modalMessage">Modal message goes here.</p>
+                <div id="modalButtons" class="modal-buttons">
+                    <!-- Buttons will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Firebase SDKs -->
+        <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+
+        <script>
+            // Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyDLrlrWDVndWEj3VyTknfbiRroWu9-dqNY",
+                authDomain: "notes-1e5ad.firebaseapp.com",
+                projectId: "notes-1e5ad",
+                storageBucket: "notes-1e5ad.firebasestorage.app",
+                messagingSenderId: "857407330458",
+                appId: "1:857407330458:web:df53f6e37568526feee723",
+                measurementId: "G-7BDYDHECT2",
+            };
+
+            firebase.initializeApp(firebaseConfig);
+            if (firebase.analytics) {
+                firebase.analytics();
+            }
+
+            const auth = firebase.auth();
+            const db = firebase.firestore();
+            const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+            // DOM Elements
+            const loginBtn = document.getElementById("loginBtn");
+            const authContainer = document.getElementById("auth-container");
+            const appContainer = document.getElementById("app-container");
+            const noteTitleInput = document.getElementById("noteTitleInput");
+            const noteInput = document.getElementById("noteInput");
+            const addNoteBtn = document.getElementById("addNoteBtn");
+            const notesList = document.getElementById("notesList");
+
+            // Account Area DOM Elements
+            const accountArea = document.getElementById("account-area");
+            const accountIcon = document.getElementById("accountIcon");
+            const accountPopup = document.getElementById("accountPopup");
+            const popupUserPhoto = document.getElementById("popupUserPhoto");
+            const accountIconPlaceholderInPopup = document.getElementById(
+                "accountIconPlaceholderInPopup",
+            );
+            const popupUserName = document.getElementById("popupUserName");
+            const popupUserEmail = document.getElementById("popupUserEmail");
+            const popupLogoutBtn = document.getElementById("popupLogoutBtn");
+
+            // Custom Modal DOM Elements
+            const modalOverlay = document.getElementById("customModalOverlay");
+            const modalTitleElem = document.getElementById("modalTitle");
+            const modalMessageElem = document.getElementById("modalMessage");
+            const modalButtonsContainer =
+                document.getElementById("modalButtons");
+
+            let currentUser = null;
+            let unsubscribeNotes = null;
+            let expandedNotes = new Set();
+
+            // Custom Modal Logic
+            let currentResolve = null;
+            function showModal(title, message, buttonsConfig) {
+                modalTitleElem.textContent = title;
+                modalMessageElem.textContent = message;
+                modalButtonsContainer.innerHTML = "";
+                buttonsConfig.forEach((btnConfig) => {
+                    const button = document.createElement("button");
+                    button.textContent = btnConfig.text;
+                    button.className = btnConfig.class || "modal-button-cancel";
+                    button.addEventListener("click", () => {
+                        hideModal();
+                        if (btnConfig.onClick) btnConfig.onClick();
+                        if (
+                            currentResolve &&
+                            btnConfig.hasOwnProperty("resolvesTo")
+                        ) {
+                            currentResolve(btnConfig.resolvesTo);
+                            currentResolve = null;
+                        }
+                    });
+                    modalButtonsContainer.appendChild(button);
+                });
+                modalOverlay.style.display = "flex";
+
+                // Focus first button
+                setTimeout(() => {
+                    const firstButton =
+                        modalButtonsContainer.querySelector("button");
+                    if (firstButton) firstButton.focus();
+                }, 100);
+            }
+
+            function hideModal() {
+                modalOverlay.style.display = "none";
+            }
+
+            modalOverlay.addEventListener("click", (event) => {
+                if (event.target === modalOverlay) {
+                    if (currentResolve) {
+                        currentResolve(false);
+                        currentResolve = null;
+                    }
+                    hideModal();
+                }
+            });
+
+            function customAlert(message, title = "Alert") {
+                showModal(title, message, [
+                    { text: "OK", class: "modal-button-cancel" },
+                ]);
+            }
+
+            function customConfirm(message, title = "Confirm") {
+                return new Promise((resolve) => {
+                    currentResolve = resolve;
+                    showModal(title, message, [
+                        {
+                            text: "Yes",
+                            class: "modal-button-confirm",
+                            resolvesTo: true,
+                        },
+                        {
+                            text: "No",
+                            class: "modal-button-cancel",
+                            resolvesTo: false,
+                        },
+                    ]);
+                });
+            }
+
+            function showLoginModal() {
+                showModal(
+                    "Welcome to My Notes",
+                    "Sign in with your Google account to access your notes from anywhere.",
+                    [
+                        {
+                            text: "Login with Google",
+                            class: "modal-button-confirm",
+                            onClick: performLogin,
+                        },
+                        { text: "Cancel", class: "modal-button-cancel" },
+                    ],
+                );
+            }
+
+            // Authentication
+            loginBtn.addEventListener("click", showLoginModal);
+
+            function performLogin() {
+                auth.signInWithPopup(googleProvider).catch((error) => {
+                    console.error("Error during sign-in:", error);
+                    customAlert(
+                        "Login failed: " + error.message,
+                        "Login Error",
+                    );
+                });
+            }
+
+            popupLogoutBtn.addEventListener("click", () => {
+                auth.signOut()
+                    .then(() => {
+                        accountPopup.style.display = "none";
+                    })
+                    .catch((error) => {
+                        console.error("Error during sign-out:", error);
+                        customAlert(
+                            "Logout failed: " + error.message,
+                            "Logout Error",
+                        );
+                    });
+            });
+
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    currentUser = user;
+                    authContainer.style.display = "none";
+                    appContainer.style.display = "block";
+                    accountArea.style.display = "block";
+
+                    // Populate account icon and popup
+                    const displayName = user.displayName || "User";
+                    const email = user.email || "No email";
+                    const photoURL = user.photoURL;
+                    const nameParts = displayName.split(" ");
+                    const initials =
+                        (nameParts[0] ? nameParts[0][0] : "") +
+                        (nameParts.length > 1 && nameParts[1]
+                            ? nameParts[1][0]
+                            : "");
+                    const finalInitials =
+                        initials.length > 0
+                            ? initials.toUpperCase()
+                            : (displayName[0] || "U").toUpperCase();
+
+                    popupUserName.textContent = displayName;
+                    popupUserEmail.textContent = email;
+
+                    if (photoURL) {
+                        accountIcon.innerHTML = `<img src="${photoURL}" alt="${finalInitials}">`;
+                        popupUserPhoto.src = photoURL;
+                        popupUserPhoto.style.display = "block";
+                        accountIconPlaceholderInPopup.style.display = "none";
+                    } else {
+                        accountIcon.innerHTML = "";
+                        accountIcon.textContent = finalInitials;
+                        popupUserPhoto.style.display = "none";
+                        accountIconPlaceholderInPopup.textContent =
+                            finalInitials;
+                        accountIconPlaceholderInPopup.style.display = "flex";
+                    }
+
+                    loadNotes();
+                } else {
+                    currentUser = null;
+                    authContainer.style.display = "block";
+                    appContainer.style.display = "none";
+                    accountArea.style.display = "none";
+                    accountPopup.style.display = "none";
+                    clearNotes();
+                    if (unsubscribeNotes) {
+                        unsubscribeNotes();
+                        unsubscribeNotes = null;
+                    }
+                }
+            });
+
+            // Account Popup Toggle
+            accountIcon.addEventListener("click", (event) => {
+                event.stopPropagation();
+                accountPopup.style.display =
+                    accountPopup.style.display === "block" ? "none" : "block";
+            });
+
+            // Close popup if clicked outside
+            document.addEventListener("click", (event) => {
+                if (
+                    accountPopup.style.display === "block" &&
+                    !accountIcon.contains(event.target) &&
+                    !accountPopup.contains(event.target)
+                ) {
+                    accountPopup.style.display = "none";
+                }
+            });
+
+            // Notes functionality
+            addNoteBtn.addEventListener("click", async () => {
+                const title = noteTitleInput.value.trim();
+                const text = noteInput.value.trim();
+
+                if (!currentUser) {
+                    customAlert(
+                        "You must be logged in to add notes!",
+                        "Not Logged In",
+                    );
+                    return;
+                }
+                if (title === "" && text === "") {
+                    customAlert(
+                        "Note title or content cannot be empty!",
+                        "Input Error",
+                    );
+                    return;
+                }
+
+                try {
+                    addNoteBtn.disabled = true;
+                    addNoteBtn.textContent = "Adding...";
+
+                    await db.collection("notes").add({
+                        title: title || "Untitled Note",
+                        text: text,
+                        userId: currentUser.uid,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    });
+
+                    noteTitleInput.value = "";
+                    noteInput.value = "";
+                    noteInput.focus();
+                } catch (error) {
+                    console.error("Error adding note: ", error);
+                    customAlert(
+                        "Error adding note: " + error.message,
+                        "Database Error",
+                    );
+                } finally {
+                    addNoteBtn.disabled = false;
+                    addNoteBtn.textContent = "Add Note";
+                }
+            });
+
+            function loadNotes() {
+                if (!currentUser) return;
+                if (unsubscribeNotes) unsubscribeNotes();
+
+                unsubscribeNotes = db
+                    .collection("notes")
+                    .where("userId", "==", currentUser.uid)
+                    .orderBy("createdAt", "desc")
+                    .onSnapshot(
+                        (snapshot) => {
+                            clearNotes();
+                            if (snapshot.empty) {
+                                const li = document.createElement("li");
+                                li.textContent = "No notes yet. Add your first one!";
+                                li.classList.add("note-item", "no-notes-message");
+                                notesList.appendChild(li);
+                                return;
+                            }
+                            snapshot.forEach((doc) => {
+                                renderNote(doc.id, doc.data());
+                            });
+                        },
+                        (error) => {
+                            console.error("Error loading notes: ", error);
+                            customAlert(
+                                "Error loading notes: " + error.message,
+                                "Database Error",
+                            );
+                        },
+                    );
+            }
+
+            function renderNote(id, data) {
+                const li = document.createElement("li");
+                li.classList.add("note-item");
+                li.dataset.id = id;
+
+                const isExpanded = expandedNotes.has(id);
+                const hasContent = data.text && data.text.trim().length > 0;
+
+                li.innerHTML = `
+                <div class="note-header" ${hasContent ? 'role="button" tabindex="0"' : ""}>
+                    <div class="note-title-section">
+                        ${
+                            hasContent
+                                ? `
+                            <svg class="note-expand-icon ${isExpanded ? "expanded" : ""}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m9 18 6-6-6-6"/>
+                            </svg>
+                        `
+                                : ""
+                        }
+                        <div class="note-title">${data.title || "Untitled Note"}</div>
+                    </div>
+                    <div class="note-actions">
+                        <button class="delete-button" type="button" aria-label="Delete note: ${data.title || "Untitled Note"}">
+                            <svg class="trash-svg" viewBox="0 -10 64 74" xmlns="http://www.w3.org/2000/svg">
+                                <g id="trash-can">
+                                    <rect x="16" y="24" width="32" height="30" rx="3" ry="3" fill="#e74c3c"></rect>
+                                    <g transform-origin="12 18" id="lid-group">
+                                        <rect x="12" y="12" width="40" height="6" rx="2" ry="2" fill="#c0392b"></rect>
+                                        <rect x="26" y="8" width="12" height="4" rx="2" ry="2" fill="#c0392b"></rect>
+                                    </g>
+                                </g>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                ${
+                    hasContent
+                        ? `
+                    <div class="note-content ${isExpanded ? "expanded" : "collapsed"}">${data.text}</div>
+                `
+                        : ""
+                }
+            `;
+
+                // Add event listeners
+                const header = li.querySelector(".note-header");
+                const deleteBtn = li.querySelector(".delete-button");
+
+                if (hasContent) {
+                    header.addEventListener("click", () =>
+                        toggleNoteExpansion(id),
+                    );
+                    header.addEventListener("keydown", (e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            toggleNoteExpansion(id);
+                        }
+                    });
+                }
+
+                deleteBtn.addEventListener("click", async (e) => {
+                    e.stopPropagation();
+                    const confirmed = await customConfirm(
+                        "Are you sure you want to delete this note?",
+                        "Confirm Deletion",
+                    );
+                    if (confirmed) {
+                        deleteNoteFirebase(id);
+                    }
+                });
+
+                notesList.appendChild(li);
+            }
+
+            function toggleNoteExpansion(noteId) {
+                if (expandedNotes.has(noteId)) {
+                    expandedNotes.delete(noteId);
+                } else {
+                    expandedNotes.add(noteId);
+                }
+
+                // Update the UI
+                const noteItem = document.querySelector(`[data-id="${noteId}"]`);
+                if (noteItem) {
+                    const icon = noteItem.querySelector(".note-expand-icon");
+                    const content = noteItem.querySelector(".note-content");
+
+                    if (icon && content) {
+                        const isExpanded = expandedNotes.has(noteId);
+                        icon.classList.toggle("expanded", isExpanded);
+                        content.classList.toggle("expanded", isExpanded);
+                        content.classList.toggle("collapsed", !isExpanded);
+                    }
+                }
+            }
+
+            function deleteNoteFirebase(noteId) {
+                if (!currentUser || !noteId) return;
+                db.collection("notes")
+                    .doc(noteId)
+                    .delete()
+                    .then(() => {
+                        console.log("Note deleted successfully");
+                    })
+                    .catch((error) => {
+                        console.error("Error deleting note: ", error);
+                        customAlert(
+                            "Error deleting note: " + error.message,
+                            "Database Error",
+                        );
+                    });
+            }
+
+            function clearNotes() {
+                notesList.innerHTML = "";
+                expandedNotes.clear();
+            }
+
+            // Keyboard shortcuts
+            document.addEventListener("keydown", (event) => {
+                // Ctrl + Enter to add note
+                if (
+                    event.ctrlKey &&
+                    event.key === "Enter" &&
+                    currentUser
+                ) {
+                    event.preventDefault();
+                    addNoteBtn.click();
+                }
+
+                // Escape to close popup
+                if (
+                    event.key === "Escape" &&
+                    accountPopup.style.display === "block"
+                ) {
+                    accountPopup.style.display = "none";
+                    accountIcon.focus();
+                }
+            });
+
+            // Modal keyboard handling
+            document.addEventListener("keydown", (event) => {
+                if (
+                    modalOverlay.style.display === "flex" &&
+                    event.key === "Escape"
+                ) {
+                    if (currentResolve) {
+                        currentResolve(false);
+                        currentResolve = null;
+                    }
+                    hideModal();
+                }
+            });
+        </script>
+    </body>
+</html>

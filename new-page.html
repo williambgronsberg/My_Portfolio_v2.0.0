@@ -1,0 +1,80 @@
+<!-- 
+  @Author: William Berge Groensberg
+  @Date:   2025-10-06 23:18:57
+  @Last Modified by:   William Berge Groensberg
+  @Last Modified time: 2025-10-11 01:04:46
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="favicon.ico?" rel="icon" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/2a20f3910e.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <link rel="stylesheet" href="style.css">
+  <title>New Page</title>
+  <style>
+    /* Hide new page menu items initially */
+    .menu-items-new {
+      display: none;
+    }
+    
+    /* Show old menu items initially */
+    .menu-items-old {
+      display: block;
+    }
+    
+    /* After first close, swap visibility */
+    body.menu-closed-once .menu-items-old {
+      display: none;
+    }
+    
+    body.menu-closed-once .menu-items-new {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Menu with checkbox CHECKED by default so it can close with animation -->
+  <input class="menu-icon" type="checkbox" id="menu-icon" name="menu-icon" checked/>
+  <label for="menu-icon"></label>
+  <nav class="nav">
+    <ul class="pt-5">
+      <!-- Old menu items (from index page) - shown during initial close -->
+      <li class="menu-items-old"><a href="index.html#projects">MY WORK</a></li>
+      <li class="menu-items-old"><a href="index.html#aboutMe">ABOUT ME</a></li>
+      
+      <!-- New menu items - shown after initial close when user reopens -->
+      <li class="menu-items-new"><a href="index.html">HOME</a></li>
+    </ul>
+  </nav>
+
+  <!-- Your new page content -->
+ 
+
+ <!-- Embed in your page -->
+<iframe src="man.html" width="100%" height="1000vh" frameborder="0"></iframe>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="script.js"></script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init();
+    
+    // Automatically close menu with animation on page load
+    $(document).ready(function() {
+      setTimeout(function() {
+        $("#menu-icon").prop("checked", false);
+        
+        // After menu closes, switch to new menu items
+        setTimeout(function() {
+          $('body').addClass('menu-closed-once');
+        }, 2000); // Wait for closing animation to complete
+      }, 100);
+    });
+  </script>
+</body>
+</html>

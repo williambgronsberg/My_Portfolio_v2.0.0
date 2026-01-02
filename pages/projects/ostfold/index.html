@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kart med østfold</title>
+    <style>
+        
+        body {
+    margin: 0;
+    background-color: rgb(93, 211, 172);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+article {
+    display: flex;
+    width: 80%;
+    height: 80%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+#map {
+    width: 50%;
+    padding: 10px;
+    text-align: center;
+}
+
+#resultat {
+    width: 45%;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#resultat h1 {
+    color: #333;
+}
+#resultat p {
+    color: #666;
+    margin: 10px 0;
+}
+button {
+    padding: 10px 20px;
+    background-color: #5cd798;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+button:hover {
+    background-color: #4aad80;
+}
+
+        
+    </style>
+</head>
+<body>
+    
+<article>
+    <section id="map">
+        <img src="../../../assets/images/projects/ostfold/stortkartostfold.gif" usemap="#sykkelkart">
+        <map name="sykkelkart">
+            <area 
+                shape="circle" 
+                coords="261,152,40" 
+                href="javascript:void(0)" 
+                onclick="velgBy(0)" alt="askim"
+            >
+            <area 
+                shape="circle" 
+                coords="438,362,40" 
+                href="javascript:void(0)" 
+                onclick="velgBy(1)" alt="ørje"
+            >
+            <area 
+                shape="circle" 
+                coords="341,527,40" 
+                href="javascript:void(0)" 
+                onclick="velgBy(2)" alt="halden"
+            >
+            <area 
+                shape="circle" 
+                coords="84,441,40" 
+                href="javascript:void(0)" 
+                onclick="velgBy(3)" alt="fredrikstad"
+            >
+            <area 
+                shape="circle" 
+                coords="48,232,40" 
+                href="javascript:void(0)" 
+                onclick="velgBy(4)" alt="moss"
+            >
+
+            <area 
+                shape="circle" 
+                coords="234,403,40" 
+                href="javascript:void(0)" 
+                onclick="velgBy(5)" alt="sarpsborg"
+            >
+            <area 
+                shape="circle" 
+                coords="344,332,40" 
+                href="javascript:void(0)" 
+                onclick="velgBy(6)" alt="rakkestad"
+            >
+        </map>
+    </section>
+    <section id="resultat">
+        <h1>Resultat</h1>
+        <p id="avstand"></p>
+        <p id="rute">lag en rute</p>
+        <p id="tid"></p>
+        <button onclick="reset()">ny rute</button>
+    </section>
+</article>
+
+<script src="../../../js/projects/ostfold/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!-- 
+  @Author: William Berge Groensberg
+  @Date:   2025-05-25 00:15:28
+  @Last Modified by:   William Berge Groensberg
+  @Last Modified time: 2025-09-03 11:05:13
+-->
+
+<!-- uses aos.js for animations -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link href="favicon.ico?" rel="icon" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700&family=Nanum+Pen+Script&display=swap"
+    rel="stylesheet">
+  <script src="https://kit.fontawesome.com/2a20f3910e.js" crossorigin="anonymous">
+  </script>
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<link rel="stylesheet" href="style.css">
+  
+  <title>Home</title>
+
+</head>
+
+<body>
+  <!-- menu-wrapper -->
+      
+        
+        <input class="menu-icon" type="checkbox" id="menu-icon" name="menu-icon"/>
+        <label for="menu-icon"></label>
+        <nav class="nav"> 		
+            <ul class="pt-5">
+                <li><a href="#projects">MY WORK</a></li>
+                <li><a href="#aboutMe">ABOUT ME</a></li>
+            </ul>
+        </nav>
+        
+    
+
+
+    <!-- end of menu -->
+
+
+
+ 
+
+    <section class="aboutMe" id="aboutMe">
+      <div class="wrapper" data-aos="fade-up" data-aos-once="true">
+        <div class="aboutMeTop">
+          <div class="aboutMeBio">
+            
+
+<style>
+  @font-face {
+    font-family: 'Inconsolata';
+    src: url('https://ggayane.github.io/css-experiments/Inconsolata-VF.ttf');
+    font-weight: 275 900;
+    font-stretch: 50% 200%;
+  }
+
+  #nam {
+    overflow-x: hidden;
+    
+    align-items: left;
+    
+    
+    color: rgb(39, 39, 39);
+    font-size: 8em;
+    font-family: 'Inconsolata';
+  }
+
+  
+
+  .static {
+    font-size: 30px;
+    font-variation-settings: "wght"900, "wdth"200;
+  }
+
+  .variable {
+    display: flex;
+    font-variation-settings: "wght"275, "wdth"50;
+    text-align: center;
+    animation: swapthings 3s infinite both cubic-bezier(0.17, 0.04, 0.04, 0.99);
+  }
+
+  .work {
+    animation: swapthings2 3s infinite both cubic-bezier(0.17, 0.04, 0.04, 0.99);
+  }
+
+
+  @keyframes swapthings {
+    0% {
+      font-variation-settings: "wght"275, "wdth"50;
+    }
+
+    50% {
+      font-variation-settings: "wght"900, "wdth"200;
+    }
+
+    100% {
+      font-variation-settings: "wght"275, "wdth"50;
+    }
+  }
+
+  @keyframes swapthings2 {
+    0% {
+      font-variation-settings: "wght"900, "wdth"200;
+    }
+
+    50% {
+      font-variation-settings: "wght"275, "wdth"50;
+    }
+
+    100% {
+      font-variation-settings: "wght"900, "wdth"200;
+    }
+  }</style>
+
+  <div class="variable" id="nam">
+    <span class="work" >About</span>Me
+  </div>
+
+
+            <p>
+              Hello again! Thanks for scrolling this far! 🤗 Hey, I’m William 👋 I create clean, well-designed projects
+              using HTML, CSS, and JavaScript, while expanding my skills with Python and Github. I focus on
+              combining functionality with a polished look, and I’m driven by a constant goal to improve, learn, and
+              deliver work I’m proud of.
+
+            
+            </p>
+            <p>
+              I enjoy tackling challenges that push me to think creatively and strategically, whether it’s refining a
+              design, detail or solving a tricky coding problem. My aim is to create work that not only meets
+              expectations but leaves a lasting impression.
+            </p>
+          </div>
+          <div class="aboutMeImage">
+            <!-- <img src="Picture/okokokok.JPG" alt="" /> -->
+          </div>
+        </div>
+  
+
+<!-- Code snippet to create a "breathe" animation effect with a variable font -->
+  
+
+    
+  </main>
+
+
+  </div>
+  </div>
+
+  </section>
+  <section>
+  </section>
+  <footer>
+    <p>Developed and designed by <a href="../../pages/nerdy-cmd.html">W</a>.B.G.</p>
+  </footer>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="script.js"></script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    // made with chatgpt to make the animations and the menu toggle smooth and easy
+
+    // Wait for the document to be fully loaded
+
+
+    const sidebar = document.getElementById("sidebar");
+    const toggleButton = document.getElementById("menuToggle");
+    const menuItems = document.querySelectorAll(".menu-item");
+
+    toggleButton.addEventListener("click", () => {
+      const isOpen = sidebar.classList.contains("open");
+      sidebar.classList.toggle("open");
+
+      if (!isOpen) {
+        // Opening — slide in from right with delay wave
+        menuItems.forEach((item, i) => {
+          item.style.transitionDelay = `${i * 0.05}s`;
+          item.style.transform = 'translateX(0)';
+          item.style.opacity = '1';
+        });
+      } else {
+        // Closing — slide out to left with delay wave (reverse)
+        menuItems.forEach((item, i) => {
+          item.style.transitionDelay = `${(menuItems.length - i) * 0.05}s`;
+          item.style.transform = 'translateX(-100px)';
+          item.style.opacity = '0';
+        });
+      }
+    });
+
+  </script>
+</body>
+
+</html>

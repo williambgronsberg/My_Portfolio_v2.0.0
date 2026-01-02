@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Task</title>
+    <style>
+        /* General reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f9f4; /* Light green background */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 600px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #4CAF50; /* Calm green */
+            margin-bottom: 20px;
+        }
+
+        .task {
+            background-color: #e8f5e9;
+            padding: 10px;
+            border: 1px solid #4CAF50;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        .task-header {
+            font-weight: bold;
+            color: #388E3C;
+        }
+
+        .task-details {
+            font-size: 0.9rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Today's Task</h1>
+        <div id="task-list">
+            <!-- The task for today will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Task data for each day
+        const tasks = [
+            { date: '2025-02-11', task: 'Define app core features and wireframes.', details: 'Start with wireframes and basic structure of the app. Sketch out UI and features.' },
+            { date: '2025-02-12', task: 'Set up GitHub repository and start manifest design.', details: 'Create repository and add manifest.json file for the app setup.' },
+            { date: '2025-02-13', task: 'Start building the HTML structure for the app.', details: 'Focus on setting up main layout and navigation for the app.' },
+            { date: '2025-02-14', task: 'Add CSS styles and start testing design on mobile.', details: 'Make sure the design is responsive and check it on mobile devices.' },
+            { date: '2025-02-15', task: 'Set up Service Worker for offline support.', details: 'Work on creating sw.js and make sure offline functionality works.' },
+            { date: '2025-02-16', task: 'Test app features and fix issues.', details: 'Ensure the app works properly and begin debugging.' },
+            { date: '2025-02-17', task: 'Continue testing on different devices and optimize performance.', details: 'Test app on various devices and improve the user experience.' },
+            { date: '2025-02-18', task: 'Finalize the logo design.', details: 'Polish and finalize app logo and icons for the PWA manifest.' },
+            { date: '2025-02-19', task: 'Polish UI/UX based on feedback.', details: 'Refine app design and user interface based on test feedback.' },
+            { date: '2025-02-20', task: 'Deploy the app to Firebase or GitHub Pages.', details: 'Prepare for deployment, set up hosting on Firebase or GitHub Pages.' },
+            { date: '2025-02-21', task: 'Finalize testing and installation process.', details: 'Make sure installation process works and is smooth on mobile.' },
+            { date: '2025-02-22', task: 'Publish app and create a promotional video.', details: 'Make final checks, publish the app, and create a brief promotional video.' }
+        ];
+
+        // Get today's date in YYYY-MM-DD format
+        const today = new Date().toISOString().split('T')[0];
+
+        // Find the task for today
+        const todayTask = tasks.find(task => task.date === today);
+
+        const taskList = document.getElementById('task-list');
+
+        if (todayTask) {
+            const taskElement = document.createElement('div');
+            taskElement.classList.add('task');
+
+            const taskDate = document.createElement('div');
+            taskDate.classList.add('task-header');
+            taskDate.textContent = `Task for: ${todayTask.date}`;
+
+            const taskDescription = document.createElement('div');
+            taskDescription.classList.add('task-details');
+            taskDescription.textContent = `${todayTask.task} - ${todayTask.details}`;
+
+            taskElement.appendChild(taskDate);
+            taskElement.appendChild(taskDescription);
+
+            taskList.appendChild(taskElement);
+        } else {
+            taskList.innerHTML = "<p>No tasks for today.</p>";
+        }
+    </script>
+</body>
+</html>

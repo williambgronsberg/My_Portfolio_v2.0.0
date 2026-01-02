@@ -1,0 +1,18 @@
+body{
+
+    background-color: aquamarine;
+}
+input{
+    background-color: black;
+    color: #fff;
+}
+
+
+::placeholder{
+    color: #fff;
+}
+
+button{
+   background-color:blue;
+   color: #fff;
+}

@@ -1,0 +1,469 @@
+<!-- 
+  @Author: William Berge Groensberg
+  @Date:   2025-06-08 01:54:20
+  @Last Modified by:   William Berge Groensberg
+  @Last Modified time: 2025-10-15 08:53:06
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>hub</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      display: flex;
+      background: #aaaaaa;
+      font-family: sans-serif;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 2vh;
+      bottom: 2vh;
+      left: 2vw;
+      width: 82px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: rgb(201, 201, 201);
+      color: blue;
+      padding-top: 2vh;
+      border-radius: 16px;
+    }
+
+    nav li {
+      list-style: none;
+      padding: 1px;
+      margin: 1px 0;
+    }
+
+    /* Main content area */
+    main {
+      margin-left: calc(2vw + 82px + 10px);
+      flex: 1;
+      padding: 20px;
+      padding-left: 0;
+      padding-top: 2vh;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    /* Mobile blocker */
+    @media (max-width: 00px) {
+      body::before {
+        content: "Please use a computer to view this site.";
+        position: fixed;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #656565;
+        color: #fff;
+        font-size: 1.5rem;
+        text-align: center;
+        z-index: 9999;
+        padding: 20px;
+      }
+
+      nav,
+      main {
+        display: none;
+      }
+    }
+
+    .liquid-glass {
+      background-color: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    /* From Uiverse.io by milon_3087 */ 
+    .card {
+      background-color: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      border-radius: 16px;
+      padding: 30px 40px;
+      color: white;
+      position: relative;
+      width: fit-content;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .card::before,
+    .card::after {
+      display: none;
+    }
+
+    .percentage {
+      font-size: 48px;
+      font-weight: bold;
+      color: white;
+      line-height: 1;
+    }
+
+    .top-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .status-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    @keyframes chargeGlow {
+      0%,
+      100% {
+        text-shadow: 0 0 8px rgba(0, 255, 204, 0.4);
+      }
+      50% {
+        text-shadow: 0 0 16px rgba(0, 255, 204, 0.8);
+      }
+    }
+
+    .status,
+    .time-info {
+      font-size: 14px;
+      color: #cccccc;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .status-icon {
+      display: flex;
+      align-items: center;
+    }
+
+    /* PROGRESS BARS */
+    .progress {
+      display: flex;
+      gap: 6px;
+      position: relative;
+    }
+
+    .progress span {
+      flex: 1;
+      height: 4px;
+      border-radius: 10px;
+      background-color: #000;
+      position: relative;
+      opacity: 1;
+      transition: background-color 0.3s ease;
+      box-shadow: none;
+    }
+
+    .progress span.active {
+      background-color: #00ff99;
+      box-shadow: 0 0 10px #00ff99;
+    }
+
+    .progress span.charging {
+      animation: chargingAnimation 1.5s infinite ease-in-out;
+    }
+
+    @keyframes chargingAnimation {
+      0%, 100% {
+        opacity: 0.3;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    .progress span::before {
+      display: none;
+    }
+
+    .progress span:nth-child(1).charging {
+      animation-delay: 0s;
+    }
+    .progress span:nth-child(2).charging {
+      animation-delay: 0.3s;
+    }
+    .progress span:nth-child(3).charging {
+      animation-delay: 0.6s;
+    }
+    .progress span:nth-child(4).charging {
+      animation-delay: 0.9s;
+    }
+    .progress span:nth-child(5).charging {
+      animation-delay: 1.2s;
+    }
+
+    /* Break Schedule Card */
+    .break-card {
+      background-color: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      border-radius: 16px;
+      padding: 30px 40px;
+      color: white;
+      position: relative;
+      width: fit-content;
+      min-width: 250px;
+    }
+
+    .break-card::before {
+      display: none;
+    }
+
+    .break-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .break-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .break-item:last-child {
+      border-bottom: none;
+    }
+
+    .break-time {
+      font-size: 18px;
+      font-weight: 600;
+      color: white;
+      min-width: 60px;
+    }
+
+    .break-label {
+      font-size: 14px;
+      color: #cccccc;
+    }
+
+    .break-icon {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    img{
+      width: 70px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="liquid-glass">
+    <li>
+      <img src="barelitttesting/Picture/image.png">
+    </li>
+    <li>n</li>
+  </nav>
+
+  <main>
+    
+    <!-- From Uiverse.io by milon_3087 --> 
+    <div class="card">
+      <div class="top-row">
+        <div class="percentage">69%</div>
+        <div class="status-container">
+          <div class="status-icon">
+            <svg
+              stroke-width="2"
+              stroke="#ffffff"
+              fill="none"
+              viewBox="0 0 24 24"
+              height="16"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M13 2L3 14h9l-1 8l10-12h-9l1-8z"></path>
+            </svg>
+          </div>
+          <div class="status-text">
+            <div class="status">CHARGING</div>
+            <div class="time-info"></div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="progress">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <!-- Break Schedule Card -->
+    <div class="break-card">
+      <div class="break-title">Next Breaks</div>
+      <div id="break-list">
+        <!-- Breaks will be inserted here by JavaScript -->
+      </div>
+    </div>
+
+  </main>
+</body>
+<script>
+// Battery Script
+navigator.getBattery().then(function(battery) {
+  const percentEl = document.querySelector('.percentage');
+  const statusEl = document.querySelector('.status');
+  const statusIconEl = document.querySelector('.status-icon');
+  const timeInfoEl = document.querySelector('.time-info');
+  const progressBars = document.querySelectorAll('.progress span');
+
+  function formatTime(seconds) {
+    if (seconds === Infinity) return 'Calculating...';
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = Math.floor(seconds % 60);
+    return `${h}h ${m}m ${s}s`;
+  }
+
+  function updateBattery() {
+    const level = Math.round(battery.level * 100);
+    percentEl.textContent = level + '%';
+
+    if (battery.charging) {
+      statusIconEl.innerHTML = `<svg stroke-width="2" stroke="#ffffff" fill="none" viewBox="0 0 24 24" height="16" width="16"><path d="M13 2L3 14h9l-1 8l10-12h-9l1-8z"></path></svg>`;
+      statusEl.textContent = 'CHARGING';
+      timeInfoEl.textContent = ` ${formatTime(battery.chargingTime)}`;
+    } else {
+      statusIconEl.innerHTML = `<svg stroke-width="2" stroke="#ffffff" fill="none" viewBox="0 0 24 24" height="16" width="16"><rect rx="2" height="12" width="18" y="6" x="4"></rect><rect rx="1.5" height="8" width="2" y="8" x="22"></rect></svg>`;
+      statusEl.textContent = 'ON BATTERY';
+      timeInfoEl.textContent = `${formatTime(battery.dischargingTime)}`;
+    }
+
+    // update battery bars
+    const activeBars = Math.ceil(level / 20);
+    progressBars.forEach((bar, i) => {
+      // Remove all classes first
+      bar.classList.remove('active', 'charging');
+      
+      if (i < activeBars) {
+        bar.classList.add('active');
+        bar.style.backgroundColor = '#00ff99';
+        bar.style.boxShadow = '0 0 10px #00ff99';
+        
+        // Add charging animation to active bars only when charging
+        if (battery.charging) {
+          bar.classList.add('charging');
+        }
+      } else {
+        bar.style.backgroundColor = '#000';
+        bar.style.boxShadow = 'none';
+      }
+    });
+  }
+
+  updateBattery();
+  battery.addEventListener('levelchange', updateBattery);
+  battery.addEventListener('chargingchange', updateBattery);
+});
+
+// Break Schedule Script
+function updateBreaks() {
+  const breakList = document.getElementById('break-list');
+  const now = new Date();
+  const currentTime = now.getHours() * 60 + now.getMinutes();
+  
+  // Define your break times (from your schedule)
+  const breaks = [
+    "08:45", 
+    "09:35", 
+    "10:30", 
+    "11:20",
+    "12:55", 
+    "13:45",
+    "14:40"
+  ];
+
+  // Find next break
+  let nextBreak = null;
+  let nextBreakTime = null;
+
+  for (let time of breaks) {
+    let [hours, minutes] = time.split(":").map(Number);
+    let breakTime = hours * 60 + minutes;
+
+    if (breakTime > currentTime) {
+      nextBreak = time;
+      nextBreakTime = breakTime;
+      break;
+    }
+  }
+
+  // Display next break
+  breakList.innerHTML = '';
+  
+  if (nextBreak) {
+    let minutesLeft = nextBreakTime - currentTime;
+    let hours = Math.floor(minutesLeft / 60);
+    let mins = minutesLeft % 60;
+    let timeText = '';
+    
+    if (hours > 0) {
+      timeText = `${hours}h ${mins}m`;
+    } else {
+      timeText = `${mins}m`;
+    }
+    
+    const div = document.createElement('div');
+    div.className = 'break-item';
+    div.innerHTML = `
+      <div class="break-icon">
+        <svg stroke="#ffffff" fill="none" stroke-width="2" viewBox="0 0 24 24" height="20" width="20">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+      </div>
+      <div class="break-time">${nextBreak}</div>
+      <div class="break-label">in ${timeText}</div>
+    `;
+    breakList.appendChild(div);
+  } else {
+    breakList.innerHTML = '<div class="break-item"><div class="break-label">No more breaks today</div></div>';
+  }
+}
+
+// Update breaks immediately and every minute
+updateBreaks();
+setInterval(updateBreaks, 60000);
+
+</script>
+
+</html>

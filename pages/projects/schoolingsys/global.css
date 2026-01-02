@@ -1,0 +1,214 @@
+/**
+ * @Author: William Berge Groensberg
+ * @Date:   2025-04-29 11:06:02
+ * @Last Modified by:   William Berge Groensberg
+ * @Last Modified time: 2025-05-20 11:10:28
+ */
+
+ *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+ }
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+    background-color:  #f5f2eb;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+}
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.user-info {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+.button-primary {
+    padding: 10px 15px;
+    background-color:rgb(43, 43, 43);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.button-danger {
+    background-color: #db4437;
+}
+.article-list {
+    margin-top: 30px;
+}
+.article-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.article-title {
+    font-weight: bold;
+    font-size: 18px;
+}
+.article-date {
+    color: #666;
+    font-size: 14px;
+}
+.article-actions {
+    display: flex;
+    gap: 10px;
+}
+.button-small {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+.tab.active {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+}
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+.image-list {
+    margin-top: 20px;
+}
+
+.image-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.image-card img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+
+     /* Header Styling */
+     header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 0;
+        background-color: #f5f2eb;
+        
+        z-index: 1000;
+        height: fit-content;
+    }
+
+    nav {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 5%;
+    }
+
+    .nav-list {
+        display: flex;
+        gap: 20px;
+        list-style: none;
+    }
+
+    .nav-list a {
+        text-decoration: none;
+        color: #333;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 10px 15px;
+        transition: color 0.3s ease;    
+    }
+
+    .nav-list a:hover {
+        color: #357ABD;
+    }
+
+    .logo {
+        margin-left: 0;
+    }
+    .logo img {
+       padding-top: 4px;
+        height: 45px;
+    }
+
+    main {
+        margin-top: 80px;
+        padding: 20px;
+  
+    }
+
+    
+        /* Container for Articles */
+        .articles-container {
+            width: 80%; /* Adjust based on layout */
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 10px;
+           
+        }
+        
+        #articleList {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping */
+            gap: 20px; /* Space between cards */
+            justify-content: flex-start; /* Align articles next to each other */
+            width: 100%;
+        }
+        
+        .article-button {
+            flex: 1 1 300px; /* Grow but maintain 300px base */
+            max-width: 100%; /* Prevents from growing too much */
+            background-color: #707070;
+            color: white;
+            text-align: left;
+            border: none;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            height: 500px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            flex-direrection: column;
+            
+}
+
+
+svg {
+    background-color: #E3DDD1;
+}

@@ -1,0 +1,423 @@
+<!-- 
+  @Author: William Berge Groensberg
+  @Date:   2025-12-07 22:37:40
+  @Last Modified by:   William Berge Groensberg
+  @Last Modified time: 2025-12-07 22:56:06
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>75 Hard Tracker</title>
+	<style>
+		:root {
+			--bg: #f4f4f4;
+			--card: #fff;
+			--accent: #6c63ff
+		}
+
+		html,
+		body {
+			height: 100%;
+			margin: 0
+		}
+
+		body {
+			background-color: var(--bg);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			flex-direction: column;
+			font-family: Arial, sans-serif;
+			padding: 12px;
+			box-sizing: border-box
+		}
+
+		.card {
+			background: var(--card);
+			padding: 20px;
+			border-radius: 15px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+			text-align: center;
+			width: 100%;
+			max-width: 340px;
+			margin-bottom: 12px
+		}
+
+		h1 {
+			margin: 0 0 6px 0;
+			font-size: 1.2rem
+		}
+
+		h3 {
+			margin: 4px 0;
+			font-size: 1rem;
+			font-weight: 600
+		}
+
+		p.small {
+			margin: 6px 0;
+			color: #666;
+			font-size: 0.9rem
+		}
+
+		button {
+			padding: 10px 14px;
+			border: none;
+			border-radius: 10px;
+			cursor: pointer;
+			background: var(--accent);
+			color: white;
+			font-weight: 600
+		}
+
+		.ghost {
+			background: transparent;
+			color: var(--accent);
+			border: 1px solid rgba(108, 99, 255, 0.16)
+		}
+
+		.check-item {
+			display: flex;
+			gap: 10px;
+			align-items: center;
+			margin: 10px 0
+		}
+
+		.meta-row {
+			display: flex;
+			gap: 8px;
+			align-items: center;
+			justify-content: center;
+			margin-top: 8px
+		}
+
+		dialog {
+			padding: 18px;
+			border-radius: 12px;
+			border: none;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12)
+		}
+
+		input[type=number] {
+			width: 100%;
+			padding: 10px;
+			border-radius: 8px;
+			border: 1px solid #e6e6f0
+		}
+
+		.small-muted {
+			font-size: 13px;
+			color: #888;
+			margin-top: 8px
+		}
+
+		@media (max-width:400px) {
+			.card {
+				padding: 16px
+			}
+
+			button {
+				padding: 10px 12px
+			}
+		}
+	</style>
+</head>
+<body>
+
+	<div class="card">
+		<h1>75 Hard Challenge</h1>
+		<h3 id="dayCounter">Day: 0 / 75</h3>
+		<p class="small" id="daysLeft">75 days left</p>
+		<div class="meta-row">
+			<button id="btnGoogleAuth" class="ghost">Sign in with Google</button>
+			<button id="btnSignOut" style="display:none" class="ghost">Sign out</button>
+		</div>
+	</div>
+
+	<div class="card">
+		<h2 style="margin:0 0 8px 0">Daily Checklist</h2>
+		<div id="checklist"></div>
+		<p class="small-muted">You must complete <strong>all 5</strong> tasks to count the day.</p>
+		<div class="meta-row" style="margin-top:12px">
+			<button id="btnSave">Save Progress</button>
+			<button id="btnReset" class="ghost">Reset Local</button>
+		</div>
+	</div>
+
+	<div class="card">
+		<h2 style="margin:0 0 8px 0">Water Intake</h2>
+		<p id="waterDisplay">You have logged 0 dl today.</p>
+		<div class="meta-row" style="margin-top:10px">
+			<button id="btnAddWater" class="ghost">Add Water (dl)</button>
+			<button id="btnClearWater" class="ghost">Clear</button>
+		</div>
+		<p class="small-muted" id="waterNote">Last add: —</p>
+	</div>
+
+	<dialog id="waterDialog">
+		<h3 style="margin-top:0">Log water (dl)</h3>
+		<input id="waterInput" type="number" placeholder="e.g. 25" min="1" />
+		<div style="height:12px"></div>
+		<div style="display:flex;gap:8px">
+			<button id="btnAddWaterConfirm">Add</button>
+			<button id="btnCloseWater" class="ghost">Cancel</button>
+		</div>
+	</dialog>
+
+	<script type="module">
+		import {
+			initializeApp
+		} from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js';
+		import {
+			getFirestore,
+			doc,
+			getDoc,
+			setDoc
+		} from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js';
+		import {
+			getAuth,
+			onAuthStateChanged,
+			GoogleAuthProvider,
+			signInWithPopup,
+			signOut
+		} from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js';
+
+		const firebaseConfig = {
+			apiKey: "AIzaSyBke5M-gxUiDoXDAyVmC4D1YUzFnmggPOc",
+			authDomain: "days-hard-98403.firebaseapp.com",
+			projectId: "days-hard-98403",
+			storageBucket: "days-hard-98403.appspot.com",
+			messagingSenderId: "504340227370",
+			appId: "1:504340227370:web:aa62920fa9a3cba584aa53",
+			measurementId: "G-WDLP8NQGH2"
+		};
+
+		const app = initializeApp(firebaseConfig);
+		const db = getFirestore(app);
+		const auth = getAuth(app);
+		const provider = new GoogleAuthProvider();
+
+		const DAYS = 75;
+		let dayCount = 0;
+		let checklistState = [false, false, false, false, false];
+		let waterTotal = 0;
+		let userDocRef = null;
+		let lastSavedDate = null;
+
+		const checklistContainer = document.getElementById('checklist');
+		const waterDisplay = document.getElementById('waterDisplay');
+		const waterNote = document.getElementById('waterNote');
+		const dayCounterEl = document.getElementById('dayCounter');
+		const daysLeftEl = document.getElementById('daysLeft');
+
+		const btnGoogleAuth = document.getElementById('btnGoogleAuth');
+		const btnSignOut = document.getElementById('btnSignOut');
+
+		const btnAddWater = document.getElementById('btnAddWater');
+		const btnAddWaterConfirm = document.getElementById('btnAddWaterConfirm');
+		const btnCloseWater = document.getElementById('btnCloseWater');
+		const waterDialogEl = document.getElementById('waterDialog');
+		const waterInput = document.getElementById('waterInput');
+		const btnClearWater = document.getElementById('btnClearWater');
+
+		const btnSave = document.getElementById('btnSave');
+		const btnReset = document.getElementById('btnReset');
+
+		const checklistItems = [
+			'Follow diet (no cheat meals)',
+			'Two workouts (one must be outside)',
+			'Drink 3L+ water',
+			'Read 10 pages',
+			'Take a progress picture'
+		];
+
+		function buildChecklistUI() {
+			checklistContainer.innerHTML = '';
+			checklistItems.forEach((txt, i) => {
+				const div = document.createElement('div');
+				div.className = 'check-item';
+				const cb = document.createElement('input');
+				cb.type = 'checkbox';
+				cb.id = `check-${i}`;
+				cb.checked = checklistState[i];
+				cb.addEventListener('change', () => {
+					checklistState[i] = cb.checked;
+					if (userDocRef) saveRemote();
+				});
+				div.appendChild(cb);
+				const label = document.createElement('label');
+				label.htmlFor = cb.id;
+				label.textContent = txt;
+				div.appendChild(label);
+				checklistContainer.appendChild(div);
+			});
+		}
+
+		function saveLocal() {
+			localStorage.setItem('75hard_checklist', JSON.stringify(checklistState));
+			localStorage.setItem('75hard_dayCount', String(dayCount));
+			localStorage.setItem('75hard_water', String(waterTotal));
+			localStorage.setItem('75hard_lastDate', lastSavedDate);
+		}
+
+		function loadLocal() {
+			try {
+				const a = JSON.parse(localStorage.getItem('75hard_checklist'));
+				if (Array.isArray(a) && a.length === 5) checklistState = a;
+			} catch (e) {}
+			dayCount = Number(localStorage.getItem('75hard_dayCount')) || 0;
+			waterTotal = Number(localStorage.getItem('75hard_water')) || 0;
+			lastSavedDate = localStorage.getItem('75hard_lastDate') || new Date().toDateString();
+			checkNewDay();
+			updateUI();
+		}
+
+		function checkNewDay() {
+			const today = new Date().toDateString();
+			if (lastSavedDate !== today) {
+				if (!checklistState.every(Boolean) && lastSavedDate) {
+					alert('You missed a day — progress resets to Day 1!');
+					dayCount = 0;
+				} else {
+					dayCount = Math.min(DAYS, dayCount + 1);
+				}
+				checklistState = [false, false, false, false, false];
+				waterTotal = 0;
+				lastSavedDate = today;
+				if (userDocRef) saveRemote();
+			}
+		}
+
+		async function loadRemote() {
+			if (!userDocRef) return;
+			try {
+				const snap = await getDoc(userDocRef);
+				if (!snap.exists()) return;
+				const data = snap.data();
+				if (data.checklist && Array.isArray(data.checklist)) checklistState = data.checklist;
+				if (typeof data.dayCount === 'number') dayCount = data.dayCount;
+				if (typeof data.water === 'number') waterTotal = data.water;
+				lastSavedDate = data.lastSavedDate || new Date().toDateString();
+				checkNewDay();
+				updateUI();
+			} catch (err) {
+				console.error('loadRemote error', err);
+			}
+		}
+
+		async function saveRemote() {
+			if (!userDocRef) return;
+			try {
+				await setDoc(userDocRef, {
+					checklist: checklistState,
+					dayCount,
+					water: waterTotal,
+					lastSavedDate
+				}, {
+					merge: true
+				});
+			} catch (err) {
+				console.error('saveRemote error', err);
+			}
+		}
+
+		function updateUI() {
+			buildChecklistUI();
+			waterDisplay.textContent = `You have logged ${waterTotal} dl today.`;
+			dayCounterEl.innerText = `Day: ${dayCount} / ${DAYS}`;
+			daysLeftEl.innerText = `${DAYS-dayCount} days left`;
+			saveLocal();
+		}
+
+		function openWaterDialog() {
+			if (!auth.currentUser) {
+				alert('You must sign in to log water');
+				return;
+			}
+			waterDialogEl.showModal();
+		}
+
+		function closeWaterDialog() {
+			waterDialogEl.close();
+		}
+		async function addWaterConfirm() {
+			const val = Number(waterInput.value);
+			if (!val || val <= 0) {
+				alert('Enter a positive number in dl');
+				return;
+			}
+			waterTotal += val;
+			waterNote.textContent = `Last add: +${val} dl`;
+			updateUI();
+			if (userDocRef) await saveRemote();
+			closeWaterDialog();
+			setTimeout(() => waterNote.textContent = 'Last add: —', 3000);
+		}
+
+		btnGoogleAuth.addEventListener('click', async () => {
+			try {
+				const result = await signInWithPopup(auth, provider);
+				userDocRef = doc(db, 'users', result.user.uid);
+				await loadRemote();
+			} catch (err) {
+				alert('Google sign-in failed: ' + err.message);
+			}
+		});
+
+		btnSignOut.addEventListener('click', async () => {
+			await signOut(auth);
+		});
+
+		btnAddWater.addEventListener('click', openWaterDialog);
+		btnCloseWater.addEventListener('click', closeWaterDialog);
+		btnAddWaterConfirm.addEventListener('click', addWaterConfirm);
+		btnClearWater.addEventListener('click', async () => {
+			if (!auth.currentUser) {
+				alert('You must sign in to clear water');
+				return;
+			}
+			waterTotal = 0;
+			updateUI();
+			if (userDocRef) await saveRemote();
+		});
+
+		btnSave.addEventListener('click', () => {
+			if (!auth.currentUser) {
+				alert('You must sign in to save progress');
+				return;
+			}
+			lastSavedDate = new Date().toDateString();
+			saveProgress();
+		});
+
+		btnReset.addEventListener('click', () => {
+			if (confirm('Reset local progress?')) {
+				localStorage.clear();
+				checklistState = [false, false, false, false, false];
+				dayCount = 0;
+				waterTotal = 0;
+				updateUI();
+			}
+		});
+
+		onAuthStateChanged(auth, async (user) => {
+			if (user) {
+				userDocRef = doc(db, 'users', user.uid);
+				btnGoogleAuth.style.display = 'none';
+				btnSignOut.style.display = '';
+				await loadRemote();
+			} else {
+				userDocRef = null;
+				btnGoogleAuth.style.display = '';
+				btnSignOut.style.display = 'none';
+				loadLocal();
+			}
+		});
+
+		loadLocal();
+	</script>
+</body>
+</html>

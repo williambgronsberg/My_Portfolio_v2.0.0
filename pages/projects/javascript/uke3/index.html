@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Styling for the two columns */
+        .movie-list {
+            display: flex;
+            justify-content: space-between;
+        }
+        .column {
+            width: 45%;
+            padding: 10px;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Movie Title Search</h1>
+    
+    <input type="text" id="tekst" placeholder="Enter movie title">
+    <button id="searchBtn">Search</button>
+    <p id="result"></p>
+
+    <h1>Count Letter Occurrences</h1>
+    <input type="text" id="letterInput" placeholder="Enter a letter">
+    <button id="countBtn">Count</button>
+    <p id="letterResult"></p>
+
+    <!-- Add the section for displaying the movie list -->
+    <h1>Mine favorittfilmer og serier</h1>
+    <button onclick="generateMovieAndSeriesList()">show list</button>
+    <p class="movie-list" id="movieListContainer"></p>
+    
+    <script src="../../../../js/projects/javascript/uke3/script.js"></script>
+</body>
+</html>

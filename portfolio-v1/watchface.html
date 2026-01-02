@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Galaxy Watch Nettside</title>
+  <style>
+    /* CSS-styling for responsiv design */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #333;
+      color: #fff;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 300px; /* Passer til klokkeskjermen */
+      padding: 10px;
+    }
+
+    h1 {
+      font-size: 1.2rem; /* Tilpasset liten skjerm */
+    }
+
+    p {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: #333;
+      background-color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Velkommen!</h1>
+    <p>Dette er en enkel nettside tilpasset Samsung Galaxy Watch.</p>
+    <button onclick="showMessage()">Trykk her</button>
+  </div>
+
+  <script>
+    function showMessage() {
+      alert("Hei! Takk for at du trykker :)");
+    }
+  </script>
+</body>
+</html>
