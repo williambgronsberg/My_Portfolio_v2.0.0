@@ -229,13 +229,7 @@
           <div class="wbg-dot full-dot"  id="wbg-full"></div>
         </div>
         <span class="wbg-title">ask_bot — W.B.G</span>
-        <span class="wbg-model-label" id="wbg-model-label">mistral:7b</span>
-      </div>
-      <div class="wbg-cfg">
-        host:
-        <input id="wbg-host" value="http://localhost:8001" />
-        model:
-        <input id="wbg-model" class="model-input" value="mistral:7b" />
+        <span class="wbg-model-label" id="wbg-model-label">AI</span>
       </div>
       <div id="wbg-msgs"></div>
       <div class="wbg-input-row">
@@ -258,6 +252,7 @@
 
   let open = false, streaming = false, history = [], isFullscreen = false;
   let inputHistory = [], inputHistoryIndex = -1;
+  const API_HOST = 'https://untriumphantly-nonsiliceous-latosha.ngrok-free.dev';
 
   fab.addEventListener('click', () => {
     open = !open;
@@ -374,13 +369,11 @@
   async function send() {
     const text = input.value.trim();
     if (!text || streaming) return;
-    const host  = shadow.getElementById('wbg-host').value.trim().replace(/\/$/,'');
-    const model = shadow.getElementById('wbg-model').value.trim();
 
     if (text.toLowerCase().includes('contact')) {
       inputHistory.unshift(text);
-    inputHistoryIndex = -1;
-    addUser(text);
+      inputHistoryIndex = -1;
+      addUser(text);
       addContactCard();
       input.value = ''; input.style.height = 'auto';
       return;
@@ -393,50 +386,22 @@
     addTyping();
 
     try {
-      const res = await fetch(`${host}/api/chat`, {
+      const res = await fetch(`${API_HOST}/chat`, {
         method: 'POST',
         headers: { 'Content-Type':'application/json' },
-        body: JSON.stringify({ model, stream: true, messages: [...history] })
+        body: JSON.stringify({ message: text })
       });
 
-      if (!res.ok) throw new Error(`ollama ${res.status}`);
+      if (!res.ok) throw new Error(`API error ${res.status}`);
       removeTyping();
 
-      const el = document.createElement('div');
-      el.className = 'wbg-msg bot';
-      const bubble = document.createElement('div');
-      bubble.className = 'wbg-bubble';
-      el.innerHTML = `<span class="wbg-label">bot</span>`;
-      el.appendChild(bubble);
-      msgs.appendChild(el);
-
-      const reader = res.body.getReader();
-      const dec = new TextDecoder();
-      let full = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        for (const line of dec.decode(value, { stream:true }).split('\n')) {
-          if (!line.trim()) continue;
-          try {
-            const j = JSON.parse(line);
-            full += j?.message?.content || '';
-            bubble.innerHTML = md(full);
-            scroll();
-            if (j.done) break;
-          } catch {}
-        }
-      }
-
-      history.push({ role:'assistant', content:full });
+      const responseText = await res.text();
+      addBot(responseText);
+      history.push({ role:'assistant', content: responseText });
 
     } catch(err) {
       removeTyping();
-      const isConn = err.message.includes('fetch') || err.message.includes('Failed') || err.message.includes('NetworkError');
-      addError(isConn
-        ? `Can't reach Ollama. Run: <code>OLLAMA_ORIGINS=* ollama serve</code>`
-        : escHtml(err.message));
+      addError(`Can't reach API. Make sure the server is running.`);
     } finally {
       streaming = false; sendBtn.disabled = false; input.focus();
     }

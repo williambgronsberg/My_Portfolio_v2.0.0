@@ -2,7 +2,7 @@
   @Author: William Berge Groensberg
   @Date:   2025-05-25 00:15:28
   @Last Modified by:   William Berge Groensberg
-  @Last Modified time: 2026-03-01 23:09:07
+  @Last Modified time: 2026-01-05 12:50:04
 -->
 
 <!-- uses aos.js for animations -->
@@ -212,7 +212,99 @@
 
 
 
-		<!-- Code snippet to create a "breathe" animation effect with a variable font -->
+						<style>
+							@font-face {
+								font-family: 'Inconsolata';
+								src: url('https://ggayane.github.io/css-experiments/Inconsolata-VF.ttf');
+								font-weight: 275 900;
+								font-stretch: 50% 200%;
+							}
+
+							#nam {
+								overflow-x: hidden;
+
+								align-items: left;
+
+
+								color: rgb(39, 39, 39);
+								font-size: 8em;
+								font-family: 'Inconsolata';
+							}
+
+
+
+							.static {
+								font-size: 30px;
+								font-variation-settings: "wght"900, "wdth"200;
+							}
+
+							.variable {
+								display: flex;
+								font-variation-settings: "wght"275, "wdth"50;
+								text-align: center;
+								animation: swapthings 3s infinite both cubic-bezier(0.17, 0.04, 0.04, 0.99);
+							}
+
+							.work {
+								animation: swapthings2 3s infinite both cubic-bezier(0.17, 0.04, 0.04, 0.99);
+							}
+
+
+							@keyframes swapthings {
+								0% {
+									font-variation-settings: "wght"275, "wdth"50;
+								}
+
+								50% {
+									font-variation-settings: "wght"900, "wdth"200;
+								}
+
+								100% {
+									font-variation-settings: "wght"275, "wdth"50;
+								}
+							}
+
+							@keyframes swapthings2 {
+								0% {
+									font-variation-settings: "wght"900, "wdth"200;
+								}
+
+								50% {
+									font-variation-settings: "wght"275, "wdth"50;
+								}
+
+								100% {
+									font-variation-settings: "wght"900, "wdth"200;
+								}
+							}
+						</style>
+
+						<div class="variable" id="nam">
+							<span class="work">About</span>Me
+						</div>
+
+
+					</div>
+					<div class="aboutMeImage">
+						<!-- <img src="Picture/okokokok.JPG" alt="" /> -->
+					</div>
+				</div>
+				<div data-aos="fade-up" data-aos-once="true">
+
+					<ul class="skills">
+
+						<li><img src="assets/img/adobe.svg" alt="" />Adobe Creative Cloud</li>
+						<li><img src="assets/img/css.svg" alt="" />CSS 3</li>
+						<li><img src="assets/img/html.svg" alt="" />HTML 5</li>
+						<li><img src="assets/img/javascript.png" alt="" />Javascript</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<head>
+
+			<!-- Code snippet to create a "breathe" animation effect with a variable font -->
 
 
 
