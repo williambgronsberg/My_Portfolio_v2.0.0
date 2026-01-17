@@ -1780,6 +1780,100 @@ div.breathe-animation {
 	padding-top: 50px;
 }
 
+.neighborhood {
+	padding: 80px 0;
+}
+
+.neighborhoodWrapper {
+	width: 90%;
+	max-width: 1200px;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 1.1fr 0.9fr;
+	gap: 48px;
+	align-items: start;
+}
+
+.neighborhoodLeft {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.neighborhoodHero {
+	width: 100%;
+	display: block;
+	filter: grayscale(100%);
+	transition: filter 0.3s ease;
+}
+
+.neighborhoodHero:hover {
+	filter: grayscale(0%);
+}
+
+.neighborhoodLeftText h2 {
+	margin: 0;
+	font-size: clamp(2.4rem, 1.6rem + 1.6vw, 4.8rem);
+	letter-spacing: 0.08em;
+}
+
+.neighborhoodLeftText h3 {
+	margin: 8px 0 16px;
+	font-size: clamp(1.6rem, 1.2rem + 1vw, 3.2rem);
+}
+
+.neighborhoodLeftText p {
+	margin: 0;
+	font-size: clamp(1.4rem, 1.1rem + 0.5vw, 2rem);
+	text-align: justify;
+}
+
+.neighborhoodRight {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.neighborhoodIntro {
+	margin: 0;
+	font-size: clamp(1.4rem, 1.1rem + 0.4vw, 1.9rem);
+}
+
+.neighborhoodGrid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+}
+
+.neighborhoodGrid img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	filter: grayscale(100%);
+	transition: filter 0.3s ease;
+}
+
+.neighborhoodGrid img:hover {
+	filter: grayscale(0%);
+}
+
+@media (max-width: 900px) {
+	.neighborhoodWrapper {
+		grid-template-columns: 1fr;
+	}
+
+	.neighborhoodGrid {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (max-width: 600px) {
+	.neighborhoodGrid {
+		grid-template-columns: 1fr;
+	}
+}
+
 
 #heroInPicsImg {
 	filter: grayscale(100%);
