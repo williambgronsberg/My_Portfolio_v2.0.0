@@ -49,7 +49,7 @@
 
 	<!-- end of menu -->
 
-	<header data-aos="fade-up" data-aos-once="true">
+	<header data-aos="fade-up">
 
 
 
@@ -62,11 +62,11 @@
 	</header>
 	</div>
 	<main>
-		<p class="notesText hideMobile" data-aos="fade-up" data-aos-once="true">hover over any project to learn more!</p>
-		<p class="notesText hideDesktop" data-aos="fade-up" data-aos-once="true">click any project to learn more!</p>
-		<section class="portfolioProjects" id="projects" data-aos="fade-up" data-aos-once="true">
+		<p class="notesText hideMobile" data-aos="fade-up">hover over any project to learn more!</p>
+		<p class="notesText hideDesktop" data-aos="fade-up">click any project to learn more!</p>
+		<section class="portfolioProjects" id="projects" data-aos="fade-up">
 			<div class="firstRow wrapper">
-				<div class="portfolioOne" data-aos="fade-right" data-aos-once="true">
+				<div class="portfolioOne" data-aos="fade-right">
 					<video autoplay loop muted playsinline class="videoOne">
 						<source src="assets/img/one.mp4" type="video/mp4" />
 					</video>
@@ -91,7 +91,7 @@
 					</a>
 				</div>
 
-				<div class="portfolioTwo" data-aos="fade-left" data-aos-once="true">
+				<div class="portfolioTwo" data-aos="fade-left">
 					<img src="assets/img/381127576_11472844.jpg" alt="" class="" />
 
 					<div class="overlayTwo">
@@ -108,7 +108,7 @@
 
 						</ul>
 						<ul class="viewProject">
-							<a href="../../pages/projects/ki_og_bearekraft/index.html" target="_blank" class="button">view live</a>
+							<a href="../../pages/projects/ki_og_bearekraft/index.html"  class="button">view live</a>
 							<!-- <a href="" target="_blank" class="button">github</a> -->
 						</ul>
 					</div>
@@ -117,7 +117,7 @@
 			</div>
 
 			<div class="secondRow wrapper">
-				<div class="portfolioThree" data-aos="fade-right" data-aos-once="true">
+				<div class="portfolioThree" data-aos="fade-right" >
 					<img src="assets/img/Scene%20_13.jpg" alt="" />
 
 					<div class="overlayThree">
@@ -145,7 +145,7 @@
 					</a>
 				</div>
 
-				<div class="portfolioFour" data-aos="fade-left" data-aos-once="true">
+				<div class="portfolioFour" data-aos="fade-left" >
 					<img src="assets/img/417545104_11677015.jpg" alt="" class="" />
 
 					<div class="overlayFour">
@@ -162,7 +162,7 @@
 
 						</ul>
 						<ul class="viewProject">
-							<a href="../../pages/projects/ki_og_bearekraft/index.html" target="_blank" class="button">view live</a>
+							<a href="../../pages/projects/ki_og_bearekraft/index.html" target="" class="button">view live</a>
 							<!-- <a href="" target="_blank" class="button">github</a> -->
 						</ul>
 					</div>
@@ -174,24 +174,25 @@
 
 
 
+	
 
 		<section class="myPics">
 			<div class="myPicsContainer">
 
 				<div class="image-container">
-					<img id="heroInPicsImg" src="assets/img/DSC_0072.JPG" alt="">
+					<img data-aos="fade-right" data-aos-offset="570" id="heroInPicsImg" src="assets/img/DSC_0072.JPG" alt="">
 					<h2 class="top-left playfair-display-overskrifter-medium">MINE BILDER.</h2>
 				</div>
-				<div class="tekst-container">
+				<div data-aos="fade-left" data-aos-offset="290" class="tekst-container">
 
 					<h3 class="title playfair-display-overskrifter-medium">01.</h3>
 					<div class="myPicsTekstBody">
 
-						<p class="text playfair-display-overskrifter-reg">I’ve developed my photography skills by exploring
+						<p data-aos="fade-up" data-aos-offset="300" class="text playfair-display-overskrifter-reg">I’ve developed my photography skills by exploring
 							different styles, studying how light behaves, and practicing composition until it feels natural. I focus
 							on clarity, color, and mood, making sure each shot reflects intention. Working with both portrait and
 							landscape scenes has helped me build a balanced, confident workflow.</p>
-						<p class="text  playfair-display-overskrifter-reg">I edit my photos with a clean and balanced style,
+						<p data-aos="fade-down" data-aos-offset="300" class="text  playfair-display-overskrifter-reg">I edit my photos with a clean and balanced style,
 							focusing on natural colors and clear storytelling. Whether it’s portraits, products, or simple environment
 							shots, I aim to capture expressive, polished images. My workflow is efficient, creative, and consistent
 							across every project.</p>
@@ -205,103 +206,6 @@
 		
 
 
-		<section class="aboutMe" id="aboutMe">
-			<div class="wrapper" data-aos="fade-up" data-aos-once="true">
-				<div class="aboutMeTop">
-					<div class="aboutMeBio">
-
-
-						<style>
-							@font-face {
-								font-family: 'Inconsolata';
-								src: url('https://ggayane.github.io/css-experiments/Inconsolata-VF.ttf');
-								font-weight: 275 900;
-								font-stretch: 50% 200%;
-							}
-
-							#nam {
-								overflow-x: hidden;
-
-								align-items: left;
-
-
-								color: rgb(39, 39, 39);
-								font-size: 8em;
-								font-family: 'Inconsolata';
-							}
-
-
-
-							.static {
-								font-size: 30px;
-								font-variation-settings: "wght"900, "wdth"200;
-							}
-
-							.variable {
-								display: flex;
-								font-variation-settings: "wght"275, "wdth"50;
-								text-align: center;
-								animation: swapthings 3s infinite both cubic-bezier(0.17, 0.04, 0.04, 0.99);
-							}
-
-							.work {
-								animation: swapthings2 3s infinite both cubic-bezier(0.17, 0.04, 0.04, 0.99);
-							}
-
-
-							@keyframes swapthings {
-								0% {
-									font-variation-settings: "wght"275, "wdth"50;
-								}
-
-								50% {
-									font-variation-settings: "wght"900, "wdth"200;
-								}
-
-								100% {
-									font-variation-settings: "wght"275, "wdth"50;
-								}
-							}
-
-							@keyframes swapthings2 {
-								0% {
-									font-variation-settings: "wght"900, "wdth"200;
-								}
-
-								50% {
-									font-variation-settings: "wght"275, "wdth"50;
-								}
-
-								100% {
-									font-variation-settings: "wght"900, "wdth"200;
-								}
-							}
-						</style>
-
-						<div class="variable" id="nam">
-							<span class="work">About</span>Me
-						</div>
-
-
-					</div>
-					<div class="aboutMeImage">
-						<!-- <img src="Picture/okokokok.JPG" alt="" /> -->
-					</div>
-				</div>
-				<div data-aos="fade-up" data-aos-once="true">
-
-					<ul class="skills">
-
-						<li><img src="assets/img/adobe.svg" alt="" />Adobe Creative Cloud</li>
-						<li><img src="assets/img/css.svg" alt="" />CSS 3</li>
-						<li><img src="assets/img/html.svg" alt="" />HTML 5</li>
-						<li><img src="assets/img/javascript.png" alt="" />Javascript</li>
-					</ul>
-				</div>
-			</div>
-		</section>
-
-		<head>
 
 			<!-- Code snippet to create a "breathe" animation effect with a variable font -->
 
