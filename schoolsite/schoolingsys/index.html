@@ -1,0 +1,286 @@
+<!-- 
+  @Author: William Berge Groensberg
+  @Date:   2025-04-29 11:06:10
+  @Last Modified by:   William Berge Groensberg
+  @Last Modified time: 2025-05-25 00:04:56
+-->
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sandøya Montessoriskole</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
+
+        @import url('https://fonts.googleapis.com/css2?family=Style+Script&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            background-color: #f9f5ef;
+            color: #5e564d;
+        }
+
+
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .logo figcaption {
+            font-size: 1.2rem;
+            font-style: italic;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #999;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: #333;
+        }
+
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 80px;
+            flex-wrap: wrap;
+
+        }
+
+        .hero h1 {
+            font-family: 'Style Script', cursive;
+            font-size: 9rem;
+            font-weight: bold;
+            line-height: 1.2;
+            margin-left: 100px;
+            margin-top: 20px;
+        }
+
+        .hero em {
+            display: block;
+            font-style: italic;
+            color: #7a6e5f;
+        }
+
+        .hero blockquote {
+            font-style: italic;
+            font-size: 3rem;
+            margin-top: 0.2rem;
+            quotes: "“" "”";
+            margin-left: 150px;
+        }
+
+        .hero-image img {
+            margin-top: 20px;
+            padding: 0;
+            max-width: 500px;
+        }
+
+        footer .wave {
+            margin-top: 2rem;
+            width: 100%;
+            height: 100px;
+            background: url('wave.svg') no-repeat center;
+            background-size: cover;
+        }
+
+        footer {
+            background-color: #458FCC;
+            width: 100vw;
+            height: 100px;
+            margin: 0;
+            padding: 0;
+        }
+        #artikkel-seksjon4 {
+            background-color: #e3ddd1;
+
+        }
+
+        #sek2 {
+            background-color: #458FCC;
+            rotate: 180deg;
+            padding-top: 100px;
+
+        }
+
+        #sek2 h3 {
+            color: #fff;
+            text-align: center;
+            font-size: 1.5rem;
+            margin-top: 20px;
+            background-color: #458FCC;
+        }
+       
+        .namnam
+    </style>
+    <link rel="stylesheet" href="global.css">
+</head>
+
+<body>
+
+
+
+    <header id="headerjs">
+    </header>
+
+    <section class="hero">
+        <article>
+            <h1>Godt å være<br><em>gøy å lære</em></h1>
+            <blockquote>“Sandøya Montessori”</blockquote>
+        </article>
+        <figure class="hero-image">
+            <img src="static-img/IMG_4553_2020-03-05_17_33_48-removebg-preview.png" alt="Jordklode i skjell" />
+        </figure>
+
+
+    </section>
+
+    <br>
+    <div id="artikkel-seksjon4" style="width: 100vw; margin: 0; padding: 0;">
+
+        <section class="artikkel-seksjon">
+            <svg xmlns="http://www.w3.org/2000/svg" style="width: 100%;" background-color="#f5f2eb"
+                viewBox="0 0 1440 320">
+                <path fill="#F6F2E9" fill-opacity="1"
+                    d="M0,96L11.4,80C22.9,64,46,32,69,48C91.4,64,114,128,137,138.7C160,149,183,107,206,90.7C228.6,75,251,85,274,106.7C297.1,128,320,160,343,192C365.7,224,389,256,411,234.7C434.3,213,457,139,480,106.7C502.9,75,526,85,549,96C571.4,107,594,117,617,106.7C640,96,663,64,686,90.7C708.6,117,731,203,754,240C777.1,277,800,267,823,229.3C845.7,192,869,128,891,106.7C914.3,85,937,107,960,149.3C982.9,192,1006,256,1029,261.3C1051.4,267,1074,213,1097,197.3C1120,181,1143,203,1166,208C1188.6,213,1211,203,1234,170.7C1257.1,139,1280,85,1303,58.7C1325.7,32,1349,32,1371,53.3C1394.3,75,1417,117,1429,138.7L1440,160L1440,0L1428.6,0C1417.1,0,1394,0,1371,0C1348.6,0,1326,0,1303,0C1280,0,1257,0,1234,0C1211.4,0,1189,0,1166,0C1142.9,0,1120,0,1097,0C1074.3,0,1051,0,1029,0C1005.7,0,983,0,960,0C937.1,0,914,0,891,0C868.6,0,846,0,823,0C800,0,777,0,754,0C731.4,0,709,0,686,0C662.9,0,640,0,617,0C594.3,0,571,0,549,0C525.7,0,503,0,480,0C457.1,0,434,0,411,0C388.6,0,366,0,343,0C320,0,297,0,274,0C251.4,0,229,0,206,0C182.9,0,160,0,137,0C114.3,0,91,0,69,0C45.7,0,23,0,11,0L0,0Z">
+                </path>
+            </svg>
+            <main class="articles-container">
+
+                <h1>Artikler</h1>
+                <div id="articleList"></div>
+            </main>
+            <svg id="sek2" xmlns="http://www.w3.org/2000/svg" style="width: 100%;" background-color="#333"
+                viewBox="0 0 1440 320">
+                <path fill="#e3ddd1" fill-opacity="1"
+                    d="M0,192L13.3,181.3C26.7,171,53,149,80,149.3C106.7,149,133,171,160,197.3C186.7,224,213,256,240,224C266.7,192,293,96,320,90.7C346.7,85,373,171,400,197.3C426.7,224,453,192,480,197.3C506.7,203,533,245,560,229.3C586.7,213,613,139,640,128C666.7,117,693,171,720,181.3C746.7,192,773,160,800,165.3C826.7,171,853,213,880,213.3C906.7,213,933,171,960,165.3C986.7,160,1013,192,1040,186.7C1066.7,181,1093,139,1120,133.3C1146.7,128,1173,160,1200,176C1226.7,192,1253,192,1280,186.7C1306.7,181,1333,171,1360,160C1386.7,149,1413,139,1427,133.3L1440,128L1440,320L1426.7,320C1413.3,320,1387,320,1360,320C1333.3,320,1307,320,1280,320C1253.3,320,1227,320,1200,320C1173.3,320,1147,320,1120,320C1093.3,320,1067,320,1040,320C1013.3,320,987,320,960,320C933.3,320,907,320,880,320C853.3,320,827,320,800,320C773.3,320,747,320,720,320C693.3,320,667,320,640,320C613.3,320,587,320,560,320C533.3,320,507,320,480,320C453.3,320,427,320,400,320C373.3,320,347,320,320,320C293.3,320,267,320,240,320C213.3,320,187,320,160,320C133.3,320,107,320,80,320C53.3,320,27,320,13,320L0,320Z">
+            
+            <section id="namnam">
+                
+                <h3>&copy; <span class="c-year"></span> Sandøya Montessori</h3>
+            </section>
+                </path>
+            </svg>
+            
+                           
+        </section>
+
+    </div>
+</div>
+
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA46HBePnhgJKKBG0WfpGnYk5bInRQXNG4",
+            authDomain: "sandmontessadmin.firebaseapp.com",
+            projectId: "sandmontessadmin",
+            storageBucket: "sandmontessadmin.firebasestorage.app",
+            messagingSenderId: "967852826423",
+            appId: "1:967852826423:web:1ebfd677a89411b76984b2",
+            measurementId: "G-E0VE27XL96"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // DOM elements
+        const articleList = document.getElementById('articleList');
+
+        // Load articles from Firestore
+        async function loadArticles() {
+            try {
+                // Query to get the 3 most recent articles
+                const articlesQuery = query(
+                    collection(db, "articles"),
+                    orderBy("createdAt", "desc"),
+                    limit(3) // Limit to 3 articles
+                );
+                const querySnapshot = await getDocs(articlesQuery);
+
+                // Clear existing articles
+                articleList.innerHTML = '';
+
+                querySnapshot.forEach((doc) => {
+                    const article = doc.data();
+                    const articleElement = createArticleElement(doc.id, article);
+                    articleList.appendChild(articleElement);
+                });
+
+                // If no articles, show message
+                if (querySnapshot.empty) {
+                    articleList.innerHTML = '<p>Ingen artikler funnet.</p>';
+                }
+            } catch (error) {
+                console.error("Error loading articles: ", error);
+                articleList.innerHTML = '<p>Feil ved lasting av artikler. Prøv igjen senere.</p>';
+            }
+        }
+
+        // Create article button element
+        function createArticleElement(id, article) {
+            const button = document.createElement('button');
+            button.className = 'article-button';
+
+            const date = article.createdAt ? new Date(article.createdAt.toDate()) : new Date();
+            const formattedDate = `${date.getDate()}. ${getMonthName(date.getMonth())} ${date.getFullYear()}`;
+
+            button.innerHTML = `
+                <div class="article-title">${article.title}</div>
+                <div class="article-date">Publisert: ${formattedDate}</div>
+            `;
+
+            // Add event listener to redirect to the article page
+            button.addEventListener('click', () => {
+                const encodedContent = encodeURIComponent(JSON.stringify(article.sections));
+                const encodedTitle = encodeURIComponent(article.title);
+                const encodedIntro = encodeURIComponent(article.intro);
+
+                window.location.href = `article-template.html?title=${encodedTitle}&intro=${encodedIntro}&content=${encodedContent}`;
+            });
+
+            return button;
+        }
+
+        // Get Norwegian month name
+        function getMonthName(monthIndex) {
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'];
+            return months[monthIndex];
+        }
+
+        // Load articles when the page loads
+        loadArticles();
+    </script>
+
+    </main>
+    <script src="global.js"></script>
+</body>
+
+</html>

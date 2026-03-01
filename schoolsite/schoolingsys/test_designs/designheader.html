@@ -1,0 +1,239 @@
+<!-- 
+  @Author: William Berge Groensberg
+  @Date:   2025-04-29 11:06:10
+  @Last Modified by:   William Berge Groensberg
+  @Last Modified time: 2025-05-13 08:34:03
+-->
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sandøya Montessoriskole</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Style+Script&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Playfair Display', serif;
+  background-color: #f9f5ef;
+  color: #5e564d;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo img {
+  height: 40px;
+}
+
+.logo figcaption {
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: #999;
+  font-size: 0.95rem;
+}
+
+nav a:hover {
+  color: #333;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  flex-wrap: wrap;
+
+}
+
+.hero h1 {
+  font-family: 'Style Script', cursive;
+  font-size: 9rem;
+  font-weight: bold;
+  line-height: 1.2;
+  margin-left: 100px;
+  margin-top: 20px;
+}
+
+.hero em {
+  display: block;
+  font-style: italic;
+  color: #7a6e5f;
+}
+
+.hero blockquote {
+  font-style: italic;
+  font-size: 3rem;
+  margin-top: 0.2rem;
+  quotes: "“" "”";
+  margin-left: 150px;
+}
+
+.hero-image img {
+ margin-top: 20px;
+ padding: 0;
+  max-width: 500px;
+}
+
+footer .wave {
+  margin-top: 2rem;
+  width: 100%;
+  height: 100px;
+  background: url('wave.svg') no-repeat center;
+  background-size: cover;
+}
+
+
+</style>
+<link rel="stylesheet" href="../global.css">
+</head>
+<body>
+  
+
+  <header id="headerjs">
+</header>
+  
+    <section class="hero">
+      <article>
+        <h1>Godt å være<br><em>gøy å lære</em></h1>
+        <blockquote>“Sandøya Montessori”</blockquote>
+      </article>
+      <figure class="hero-image">
+        <img src="../static-img/IMG_4553_2020-03-05_17_33_48-removebg-preview.png" alt="Jordklode i skjell" />
+      </figure>
+    </section>
+
+    <br>
+
+ 
+   
+    
+    <main class="articles-container">
+        <h1>Artikler</h1>
+        <div id="articleList"></div>
+    </main>
+    
+    <footer>
+        <p>&copy; <span class="c-year"></span> Sandøya Montessori</p>
+    </footer>
+
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA46HBePnhgJKKBG0WfpGnYk5bInRQXNG4",
+            authDomain: "sandmontessadmin.firebaseapp.com",
+            projectId: "sandmontessadmin",
+            storageBucket: "sandmontessadmin.firebasestorage.app",
+            messagingSenderId: "967852826423",
+            appId: "1:967852826423:web:1ebfd677a89411b76984b2",
+            measurementId: "G-E0VE27XL96"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // DOM elements
+        const articleList = document.getElementById('articleList');
+
+        // Load articles from Firestore
+        async function loadArticles() {
+            try {
+                // Query to get the 3 most recent articles
+                const articlesQuery = query(
+                    collection(db, "articles"),
+                    orderBy("createdAt", "desc"),
+                    limit(3) // Limit to 3 articles
+                );
+                const querySnapshot = await getDocs(articlesQuery);
+
+                // Clear existing articles
+                articleList.innerHTML = '';
+
+                querySnapshot.forEach((doc) => {
+                    const article = doc.data();
+                    const articleElement = createArticleElement(doc.id, article);
+                    articleList.appendChild(articleElement);
+                });
+
+                // If no articles, show message
+                if (querySnapshot.empty) {
+                    articleList.innerHTML = '<p>Ingen artikler funnet.</p>';
+                }
+            } catch (error) {
+                console.error("Error loading articles: ", error);
+                articleList.innerHTML = '<p>Feil ved lasting av artikler. Prøv igjen senere.</p>';
+            }
+        }
+
+        // Create article button element
+        function createArticleElement(id, article) {
+            const button = document.createElement('button');
+            button.className = 'article-button';
+
+            const date = article.createdAt ? new Date(article.createdAt.toDate()) : new Date();
+            const formattedDate = `${date.getDate()}. ${getMonthName(date.getMonth())} ${date.getFullYear()}`;
+
+            button.innerHTML = `
+                <div class="article-title">${article.title}</div>
+                <div class="article-date">Publisert: ${formattedDate}</div>
+            `;
+
+            // Add event listener to redirect to the article page
+            button.addEventListener('click', () => {
+                const encodedContent = encodeURIComponent(JSON.stringify(article.sections));
+                const encodedTitle = encodeURIComponent(article.title);
+                const encodedIntro = encodeURIComponent(article.intro);
+
+                window.location.href = `article-template.html?title=${encodedTitle}&intro=${encodedIntro}&content=${encodedContent}`;
+            });
+
+            return button;
+        }
+
+        // Get Norwegian month name
+        function getMonthName(monthIndex) {
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'];
+            return months[monthIndex];
+        }
+
+        // Load articles when the page loads
+        loadArticles();
+    </script>
+ 
+  </main>
+  <script src="../global.js"></script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<html lang="no"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Mine Artikler</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: fff;
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .user-info {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+        .button-primary {
+            padding: 10px 15px;
+            background-color: #063177;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .button-danger {
+            background-color: #db4437;
+        }
+        .article-list {
+            margin-top: 30px;
+        }
+        .article-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .article-title {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .article-date {
+            color: #666;
+            font-size: 14px;
+        }
+        .article-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .button-small {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        .tab.active {
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+/* Special Delete Button */
+.delete-button {
+    margin-top: 20px;
+    position: relative;
+    width: 160px;
+    height: 55px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align text initially */
+    background: #c40000;
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    padding: 0 20px;
+}
+
+.delete-button .text {
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.delete-button .icon {
+    position: absolute;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Icon styling */
+.delete-button svg {
+    width: 22px;
+    fill: #fff;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Hover Effects */
+.delete-button:hover {
+    background: #ff0000;
+    
+}
+
+.delete-button:hover .text {
+    opacity: 0;
+}
+
+.delete-button:hover .icon {
+    right: 50%; /* Moves icon to the center */
+    transform: translateX(50%);
+}
+
+.delete-button:active {
+    transform: scale(0.95);
+}
+
+.delete-button:active .icon svg {
+    transform: scale(0.8);
+}
+
+/* From Uiverse.io by Peary74 */ 
+.cloud-button {
+  font-family: inherit;
+  font-size: 20px;
+  background: #212121;
+  color: white;
+  fill: rgb(155, 153, 153);
+  padding: 0.7em 1em;
+  padding-left: 0.9em;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 15px;
+  font-weight: 1000;
+}
+
+.cloud-button span {
+  display: block;
+  margin-left: 0.3em;
+  transition: all 0.3s ease-in-out;
+}
+
+.cloud-button svg {
+  display: block;
+  transform-origin: center center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.cloud-button:hover {
+  background: #000;
+}
+
+.cloud-button:hover .svg-wrapper {
+  transform: scale(1.25);
+  transition: 0.5s linear;
+}
+
+.cloud-button:hover svg {
+  transform: translateX(1.2em) scale(1.1);
+  fill: #fff;
+}
+
+.cloud-button:hover span {
+  opacity: 0;
+  transition: 0.5s linear;
+}
+
+.cloud-button:active {
+  transform: scale(0.95);
+}
+
+    </style>
+    
+<script src="https://www.googletagmanager.com/gtag/js?l=dataLayer&amp;id=G-E0VE27XL96" async=""></script></head>
+<body>
+    <header class="admin-header">
+        <figure>
+            <img src="static-img/SandøyaMont_liggende.png" style="width: 300px;" alt="">
+        </figure>
+        <div>
+            <span id="userEmail">okok@gmail.com</span>
+            <button id="logoutButton" class="button-primary button-danger">Logg ut</button>
+        </div>
+    </header>
+
+    <nav class="tabs">
+        <button class="tab active" data-tab="articles">Mine Artikler</button>
+        <button class="tab" data-tab="images">Mine Bilder</button>
+        <button class="tab" data-tab="staff">Våre Ansatte</button>
+    </nav>
+
+    <main>
+        <section id="articlesTab" class="tab-content active">
+            <header class="section-header">
+                <h2>Mine Artikler</h2>
+                <button id="newArticleButton" class="button-primary">Ny Artikkel</button>
+            </header>
+            <div class="article-list" id="articleList"><div class="article-card">
+        </div></div>
+        </section>
+
+        <section id="imagesTab" class="tab-content">
+            <h2>Mine Bilder</h2>
+            <button id="uploadImageButton" class="button-primary">Last opp bilde</button>
+            <div id="imageList" class="image-list">
+                <figure class="image-card">
+                </figure>
+        </section>
+                
+        <section id="staffTab" class="tab-content">
+            <h2>Våre Ansatte</h2>
+            <p>Ansattadministrasjon kommer snart...</p>
+        </section>
+    </main>
+
+    <!-- New Article Modal -->
+    <div id="articleModal" style="display: none; position: fixed; inset: 0px; background: rgba(0, 0, 0, 0.5); z-index: 1000;">
+        <div style="background: white; width: 80%; max-width: 800px; margin: 50px auto; padding: 20px; border-radius: 8px; max-height: 80vh; overflow-y: auto;">
+            <h2 id="modalTitle">Ny Artikkel</h2>
+            <div style="margin-bottom: 15px;">
+                <label for="articleTitle">Tittel:</label>
+                <input type="text" id="articleTitle" style="width: 100%; padding: 8px; margin-top: 5px;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label for="articleIntro">Introduksjon:</label>
+                <textarea id="articleIntro" rows="4" style="width: 100%; padding: 8px; margin-top: 5px;"></textarea>
+            </div>
+            <div id="contentSections"></div>
+            <button id="addSubtitleButton" class="button-primary" style="margin-right: 10px;">Legg til subtittel</button>
+            <button id="addParagraphButton" class="button-primary">Legg til paragraf</button>
+            <div style="margin-top: 20px; display: flex; justify-content: space-between;">
+                <button id="previewButton" class="button-primary">Forhåndsvis</button>
+                <div>
+                    <button id="cancelButton" style="margin-right: 10px;">Avbryt</button>
+                 
+                 <br>   <button id="saveArticleButton" class="cloud-button">
+    <div class="svg-wrapper-1">
+      <div class="svg-wrapper">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="30"
+          height="30"
+          class="icon"
+        >
+          <path
+            d="M22,15.04C22,17.23 20.24,19 18.07,19H5.93C3.76,19 2,17.23 2,15.04C2,13.07 3.43,11.44 5.31,11.14C5.28,11 5.27,10.86 5.27,10.71C5.27,9.33 6.38,8.2 7.76,8.2C8.37,8.2 8.94,8.43 9.37,8.8C10.14,7.05 11.13,5.44 13.91,5.44C17.28,5.44 18.87,8.06 18.87,10.83C18.87,10.94 18.87,11.06 18.86,11.17C20.65,11.54 22,13.13 22,15.04Z"
+          ></path>
+        </svg>
+      </div>
+    </div>
+    <span>Save</span>
+  </button>
+  
+  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="previewModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000;">
+        <div style="background: white; width: 80%; max-width: 800px; margin: 50px auto; padding: 20px; border-radius: 8px; max-height: 80vh; overflow-y: auto;">
+            <h2>Forhåndsvisning</h2>
+            <div id="previewContent">
+                <!-- Preview content will be inserted here -->
+            </div>
+            <div style="margin-top: 20px; display: flex; justify-content: space-between;">
+                <button id="backToEditButton" class="button-primary">Tilbake til redigering</button>
+                <button id="publishButton" class="button-primary">Publiser</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="firebase_codes/article-admin.js"></script>
+
+</body>
+</html>
