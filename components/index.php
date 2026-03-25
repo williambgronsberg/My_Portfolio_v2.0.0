@@ -1,0 +1,294 @@
+<!-- 
+  @Author: William Berge Groensberg
+  @Date:   2025-05-25 00:15:28
+  @Last Modified by:   William Berge Groensberg
+  @Last Modified time: 2026-03-01 23:09:07
+-->
+
+<!-- uses aos.js for animations -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="description"
+		content="Jeg er William berge gronsberg, en webutvikler som lager minimalistiske og brukervennlige nettsider. Se porteføljen min for prosjekter og kontaktinfo.">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<link href="favicon.ico?" rel="icon" type="image/x-icon" />
+	<link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700&family=Nanum+Pen+Script&display=swap"
+		rel="stylesheet">
+	<script src="https://kit.fontawesome.com/2a20f3910e.js" crossorigin="anonymous">
+	</script>
+	<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+	<link rel="stylesheet" href="../style.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Style+Script&display=swap"
+		rel="stylesheet">
+	<link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+	<title>Home</title>
+
+</head>
+
+<body>
+	<!-- menu-wrapper -->
+
+
+	<input class="menu-icon" type="checkbox" id="menu-icon" name="menu-icon" />
+	<label for="menu-icon"></label>
+	<nav class="nav">
+		<ul class="pt-5">
+			<li><a href="new-page.html" class="menu-link-external">Hub</a></li>
+		</ul>
+
+		
+		
+	</nav>
+
+	
+	
+	
+	<!-- end of menu -->
+	
+	<header data-aos="fade-up">
+		
+
+
+
+		<div class="breathe-animation hideMobile">
+
+			<h1>William B. Groensberg</h1>
+		</div>
+
+		<p class="scrollDownText"><i class="fas fa-angle-down"></i></p>
+	</header>
+	</div>
+	<main>
+		<p class="notesText hideMobile" data-aos="fade-up">hover over any project to learn more!</p>
+		<p class="notesText hideDesktop" data-aos="fade-up">click any project to learn more!</p>
+		<section class="portfolioProjects" id="projects" data-aos="fade-up">
+			<div class="firstRow wrapper">
+				<div class="portfolioOne" data-aos="fade-right">
+					<video autoplay loop muted playsinline class="videoOne">
+						<source src="assets/img/one.mp4" type="video/mp4" />
+					</video>
+					<!-- <img src="assets/one.jpg" alt="" class="imageOne hideDesktop" /> -->
+					<div class="overlayOne">
+						<i class="fas fa-times fa-2x closeOverlayOne hideDesktop"></i>
+						<h3>Nerdy-cmd</h3>
+						<p>
+							An experimental CMD interface I created to transform my portfolio into a dynamic command-line experience,
+							explore projects and details with simple, efficient commands.
+						</p>
+						<ul class="toolsUsed">
+							<li>Html</li>
+							<li>Css</li>
+							<li>JavaScript</li>
+						</ul>
+						<div class="viewProject">
+							<a href="../../pages/nerdy-cmd.html" target="_blank" class="button">Try it</a>
+							<a href="https://github.com/sneakyturtle270508/nerdy_cmd" target="_blank" class="button">github</a>
+						</div>
+					</div>
+					</a>
+				</div>
+
+				<div class="portfolioTwo" data-aos="fade-left">
+					<img src="assets/img/381127576_11472844.jpg" alt="" class="" />
+
+					<div class="overlayTwo">
+						<i class="fas fa-times fa-2x closeOverlayTwo hideDesktop"></i>
+
+						<h3>article about Ai</h3>
+						<p>
+
+						</p>
+						<ul class="toolsUsed">
+							<li>HTML5</li>
+							<li>Css</li>
+							<li>My own head</li>
+
+						</ul>
+						<ul class="viewProject">
+							<a href="../../pages/projects/ki_og_bearekraft/index.html" class="button">view live</a>
+							<!-- <a href="" target="_blank" class="button">github</a> -->
+						</ul>
+					</div>
+					</a>
+				</div>
+			</div>
+
+			<div class="secondRow wrapper">
+				<div class="portfolioThree" data-aos="fade-right">
+					<img src="assets/img/Scene%20_13.jpg" alt="" />
+
+					<div class="overlayThree">
+						<i class="fas fa-times fa-2x closeOverlayThree hideDesktop"></i>
+
+						<h3>Next Break</h3>
+						<p>
+							A web app that uses APIs and datasets to find the nearest
+							bike-share station to you and how many bikes/docks are
+							available.
+						</p>
+						<ul class="toolsUsed">
+							<li>HTML5</li>
+							<li>Css3</li>
+							<li>Javascript</li>
+
+						</ul>
+						<ul class="viewProject">
+							<a href="https://im24wil27051.imporsgrunn.no/pages/projects/pauser/" target="_blank" class="button">view
+								live</a>
+							<a href="https://github.com/sandyAndSharonProject4/sandyAndSharonProject4" target="_blank"
+								class="button">github</a>
+						</ul>
+					</div>
+					</a>
+				</div>
+
+				<div class="portfolioFour" data-aos="fade-left">
+					<img src="assets/img/417545104_11677015.jpg" alt="" class="" />
+
+					<div class="overlayFour">
+						<i class="fas fa-times fa-2x closeOverlayTwo hideDesktop"></i>
+
+						<h3>Cms for a mockup school site</h3>
+						<p>
+
+						</p>
+						<ul class="toolsUsed">
+							<li>HTML5</li>
+							<li>Css</li>
+							<li>js</li>
+							<li>firebase</li>
+							<li>My own head</li>
+
+						</ul>
+						<ul class="viewProject">
+							<a href="./schoolsite/schoolingsys/index.html" target="" class="button">view live</a>
+							<a href="./schoolsite/schoolingsys/article-admin.html" target="_blank" class="button">view admin
+								pannel</a>
+						</ul>
+					</div>
+					</a>
+				</div>
+			</div>
+		</section>
+
+
+
+
+
+
+		<section class="myPics">
+			<div class="myPicsContainer">
+
+				<div class="image-container">
+					<img data-aos-offset="570" id="heroInPicsImg" src="assets/img/DSC_0072.JPG" alt="">
+					<h2 class="top-left playfair-display-overskrifter-medium">MINE BILDER.</h2>
+				</div>
+				<div data-aos="fade-left" data-aos-offset="290" class="tekst-container">
+
+					<h3 class="title playfair-display-overskrifter-medium">01.</h3>
+					<div class="myPicsTekstBody">
+
+						<p data-aos="fade-up" data-aos-offset="300" class="text playfair-display-overskrifter-reg">I’ve developed my
+							photography skills by exploring
+							different styles, studying how light behaves, and practicing composition until it feels natural. I focus
+							on clarity, color, and mood, making sure each shot reflects intention. Working with both portrait and
+							landscape scenes has helped me build a balanced, confident workflow.</p>
+						<p data-aos="fade-down" data-aos-offset="300" class="text  playfair-display-overskrifter-reg">I edit my
+							photos with a clean and balanced style,
+							focusing on natural colors and clear storytelling. Whether it’s portraits, products, or simple environment
+							shots, I aim to capture expressive, polished images. My workflow is efficient, creative, and consistent
+							across every project.</p>
+					</div>
+				</div>
+
+
+			</div>
+
+		</section>
+
+
+
+
+		<!-- Code snippet to create a "breathe" animation effect with a variable font -->
+
+
+
+	</main>
+
+
+	</div>
+	</div>
+
+	</section>
+	<section>
+	</section>
+	<footer>
+		<p>Developed and designed by <a href="../../pages/nerdy-cmd.html">W</a>.B.G.</p>
+	</footer>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="script.js"></script>
+	<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+	<script>
+		AOS.init();
+
+		/* -------------------------------------------------
+		   SCROLL LOCK FIX FOR BURGER-MENU
+		   ------------------------------------------------- */
+		const menuCheckbox = document.getElementById("menu-icon");
+		let lastScrollY = 0;
+
+		menuCheckbox.addEventListener("change", () => {
+			if (menuCheckbox.checked) {
+				// Opening menu — freeze scroll
+				
+				
+				document.body.style.width = "100%";
+			} else {
+				// Closing menu — restore scroll
+				document.body.style.position = "";
+				document.body.style.top = "";
+				document.body.style.width = "";
+				
+			}
+		});
+
+		/* -------------------------------------------------
+		   Your sidebar animation stuff
+		   ------------------------------------------------- */
+		const sidebar = document.getElementById("sidebar");
+		const toggleButton = document.getElementById("menuToggle");
+		const menuItems = document.querySelectorAll(".menu-item");
+
+		if (toggleButton) {
+			toggleButton.addEventListener("click", () => {
+				const isOpen = sidebar.classList.contains("open");
+				sidebar.classList.toggle("open");
+
+				if (!isOpen) {
+					menuItems.forEach((item, i) => {
+						item.style.transitionDelay = `${i * 0.05}s`;
+						item.style.transform = 'translateX(0)';
+						item.style.opacity = '1';
+					});
+				} else {
+					menuItems.forEach((item, i) => {
+						item.style.transitionDelay = `${(menuItems.length - i) * 0.05}s`;
+						item.style.transform = 'translateX(-100px)';
+						item.style.opacity = '0';
+					});
+				}
+			});
+		}
+	</script>
+	<?php include 'qa_anwer_bot.php' ?>
+</body>
+
+</html>
