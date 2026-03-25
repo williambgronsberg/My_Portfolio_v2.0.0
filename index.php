@@ -21,7 +21,7 @@
 	<script src="https://kit.fontawesome.com/2a20f3910e.js" crossorigin="anonymous">
 	</script>
 	<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-	<link rel="stylesheet" href="../style.css">
+	<link rel="stylesheet" href="style.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link
@@ -88,7 +88,7 @@
 							<li>JavaScript</li>
 						</ul>
 						<div class="viewProject">
-							<a href="../../pages/nerdy-cmd.html" target="_blank" class="button">Try it</a>
+							<a href="pages/nerdy-cmd.html" target="_blank" class="button">Try it</a>
 							<a href="https://github.com/sneakyturtle270508/nerdy_cmd" target="_blank" class="button">github</a>
 						</div>
 					</div>
@@ -112,7 +112,7 @@
 
 						</ul>
 						<ul class="viewProject">
-							<a href="../../pages/projects/ki_og_bearekraft/index.html" class="button">view live</a>
+							<a href="pages/projects/ki_og_bearekraft/index.html" class="button">view live</a>
 							<!-- <a href="" target="_blank" class="button">github</a> -->
 						</ul>
 					</div>
@@ -230,7 +230,7 @@
 	<section>
 	</section>
 	<footer>
-		<p>Developed and designed by <a href="../../pages/nerdy-cmd.html">W</a>.B.G.</p>
+		<p>Developed and designed by <a href="pages/nerdy-cmd.html">W</a>.B.G.</p>
 	</footer>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="script.js"></script>
@@ -288,7 +288,7 @@
 			});
 		}
 	</script>
-	<?php include 'qa_anwer_bot.php' ?>
+	<?php include './components/qa_anwer_bot.php' ?>
 </body>
 
 </html>
