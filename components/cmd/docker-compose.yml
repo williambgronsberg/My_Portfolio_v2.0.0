@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  ollama:
+    build: .
+    container_name: wig-cmd-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    environment:
+      - OLLAMA_ORIGINS=*
+
+volumes:
+  ollama_data:
