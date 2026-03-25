@@ -7,3 +7,16 @@ services:
       - "host.docker.internal:host-gateway"
     environment:
       - OLLAMA_HOST=http://host.docker.internal:11434
+      - MODEL_NAME=wbg-bot:latest
+    restart: unless-stopped
+
+  ngrok:
+    image: ngrok/ngrok:latest
+    ports:
+      - "4040:4040"
+    environment:
+      - NGROK_AUTHTOKEN=3BQriC7ElwMSQaTWxjxKgSWHhvP_3ogCSA5f4RzUjVMPKSbhT
+    command: http api:8000
+    depends_on:
+      - api
+    restart: unless-stopped
