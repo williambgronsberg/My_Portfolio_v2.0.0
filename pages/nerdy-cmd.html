@@ -1,211 +1,653 @@
-<!-- 
-  @Author: William Berge Groensberg
-  @Date:   2025-04-29 11:05:54
-  @Last Modified by:   William Berge Groensberg
-  @Last Modified time: 2025-08-11 01:37:29
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive CMD</title>
+    <title>Command Prompt</title>
     <style>
-        /* Styling for the body to resemble a terminal */
-        body {
-            background-color: #000; /* Black background */
-            color: #0f0; /* Green text */
-            font-family: monospace; /* Monospaced font for terminal effect */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #0e0e0e;
+            color: #cccccc;
+            font-family: 'Courier New', Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.4;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
         }
 
-        /* Container for the terminal window */
-        #cmd-window {
+        #cmd-container {
             width: 100%;
-            height: 100vh;
-            overflow-y: auto; /* Allows scrolling if content overflows */
-            padding: 10px;
+            min-height: 100vh;
             box-sizing: border-box;
         }
 
-        /* Input line for user commands */
-        #input-line {
+        #output {
+            overflow-y: visible;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #output::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        #output::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        #output::-webkit-scrollbar-thumb {
+            background: #333;
+        }
+
+        .line {
+            display: block;
+            min-height: 1.4em;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .output-line {
+            color: #cccccc;
+        }
+
+        .error-text {
+            color: #ff5555;
+        }
+
+        .success-text {
+            color: #55ff55;
+        }
+
+        .info-text {
+            color: #55aaff;
+        }
+
+        #input-area {
+            padding: 10px;
+            background: #0e0e0e;
             display: flex;
-            visibility: hidden; /* Hidden initially until the user starts interacting */
+            align-items: center;
+            width: 100%;
+            box-sizing: border-box;
         }
 
-        /* Styling for the command prompt */
-        #prompt {
-            margin-right: 5px;
+        .prompt {
+            color: #cccccc;
+            margin-right: 0;
+            white-space: nowrap;
         }
 
-        /* Input box for user commands */
-        input {
-            background: none;
-            color: #0f0; /* Green text */
+        #cmd-input {
+            background: transparent;
+            color: #ffffff;
             border: none;
-            outline: none; /* Removes default border */
-            flex-grow: 1; /* Fills available space */
-            font-family: inherit;
-            font-size: inherit;
-        }
-
-        /* Styling for output lines */
-        .output {
-            white-space: pre-wrap; /* Preserves whitespace and line breaks */
-        }
-
-        /* Highlighted text style */
-        .nerdy-text {
-            color: #0ff; /* Cyan text for special emphasis */
-        }
-
-        /* Styling for links */
-        a {
-            color: #0ff; /* Cyan links */
-            text-decoration: none;
-        }
-
-        /* Underline links on hover */
-        a:hover {
-            text-decoration: underline;
-        }
-
-        /* Inline spinner animation */
-        .spinner {
-            display: inline;
+            outline: none;
+            font-family: 'Courier New', Consolas, monospace;
+            font-size: 14px;
+            flex: 1;
+            caret-color: #ffffff;
         }
     </style>
 </head>
 <body>
-    <div id="cmd-window">
-        <div id="output-area"></div> <!-- Area to display command output -->
-        <div id="input-line">
-            <span id="prompt">C:\></span> <!-- Command prompt -->
-            <input type="text" id="cmd-input" autocomplete="off" autofocus> <!-- User input field -->
+    <div id="cmd-container">
+        <div id="output"></div>
+        <div id="input-area">
+            <span class="prompt" id="prompt">C:\Users\WBG></span>
+            <input type="text" id="cmd-input" autocomplete="off" spellcheck="false" autofocus>
         </div>
     </div>
 
     <script>
-         console.log((221
-         ).toString(2));
-
-         console.log((1035).toString(16)); // Output: "3a"
-         let hex = "1e";
-let num = parseInt(hex, 16);
-console.log(num); // Output: 679
-
+        const output = document.getElementById('output');
         const cmdInput = document.getElementById('cmd-input');
-        const outputArea = document.getElementById('output-area');
-        const inputLine = document.getElementById('input-line');
+        const prompt = document.getElementById('prompt');
 
-        // Displays the initial welcome message
-        appendOutput("Welcome to Nerdy CMD!\nPress any key to continue...");
-        
-        // Activates interactive mode after the user presses a key
-        document.addEventListener('keydown', startInteractiveMode, { once: true });
+        let currentDir = 'C:\\Users\\WBG';
+        let commandHistory = [];
+        let historyIndex = -1;
+        let aiMode = false;
+        let aiHistory = [];
 
-        function startInteractiveMode() {
-            appendOutput("\nNerdy CMD loaded. Type 'projects' to see available projects, or 'help' for more commands.");
-            inputLine.style.visibility = 'visible'; // Makes the input line visible
-            cmdInput.focus();
+        // ============================================
+        // AI CONFIG - Change these settings here
+        // ============================================
+        const OLLAMA_HOST = 'http://localhost:11434';  // Change to your Ollama server
+        let AI_MODEL = 'wig-cmd:latest';                    // Change to your model name
+        const AI_SYSTEM = `You are an AI assistant embedded in William B. Groensberg's portfolio terminal. Be helpful, concise, and technical.`;
+        // ============================================
+
+        // Command to change model in terminal
+        const modelCommand = 'model';
+
+        const projects = {
+            'nerdy-cmd': { name: 'Nerdy CMD Interface', desc: 'Interactive terminal', link: 'pages/nerdy-cmd.html' },
+            'next-break': { name: 'Next Break', desc: 'Bike-share finder', link: 'https://im24wil27051.imporsgrunn.no/pages/projects/pauser/' },
+            'school-cms': { name: 'School CMS', desc: 'Content management', link: 'schoolsite/schoolingsys/index.html' },
+            'portfolio': { name: 'Portfolio', desc: 'This website', link: 'index.html' }
+        };
+
+        const allCommands = [
+            'help', 'cls', 'clear', 'exit', 'quit', 'whoami', 'date', 'time', 'ver',
+            'cd', 'dir', 'ls', 'tree', 'md', 'rd', 'copy', 'move', 'del', 'type',
+            'echo', 'prompt', 'title', 'systeminfo', 'ipconfig', 'ping',
+            'about', 'projects', 'skills', 'contact', 'open', 'github', 'linkedin',
+            'neofetch', 'calc', 'fortune', 'joke', 'coffee', 'ask', 'ai', 'claude', 'model'
+        ];
+
+        function print(text, className = '') {
+            const line = document.createElement('span');
+            line.className = 'line ' + className;
+            line.textContent = text;
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
         }
 
-        // Handles user input when pressing Enter
-        cmdInput.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
-                const command = cmdInput.value.trim(); // Gets and trims the input
-                if (command) {
-                    appendOutput(`C:\>${command}`); // Echoes the command
-                    processCommand(command); // Processes the command
+        function printHTML(html) {
+            const line = document.createElement('span');
+            line.className = 'line';
+            line.innerHTML = html;
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function processCommand(cmd) {
+            const parts = cmd.trim().split(/\s+/);
+            const command = parts[0].toLowerCase();
+            const args = parts.slice(1);
+
+            switch(command) {
+                case 'help':
+                case '?':
+                    print('');
+                    print('For more information on a specific command, type HELP command-name', 'info-text');
+                    print('');
+                    print('ASSOC    ATTRIB    CACLS    CD       CHDIR    CHKDSK', 'output-line');
+                    print('CLS      COLOR     COMP     COPY     DATE     DEL', 'output-line');
+                    print('DIR      ECHO      EXIT     FIND     FORMAT   FSUTIL', 'output-line');
+                    print('HELP     IPCONFIG  LABEL    MD       MKLINK   MOVE', 'output-line');
+                    print('NET      PATH      PAUSE    PING     PROMPT   RD', 'output-line');
+                    print('REN      RMDIR     SET      TIME     TITLE    TREE', 'output-line');
+                    print('TYPE     VER       VOL      XCOPY', 'output-line');
+                    print('');
+                    print('CUSTOM: ABOUT  PROJECTS  SKILLS  CONTACT  GITHUB  NEOFETCH', 'info-text');
+                    print('AI: ASK  CLAUDE  AI  MODEL', 'success-text');
+                    break;
+
+                case 'cls':
+                case 'clear':
+                    output.innerHTML = '';
+                    break;
+
+                case 'exit':
+                case 'quit':
+                    if (aiMode) {
+                        aiMode = false;
+                        aiHistory = [];
+                        print('Exiting AI chat mode.', 'info-text');
+                        updatePrompt();
+                    } else {
+                        print('Goodbye!');
+                    }
+                    break;
+
+                case 'whoami':
+                    print('WBG\\William');
+                    break;
+
+                case 'date':
+                    print(new Date().toLocaleDateString());
+                    break;
+
+                case 'time':
+                    print(new Date().toLocaleTimeString());
+                    break;
+
+                case 'ver':
+                    print('Microsoft Windows [Version 10.0.19045.3803]');
+                    print('(c) Microsoft Corporation. All rights reserved.');
+                    break;
+
+                case 'cd':
+                case 'chdir':
+                    if (args[0]) {
+                        if (args[0] === '..') {
+                            if (currentDir !== 'C:\\Users\\WBG') {
+                                const parts = currentDir.split('\\');
+                                parts.pop();
+                                currentDir = parts.join('\\') || 'C:\\';
+                            }
+                        } else {
+                            currentDir = currentDir + '\\' + args[0];
+                        }
+                        updatePrompt();
+                    } else {
+                        currentDir = 'C:\\Users\\WBG';
+                        updatePrompt();
+                    }
+                    break;
+
+                case 'dir':
+                case 'ls':
+                    print(' Volume in drive C is Windows', 'info-text');
+                    print(' Volume Serial Number is A1B2-C3D4', 'output-line');
+                    print('');
+                    print(' Directory of ' + currentDir, 'info-text');
+                    print('');
+                    print('05/25/2025  10:30 AM    <DIR>          .');
+                    print('05/25/2025  10:30 AM    <DIR>          ..');
+                    if (currentDir === 'C:\\Users\\WBG') {
+                        print('05/25/2025  10:30 AM    <DIR>          Projects');
+                        print('05/25/2025  10:30 AM    <DIR>          Documents');
+                        print('05/25/2025  10:30 AM    <DIR>          Downloads');
+                    } else {
+                        print('05/25/2025  10:30 AM    <DIR>          .');
+                    }
+                    print('               5 File(s)         17,904 bytes');
+                    print('               8 Dir(s)   1,234,567,890 bytes free');
+                    break;
+
+                case 'systeminfo':
+                    print('Host Name:                 WBG-DESKTOP');
+                    print('OS Name:                   Windows 10 Pro');
+                    print('OS Version:                10.0.19045 N/A Build 3803');
+                    print('System Type:               x64-based PC');
+                    print('Total Physical Memory:     16,384 MB');
+                    break;
+
+                case 'ipconfig':
+                    print('Windows IP Configuration', 'info-text');
+                    print('');
+                    print('Ethernet adapter Ethernet0:', 'output-line');
+                    print('');
+                    print('   IPv4 Address. . . . . . . . . . : 192.168.1.100', 'output-line');
+                    print('   Subnet Mask . . . . . . . . . . : 255.255.255.0', 'output-line');
+                    print('   Default Gateway . . . . . . . . . : 192.168.1.1', 'output-line');
+                    break;
+
+                case 'ping':
+                    if (!args[0]) {
+                        print('Usage: ping target_name', 'error-text');
+                        break;
+                    }
+                    print('Pinging ' + args[0] + ' [127.0.0.1] with 32 bytes of data:', 'info-text');
+                    print('');
+                    setTimeout(() => print('Reply from ' + args[0] + ': bytes=32 time=1ms TTL=64'), 500);
+                    setTimeout(() => print('Reply from ' + args[0] + ': bytes=32 time=1ms TTL=64'), 1000);
+                    setTimeout(() => print('Reply from ' + args[0] + ': bytes=32 time=1ms TTL=64'), 1500);
+                    setTimeout(() => print('Reply from ' + args[0] + ': bytes=32 time=1ms TTL=64'), 2000);
+                    setTimeout(() => {
+                        print('');
+                        print('Ping statistics for ' + args[0] + ':', 'info-text');
+                        print('    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)', 'output-line');
+                    }, 2500);
+                    break;
+
+                case 'echo':
+                    print(args.join(' '));
+                    break;
+
+                case 'title':
+                    if (args.length > 0) {
+                        document.title = args.join(' ');
+                        print('Title set to: ' + args.join(' '), 'success-text');
+                    }
+                    break;
+
+                case 'about':
+                    print('');
+                    print(' William Berge Groensberg', 'info-text');
+                    print(' =========================', 'info-text');
+                    print('');
+                    print(' Web Developer & Designer');
+                    print(' Location: Norway');
+                    print('');
+                    print(' Creating minimalist websites with clean design.', 'output-line');
+                    break;
+
+                case 'projects':
+                    print('');
+                    print(' PORTFOLIO PROJECTS', 'info-text');
+                    print(' ===================', 'info-text');
+                    print('');
+                    let i = 1;
+                    for (const [key, project] of Object.entries(projects)) {
+                        print(i + '. ' + project.name, 'success-text');
+                        print('   ' + project.desc, 'output-line');
+                        print('');
+                        i++;
+                    }
+                    print("Type 'open <name>' to view.", 'info-text');
+                    break;
+
+                case 'open':
+                    if (!args[0]) {
+                        print("Type 'projects' to see available projects.", 'error-text');
+                        break;
+                    }
+                    const project = projects[args[0].toLowerCase()];
+                    if (project) {
+                        print('Opening ' + project.name + '...', 'info-text');
+                        window.open(project.link, '_blank');
+                    } else {
+                        print("Project '" + args[0] + "' not found.", 'error-text');
+                    }
+                    break;
+
+                case 'skills':
+                    print('');
+                    print(' TECHNICAL SKILLS', 'info-text');
+                    print(' ================', 'info-text');
+                    print('');
+                    print('Frontend: HTML5, CSS3, JavaScript, React', 'success-text');
+                    print('Backend: Node.js, Python, Firebase, SQL', 'success-text');
+                    print('Tools: Git, GitHub, VS Code, npm', 'success-text');
+                    break;
+
+                case 'contact':
+                    print('');
+                    print(' CONTACT INFORMATION', 'info-text');
+                    print(' ===================', 'info-text');
+                    print('');
+                    print(' Email:    william@example.com');
+                    print(' GitHub:   github.com/sneakyturtle270508');
+                    print(' LinkedIn: linkedin.com/in/williambergegroensberg');
+                    break;
+
+                case 'github':
+                    print('Opening GitHub...', 'info-text');
+                    window.open('https://github.com/sneakyturtle270508', '_blank');
+                    break;
+
+                case 'linkedin':
+                    print('Opening LinkedIn...', 'info-text');
+                    window.open('https://linkedin.com/in/williambergegroensberg', '_blank');
+                    break;
+
+                case 'neofetch':
+                    print('');
+                    print('    .--------.        WBG@WBG-DESKTOP', 'info-text');
+                    print('    |  O  O  |        OS: Windows 10 Pro', 'output-line');
+                    print('    |   __   |        Host: Custom PC', 'output-line');
+                    print('    |__|  |__|        Resolution: ' + window.innerWidth + 'x' + window.innerHeight, 'output-line');
+                    break;
+
+                case 'calc':
+                    if (args.length === 0) {
+                        print('Usage: calc <expression>', 'error-text');
+                        break;
+                    }
+                    try {
+                        const result = eval(args.join(''));
+                        print(args.join('') + ' = ' + result, 'success-text');
+                    } catch (e) {
+                        print('Error: Invalid expression', 'error-text');
+                    }
+                    break;
+
+                case 'fortune':
+                    const fortunes = [
+                        "A programmer is just a machine that turns coffee into code.",
+                        "There are only two hard things: cache invalidation and naming things.",
+                        "Debugging is twice as hard as writing the code.",
+                        "First, solve the problem. Then, write the code."
+                    ];
+                    print('"' + fortunes[Math.floor(Math.random() * fortunes.length)] + '"', 'success-text');
+                    break;
+
+                case 'joke':
+                    const jokes = [
+                        "Why do programmers prefer dark mode? Because light attracts bugs!",
+                        "A SQL query walks into a bar and asks... 'Can I join you?'",
+                        "Why was the JavaScript developer in tears? Because he didn't null his feelings!"
+                    ];
+                    print(jokes[Math.floor(Math.random() * jokes.length)], 'success-text');
+                    break;
+
+                case 'coffee':
+                    print('');
+                    print('     ( (');
+                    print('      ) )');
+                    print('    ._______.');
+                    print('    |       |]');
+                    print('    \\       /');
+                    print('     `-----\'');
+                    print('');
+                    print('Thanks for the support!', 'success-text');
+                    break;
+
+                case 'ask':
+                case 'ai':
+                case 'claude':
+                    startAIMode();
+                    break;
+
+                case 'model':
+                    if (args[0]) {
+                        AI_MODEL = args[0];
+                        print('Model changed to: ' + AI_MODEL, 'success-text');
+                    } else {
+                        print('Current model: ' + AI_MODEL, 'info-text');
+                        print('Usage: model <model-name>', 'info-text');
+                        print('Example: model llama3', 'info-text');
+                    }
+                    break;
+
+                default:
+                    print("'" + command + "' is not recognized as an internal or external command,", 'error-text');
+                    print('operable program or batch file.', 'error-text');
+            }
+        }
+
+        function updatePrompt() {
+            if (aiMode) {
+                prompt.textContent = 'AI> ';
+            } else {
+                prompt.textContent = currentDir + '>';
+            }
+        }
+
+        function startAIMode() {
+            aiMode = true;
+            aiHistory = [];
+            print('');
+            print('════════════════════════════════════════════════════════════', 'info-text');
+            print(' AI Chat Mode - Powered by Ollama', 'info-text');
+            print('════════════════════════════════════════════════════════════', 'info-text');
+            print('Model: ' + AI_MODEL, 'success-text');
+            print('');
+            print('You are now chatting with the AI.', 'success-text');
+            print("Type 'exit' or 'quit' to return to normal mode.", 'output-line');
+            print("Use 'model <name>' to switch models.", 'output-line');
+            print('');
+            print('AI: Hello! How can I help you today?', 'success-text');
+            aiHistory.push({ role: 'assistant', content: 'Hello! How can I help you today?' });
+            updatePrompt();
+        }
+
+        async function sendToAI(message) {
+            print('');
+            print('You: ' + message, 'output-line');
+            print('');
+            print('AI: Thinking...', 'info-text');
+
+            aiHistory.push({ role: 'user', content: message });
+
+            try {
+                const response = await fetch(OLLAMA_HOST + '/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        model: AI_MODEL,
+                        stream: true,
+                        messages: [
+                            { role: 'system', content: AI_SYSTEM },
+                            ...aiHistory
+                        ]
+                    })
+                });
+
+                if (!response.ok) throw new Error('Failed to connect to Ollama');
+
+                // Remove "Thinking..." message
+                const lines = output.querySelectorAll('.line');
+                const lastLine = lines[lines.length - 1];
+                if (lastLine && lastLine.textContent === 'AI: Thinking...') {
+                    lastLine.remove();
                 }
-                cmdInput.value = ''; // Clears the input field
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let fullResponse = '';
+
+                const responseLine = document.createElement('span');
+                responseLine.className = 'line success-text';
+                responseLine.textContent = 'AI: ';
+                output.appendChild(responseLine);
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value, { stream: true });
+                    for (const line of chunk.split('\n')) {
+                        if (line.trim()) {
+                            try {
+                                const data = JSON.parse(line);
+                                if (data.message && data.message.content) {
+                                    fullResponse += data.message.content;
+                                    responseLine.textContent = 'AI: ' + fullResponse;
+                                    output.scrollTop = output.scrollHeight;
+                                }
+                            } catch (e) {}
+                        }
+                    }
+                }
+
+                aiHistory.push({ role: 'assistant', content: fullResponse });
+
+            } catch (error) {
+                const lines = output.querySelectorAll('.line');
+                const lastLine = lines[lines.length - 1];
+                if (lastLine && lastLine.textContent === 'AI: Thinking...') {
+                    lastLine.remove();
+                }
+
+                print('');
+                print('Error: Cannot connect to Ollama.', 'error-text');
+                print('Make sure Ollama is running and the model is available.', 'error-text');
+            }
+        }
+
+        // Handle input
+        cmdInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const command = this.value.trim();
+
+                if (!command) return;
+
+                // Add to history
+                commandHistory.unshift(command);
+                historyIndex = -1;
+
+                // Show command
+                printHTML('<span class="line">' + currentDir + '>' + command + '</span>');
+
+                if (aiMode) {
+                    if (command.toLowerCase() === 'exit' || command.toLowerCase() === 'quit') {
+                        aiMode = false;
+                        aiHistory = [];
+                        print('Exiting AI chat mode.', 'info-text');
+                        updatePrompt();
+                    } else {
+                        this.value = '';
+                        sendToAI(command);
+                    }
+                } else {
+                    processCommand(command);
+                    updatePrompt();
+                }
+
+                this.value = '';
+                output.scrollTop = output.scrollHeight;
+            }
+
+            // Tab completion
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const input = this.value.toLowerCase().trim();
+                if (!input) return;
+
+                const parts = input.split(/\s+/);
+                
+                // Complete project names
+                if (parts[0] === 'open' && parts.length > 1) {
+                    const partial = parts[1];
+                    const matches = Object.keys(projects).filter(p => p.startsWith(partial));
+                    if (matches.length === 1) {
+                        this.value = 'open ' + matches[0];
+                    } else if (matches.length > 1) {
+                        print('');
+                        print(matches.join('  '), 'output-line');
+                    }
+                    return;
+                }
+
+                // Complete commands
+                const matches = allCommands.filter(cmd => cmd.startsWith(input));
+                if (matches.length === 1) {
+                    this.value = matches[0];
+                } else if (matches.length > 1) {
+                    print('');
+                    print(matches.join('  '), 'output-line');
+                }
+            }
+
+            // History navigation
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    this.value = commandHistory[historyIndex];
+                }
+            }
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    this.value = commandHistory[historyIndex];
+                } else {
+                    historyIndex = -1;
+                    this.value = '';
+                }
             }
         });
 
-        // Appends text to the output area
-        function appendOutput(text) {
-            const outputLine = document.createElement('div'); // Creates a new output line
-            outputLine.classList.add('output');
-            outputLine.innerHTML = text; // Sets the text as HTML to allow links
-            outputArea.appendChild(outputLine);
-            outputArea.scrollTop = outputArea.scrollHeight; // Scrolls to the bottom
-        }
+        // Focus on click
+        document.getElementById('cmd-container').addEventListener('click', function() {
+            cmdInput.focus();
+        });
 
-        // Simulates a download spinner before opening a link
-        function simulateDownloadAndOpen(link) {
-            const spinnerFrames = ['|', '/', '-', '\\'];
-            let i = 0;
-            const spinnerLine = document.createElement('div');
-            spinnerLine.classList.add('output');
-            outputArea.appendChild(spinnerLine);
-
-            const spinnerInterval = setInterval(() => {
-                spinnerLine.textContent = `Opening... ${spinnerFrames[i % spinnerFrames.length]}`;
-                outputArea.scrollTop = outputArea.scrollHeight;
-                i++;
-            }, 200);
-
-            setTimeout(() => {
-                clearInterval(spinnerInterval); // Stops the spinner
-                spinnerLine.textContent = "Opening... Done!"; // Final message
-                outputArea.scrollTop = outputArea.scrollHeight;
-                window.open(link, '_blank'); // Opens the link
-            }, 2000); // Simulates a 2-second delay
-        }
-
-        // Processes commands entered by the user
-        function processCommand(command) {
-            const projects = {
-                1: { name: 'Portfolio Website', link: 'https://example.com/portfolio' },
-                2: { name: 'School Management System', link: 'https://example.com/school' },   
-            };
-
-            const nam = {
-                1: { name: 'rick roll', link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'},  
-            };
-
-            // Handles different commands
-            switch (command.toLowerCase()) {
-                case 'help':
-                    appendOutput('Available commands:\nhelp - Show this help message\nprojects - List available projects\nclear - Clear the screen');
-                    break;
-                    
-                case 'nam': 
-                appendOutput(`you got rick rolled...`);
-                    simulateDownloadAndOpen(nam[1].link);
-                    break;
-                case 'projects':
-                    appendOutput('Available projects:');
-                    // Lists all projects with numbers and names
-                    Object.keys(projects).forEach(key => {
-                        appendOutput(`${key}. ${projects[key].name}`);
-                    });
-                    appendOutput('Type the number or name of a project to open it.');
-                    break;
-                case '1':
-                case 'portfolio website':
-                    appendOutput(`Opening Portfolio Website...`);
-                    simulateDownloadAndOpen(projects[1].link);
-                    break;
-                case '2':
-                case 'school management system':
-                    appendOutput(`Opening School Management System...`);
-                    simulateDownloadAndOpen(projects[2].link);
-                    break;
-            
-        
-                    
-
-                
-                case 'clear':
-                    outputArea.innerHTML = ''; // Clears all output
-                    break;
-                default:
-                    appendOutput(`'${command}' is not recognized as an internal or external command.`); // Default error message
-            }
-        }
+        // Initial messages
+        print('Microsoft Windows [Version 10.0.19045.3803]');
+        print('(c) Microsoft Corporation. All rights reserved.');
+        print('');
+        print('Type HELP for a list of available commands.', 'info-text');
+        print("Type 'projects' to see my portfolio projects.", 'info-text');
+        print("Type 'ask' to chat with AI (currently using: " + AI_MODEL + ").", 'info-text');
+        print("Use 'model <name>' to change the AI model.", 'info-text');
+        print('');
     </script>
 </body>
 </html>

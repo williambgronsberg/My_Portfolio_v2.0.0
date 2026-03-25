@@ -233,7 +233,7 @@
       </div>
       <div class="wbg-cfg">
         host:
-        <input id="wbg-host" value="http://localhost:11434" />
+        <input id="wbg-host" value="http://localhost:8001" />
         model:
         <input id="wbg-model" class="model-input" value="mistral:7b" />
       </div>
