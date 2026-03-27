@@ -16,7 +16,7 @@ services:
       - "4040:4040"
     environment:
       - NGROK_AUTHTOKEN=3BQriC7ElwMSQaTWxjxKgSWHhvP_3ogCSA5f4RzUjVMPKSbhT
-    command: http api:8000
+    command: http api:8000 --pooling-enabled
     depends_on:
       - api
     restart: unless-stopped
