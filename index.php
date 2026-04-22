@@ -64,15 +64,60 @@
 
 		<p class="scrollDownText"><i class="fas fa-angle-down"></i></p>
 	</header>
-	</div>
-	<main>
-		<p class="notesText hideMobile" data-aos="fade-up">hover over any project to learn more!</p>
-		<p class="notesText hideDesktop" data-aos="fade-up">click any project to learn more!</p>
-		<section class="portfolioProjects" id="projects" data-aos="fade-up">
-			<div class="firstRow wrapper">
-				<div class="portfolioOne" data-aos="fade-right">
-					<video autoplay loop muted playsinline class="videoOne">
-						<source src="assets/img/one.mp4" type="video/mp4" />
+</div>
+<main>
+	<p class="notesText hideMobile" data-aos="fade-up">hover over any project to learn more!</p>
+	<p class="notesText hideDesktop" data-aos="fade-up">click any project to learn more!</p>
+	<section class="portfolioProjects" id="projects" data-aos="fade-up">
+		<div class="thirdRow wrapper">
+			
+			<div class="portfolioTwo" data-aos="fade-right">
+				<img src="assets/img/synapse_phone.jpg" alt="" class="" />
+		
+				<div class="overlayTwo">
+					<i class="fas fa-times fa-2x closeOverlayTwo hideDesktop"></i>
+		
+					<h3>Synapse</h3>
+					<p>
+		
+					</p>
+					<ul class="toolsUsed">
+						<li>HTML5</li>
+						<li>Css</li>
+						<li>My own head</li>
+		
+					</ul>
+					<ul class="viewProject">
+						<a href="./sl/index.html" class="button">view live</a>
+						<!-- <a href="" target="_blank" class="button">github</a> -->
+						 <a href="/articles/synapse" class="button" target="_blank" >Read more</a>
+					</ul>
+				</div>
+				</a>
+			</div>
+			<div class="portfolioOne" data-aos="fade-left">
+				<img src="assets/img/edgerapport.jpg" alt="" class="" />
+				<!-- <img src="assets/one.jpg" alt="" class="imageOne hideDesktop" /> -->
+				<div class="overlayOne">
+					<i class="fas fa-times fa-2x closeOverlayOne hideDesktop"></i>
+					<h3>Praksisrapport</h3>
+					<p>
+						A report documenting my internship period at Edge Branding. Covering the projects I built, the technologies I worked with, and the new way to develop with ai.
+				</p>
+					
+			
+					<div class="viewProject">
+						<a href="assets/img/edgerapport.jpg" download class="button">Download</a>
+						<a href="https://github.com/sneakyturtle270508/Synapse" target="_blank" class="button">github</a>
+					</div>
+				</div>
+				</a>
+			</div>
+		</div>
+		<div class="firstRow wrapper">
+			<div class="portfolioOne" data-aos="fade-right">
+				<video autoplay loop muted playsinline class="videoOne">
+					<source src="assets/img/one.mp4" type="video/mp4" />
 					</video>
 					<!-- <img src="assets/one.jpg" alt="" class="imageOne hideDesktop" /> -->
 					<div class="overlayOne">
@@ -118,8 +163,8 @@
 					</div>
 					</a>
 				</div>
-			</div>
-
+</div>
+<!--
 			<div class="secondRow wrapper">
 				<div class="portfolioThree" data-aos="fade-right">
 					<img src="assets/img/Scene%20_13.jpg" alt="" />
@@ -176,10 +221,8 @@
 					</a>
 				</div>
 			</div>
+-->
 		</section>
-
-
-
 
 
 
@@ -238,6 +281,12 @@
 
 	<script>
 		AOS.init();
+		document.querySelector('.downloadBtn').addEventListener('click', () => {
+  const a = document.createElement('a');
+  a.href = 'assets/img/edgerapport.jpg';
+  a.download = 'edgerapport.jpg';
+  a.click();
+});
 
 		/* -------------------------------------------------
 		   SCROLL LOCK FIX FOR BURGER-MENU

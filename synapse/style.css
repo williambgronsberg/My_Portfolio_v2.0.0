@@ -1,0 +1,180 @@
+  /* General Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+@font-face {
+    font-family: 'OpenDyslexic-Bold';
+    src: url('fonts/OpenDyslexic-Bold.otf') format('opentype');
+}
+
+
+/* Body Styling */
+body {
+    font-family: 'Georgia', serif;
+    color: #333;
+    line-height: 1.6;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Navigation Bar */
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: transparent;
+    /* Invisible background */
+}
+
+/* Minimal Back Button */
+.back-button {
+    font-size: 1rem;
+    color: #333;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    color: #555;
+    text-decoration: underline;
+    text-decoration-thickness: 4px;
+}
+
+/* Utility Classes */
+.container {
+    max-width: 800px;
+    width: 100%;
+    margin: 50px auto 0;
+}
+
+.content {
+    margin-bottom: 40px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.margin-bottom {
+    margin-bottom: 20px;
+}
+
+.large-text {
+    font-size: 2.5rem;
+    font-weight: 400;
+}
+
+.small-text {
+    font-size: 1.1rem;
+    font-weight: 100;
+}
+
+/* Image Styling */
+.responsive-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px 0;
+}
+
+
+
+.font-toggle {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.font-toggle:hover {
+    background-color: #0056b3;
+}
+
+.open-dyslexic {
+    font-family: 'OpenDyslexic-Bold', serif;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.centre {
+    margin-top: 10px;
+   text-align: center;
+
+ 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+figure {
+    display: flex;
+    justify-content: space-between;
+}
+
+img   {
+    width: 49%;
+    height: auto;
+}

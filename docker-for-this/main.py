@@ -1,6 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, PlainTextResponse
 import httpx, json, os
 
 app = FastAPI()
@@ -10,10 +10,12 @@ app.add_middleware(
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
+    allow_credentials=True,
 )
 
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
 MODEL_NAME = os.getenv("MODEL_NAME", "wbg-bot:latest")
+
 
 @app.post("/chat")
 async def chat(body: dict):
@@ -24,11 +26,15 @@ async def chat(body: dict):
 
     async def stream():
         async with httpx.AsyncClient(timeout=60) as client:
-            async with client.stream("POST", f"{OLLAMA_HOST}/api/chat", json={
-                "model": MODEL_NAME,
-                "stream": True,
-                "messages": messages,
-            }) as r:
+            async with client.stream(
+                "POST",
+                f"{OLLAMA_HOST}/api/chat",
+                json={
+                    "model": MODEL_NAME,
+                    "stream": True,
+                    "messages": messages,
+                },
+            ) as r:
                 async for line in r.aiter_lines():
                     if line:
                         try:
@@ -41,4 +47,6 @@ async def chat(body: dict):
                         except json.JSONDecodeError:
                             continue
 
-    return StreamingResponse(stream(), media_type="text/plain")
+    return StreamingResponse(
+        stream(), media_type="text/plain", headers={"Access-Control-Allow-Origin": "*"}
+    )

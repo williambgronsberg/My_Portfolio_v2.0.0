@@ -1,0 +1,671 @@
+<!--
+  @Author: William Berge Groensberg
+  @Date:   2025-05-29 19:31:18
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synapse — A Research Paper</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @font-face {
+            font-family: 'OpenDyslexic';
+            src: url('https://cdn.jsdelivr.net/npm/opendyslexic@0.91.12/regular/OpenDyslexic-Regular.otf') format('opentype');
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            color: #333;
+            line-height: 1.8;
+            background-color: #fdf6f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        body.dyslexic { font-family: 'OpenDyslexic', sans-serif !important; }
+        body.comic { font-family: 'Comic Sans MS', 'Chalkboard SE', cursive !important; }
+
+        nav {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: transparent;
+        }
+
+        .back-button {
+            font-size: 1rem;
+            color: #333;
+            text-decoration: none;
+            padding: 5px 10px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .back-button:hover {
+            color: #555;
+            text-decoration: underline;
+            text-decoration-thickness: 3px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 50px auto 0;
+        }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.85rem;
+            color: #999;
+            letter-spacing: 0.08em;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 400;
+            line-height: 1.2;
+            color: #222;
+            margin-bottom: 20px;
+        }
+
+        .hero-sub {
+            font-size: 1.2rem;
+            color: #666;
+            font-style: italic;
+            max-width: 580px;
+            margin: 0 auto 24px;
+            line-height: 1.7;
+        }
+
+        .hero-meta {
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        /* ARTICLE */
+        article {
+            font-size: 1.15rem;
+            font-weight: 400;
+        }
+
+        /* SECTION */
+        .section {
+            margin-bottom: 64px;
+        }
+
+        .section-number {
+            display: block;
+            font-size: 0.78rem;
+            color: #bbb;
+            letter-spacing: 0.15em;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 400;
+            color: #222;
+            margin-bottom: 24px;
+            line-height: 1.3;
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            font-weight: 400;
+            font-style: italic;
+            color: #555;
+            margin: 32px 0 12px;
+        }
+
+        p {
+            color: #444;
+            margin-bottom: 20px;
+            line-height: 1.9;
+            text-align: justify;
+        }
+
+        em { font-style: italic; }
+        strong { font-weight: bold; color: #333; }
+
+        /* FIGURES */
+        .fig {
+            margin: 36px 0;
+        }
+
+        .fig-placeholder {
+            width: 100%;
+            background: #f7f7f7;
+            min-height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+        }
+
+        .fig-placeholder-text {
+            font-size: 0.85rem;
+            color: #bbb;
+            font-style: italic;
+            text-align: center;
+            max-width: 480px;
+            line-height: 1.6;
+        }
+
+        figcaption {
+            font-size: 0.82rem;
+            color: #999;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        /* DIAGRAMS */
+        .diagram-wrap {
+            margin: 36px 0;
+            background: #f9f9f9;
+            padding: 32px 24px 20px;
+        }
+
+        .diagram-wrap figcaption {
+            margin-top: 14px;
+        }
+
+        /* PULL QUOTE */
+        blockquote {
+            margin: 40px 0;
+            padding-left: 24px;
+            border-left: 2px solid #ccc;
+        }
+
+        blockquote p {
+            font-size: 1.3rem;
+            font-style: italic;
+            color: #333;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        blockquote cite {
+            font-size: 0.8rem;
+            color: #aaa;
+            font-style: normal;
+        }
+
+        /* ACCESSIBILITY BUTTON */
+        #a11y-btn {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            z-index: 999;
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            font-size: 0.8rem;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        #a11y-btn:hover { color: #333; border-color: #aaa; }
+
+        #a11y-panel {
+            position: fixed;
+            bottom: 62px;
+            left: 24px;
+            z-index: 998;
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 16px;
+            width: 200px;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        #a11y-panel.open { display: flex; }
+
+        .a11y-title {
+            font-size: 0.72rem;
+            color: #aaa;
+            letter-spacing: 0.08em;
+            margin-bottom: 4px;
+        }
+
+        .a11y-option {
+            background: transparent;
+            border: 1px solid #eee;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            color: #555;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            transition: all 0.15s;
+            text-align: left;
+        }
+
+        .a11y-option:hover { border-color: #aaa; color: #333; }
+        .a11y-option.active { border-color: #888; color: #222; }
+        .a11y-option.comic-option { font-family: 'Comic Sans MS', cursive; }
+        .a11y-option.dyslexic-option { font-family: 'OpenDyslexic', sans-serif; }
+
+        /* FOOTER */
+        footer {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 80px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            margin-bottom: 40px;
+        }
+
+        footer p {
+            font-size: 0.85rem;
+            color: #aaa;
+            text-align: left;
+        }
+
+        footer a { color: #aaa; text-decoration: underline; }
+        footer a:hover { color: #555; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            article { font-size: 1rem; }
+            .container { margin-top: 24px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="javascript:history.back()" class="back-button">Tilbake</a>
+    </nav>
+
+    <main class="container">
+
+        <!-- HERO -->
+        <section class="hero">
+            <p class="hero-eyebrow"></p>
+            <h1>The Brain That Builds Itself</h1>
+            <p class="hero-sub">What if your notes could think? On electricity, neurons, and the project that made me see knowledge differently.</p>
+            <p class="hero-meta"></p>
+        </section>
+
+        <article>
+
+            <!-- 01 -->
+            <div class="section">
+                <span class="section-number">01</span>
+                <h2>A Storm Inside Your Skull</h2>
+
+                <p>Right now, as you read this sentence, around <strong>86 billion neurons</strong> are firing inside your skull. They are not firing randomly. They are firing in patterns — cascading, overlapping, relaying pulses of electricity across a network so complex that no computer built by human hands has ever come close to matching it. The human brain is, in the most literal sense, a machine that runs on electricity.</p>
+
+                <p>I wanted to understand that. Not from a textbook diagram, but truly understand what it means for the brain to be electric — and then I wanted to build something that mirrored it.</p>
+
+                <figure class="fig">
+                    <div class="fig-placeholder">
+                        <p class="fig-placeholder-text">[ photo of a neuron firing — close-up electron microscope image, electric blue sparks along dendrites ]</p>
+                    </div>
+                    <figcaption><i>FIG. 01 — Neuron firing under electron microscope, showing electrical impulse propagation along axon.</i></figcaption>
+                </figure>
+
+                <p>A neuron, at rest, is like a sealed battery. The inside of the cell is negatively charged, mostly because it is packed with negatively charged proteins and potassium ions. The outside is positively charged, rich in sodium ions. This difference in charge — called the <strong>resting membrane potential</strong> — sits at around <em>-70 millivolts</em>. That is not nothing. That is potential. That is energy, coiled and waiting.</p>
+
+                <p>When a neuron receives a signal strong enough to tip it over a threshold — around -55 millivolts — something extraordinary happens. Channels in the cell membrane burst open. Sodium floods in. The charge inside the cell shoots from -70mV to +40mV in less than a millisecond. This is the <strong>action potential</strong>: the electrical pulse that is thought.</p>
+
+                <figure class="diagram-wrap">
+                    <svg viewBox="0 0 680 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+                        <line x1="40" y1="60" x2="110" y2="100" stroke="#999" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="30" y1="100" x2="110" y2="100" stroke="#999" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="40" y1="140" x2="110" y2="100" stroke="#999" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="70" y1="50" x2="110" y2="100" stroke="#bbb" stroke-width="1.2" stroke-linecap="round"/>
+                        <line x1="70" y1="150" x2="110" y2="100" stroke="#bbb" stroke-width="1.2" stroke-linecap="round"/>
+                        <ellipse cx="160" cy="100" rx="50" ry="36" fill="#f2f2f2" stroke="#999" stroke-width="1.5"/>
+                        <text x="160" y="104" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#666">nucleus</text>
+                        <line x1="210" y1="100" x2="520" y2="100" stroke="#999" stroke-width="2.5" stroke-linecap="round"/>
+                        <rect x="230" y="91" width="38" height="18" rx="9" fill="#e8e8e8" stroke="#bbb" stroke-width="1"/>
+                        <rect x="300" y="91" width="38" height="18" rx="9" fill="#e8e8e8" stroke="#bbb" stroke-width="1"/>
+                        <rect x="370" y="91" width="38" height="18" rx="9" fill="#e8e8e8" stroke="#bbb" stroke-width="1"/>
+                        <rect x="440" y="91" width="38" height="18" rx="9" fill="#e8e8e8" stroke="#bbb" stroke-width="1"/>
+                        <circle cx="340" cy="100" r="6" fill="#555"/>
+                        <path d="M 326 78 L 356 78" stroke="#555" stroke-width="1.2" marker-end="url(#arr)" stroke-linecap="round"/>
+                        <defs>
+                            <marker id="arr" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+                                <path d="M0,0 L0,6 L8,3 z" fill="#555"/>
+                            </marker>
+                        </defs>
+                        <line x1="520" y1="100" x2="568" y2="72" stroke="#999" stroke-width="1.8" stroke-linecap="round"/>
+                        <line x1="520" y1="100" x2="578" y2="100" stroke="#999" stroke-width="1.8" stroke-linecap="round"/>
+                        <line x1="520" y1="100" x2="568" y2="128" stroke="#999" stroke-width="1.8" stroke-linecap="round"/>
+                        <circle cx="572" cy="70" r="7" fill="#ccc"/>
+                        <circle cx="582" cy="100" r="7" fill="#ccc"/>
+                        <circle cx="572" cy="130" r="7" fill="#ccc"/>
+                        <text x="50" y="190" font-family="Georgia, serif" font-size="8.5" fill="#aaa">DENDRITES</text>
+                        <text x="140" y="190" font-family="Georgia, serif" font-size="8.5" fill="#aaa">CELL BODY</text>
+                        <text x="316" y="190" font-family="Georgia, serif" font-size="8.5" fill="#aaa">AXON + MYELIN</text>
+                        <text x="548" y="190" font-family="Georgia, serif" font-size="8.5" fill="#aaa">SYNAPSE</text>
+                        <text x="295" y="68" font-family="Georgia, serif" font-size="8" fill="#777">electrical pulse →</text>
+                    </svg>
+                    <figcaption><i>FIG. 02 — Simplified neuron anatomy. Electrical pulse travels from dendrites through the axon to synaptic terminals.</i></figcaption>
+                </figure>
+
+                <p>What I found fascinating was the speed. The action potential travels down the axon at up to <strong>120 metres per second</strong> in the fastest nerve fibres — the ones wrapped in a fatty insulating layer called myelin. Nodes of Ranvier, the tiny gaps between myelin sheaths, allow the signal to leap forward rather than crawl, a trick called <em>saltatory conduction</em>. The brain is already doing electrical engineering, before we ever picked up a soldering iron.</p>
+            </div>
+
+            <!-- 02 -->
+            <div class="section">
+                <span class="section-number">02</span>
+                <h2>The Synapse — Where Everything Happens</h2>
+
+                <p>The action potential reaches the end of the axon — the <strong>axon terminal</strong> — and here, something changes. The signal cannot simply jump. There is a gap: the <strong>synaptic cleft</strong>, roughly 20 nanometres wide. An electrical pulse cannot leap 20 nanometres of fluid by itself. So the neuron does something extraordinary: it converts electricity into chemistry.</p>
+
+                <figure class="fig">
+                    <div class="fig-placeholder">
+                        <p class="fig-placeholder-text">[ close-up diagram of a synaptic cleft — vesicles releasing neurotransmitters across the 20nm gap, receptors on the postsynaptic membrane ]</p>
+                    </div>
+                    <figcaption><i>FIG. 03 — Synaptic transmission. Vesicles release neurotransmitters that cross the cleft and bind to receptors.</i></figcaption>
+                </figure>
+
+                <p>Tiny bubbles called <strong>vesicles</strong>, packed with chemical messengers called <em>neurotransmitters</em>, fuse with the cell membrane and spill their contents into the cleft. These molecules — dopamine, serotonin, glutamate, GABA, among others — drift across the gap and lock onto receptors on the next neuron. If enough receptors are activated, the next neuron fires its own action potential. The chemistry converts back to electricity. The signal continues.</p>
+
+                <blockquote>
+                    <p>The synapse is not just a junction. It is a translation layer — converting electricity into chemistry and back again, deciding in a fraction of a millisecond whether one thought should connect to the next.</p>
+                    <cite>— William Berge Grønsberg, 2025</cite>
+                </blockquote>
+
+                <p>What makes this beautiful — and deeply relevant to the project I built — is that <strong>synapses are not fixed</strong>. They change. A connection that is used frequently becomes stronger. A connection rarely used weakens and may disappear entirely. This is called <em>synaptic plasticity</em>, and it is the biological basis of learning and memory. Donald Hebb described it in 1949: "Neurons that fire together, wire together." Every time you remember something, you are literally reinforcing a physical connection in your brain.</p>
+
+                <h3>Not just one connection — a network</h3>
+
+                <p>A single neuron can have up to <strong>10,000 synaptic connections</strong>. It can receive signals from thousands of other neurons simultaneously and send its output to thousands more. There is no single wire running from thought to thought. The brain is a dense, overlapping, constantly shifting graph — where meaning emerges not from any single cell, but from the <em>pattern of connections</em> between millions of them.</p>
+
+                <figure class="fig">
+                    <div class="fig-placeholder">
+                        <p class="fig-placeholder-text">[ aerial photograph of a city at night from above — lights and roads forming an interconnected network, visually mirroring a neural map ]</p>
+                    </div>
+                    <figcaption><i>FIG. 04 — A city from above at night. Networks of roads and lights echo the structure of neural connectivity.</i></figcaption>
+                </figure>
+
+                <p>I remember staring at a connectome map — a visual map of all connections in a small piece of brain tissue — and thinking: this looks like the internet. It looks like every good idea I have ever had. And it looked nothing like my notes folder.</p>
+            </div>
+
+            <!-- 03 -->
+            <div class="section">
+                <span class="section-number">03</span>
+                <h2>The Problem With Folders</h2>
+
+                <p>I take a lot of notes. I always have. But somewhere around my second year of serious studying I noticed something was wrong. I had hundreds of notes. I had folders inside folders. I had tags, colours, labels. And yet every time I tried to find an idea — really find it, the spark of a connection between something I read last month and something I was learning today — I came up empty.</p>
+
+                <p>The problem, I realised, was the folder. A folder is a hierarchical structure. It forces you to place a note in exactly one place, in exactly one category. But ideas do not live in one place. A note about <em>action potentials</em> is also a note about <em>physics</em>, also a note about <em>information theory</em>, also a note about the nature of consciousness. A folder system makes you choose one. The brain never makes that choice.</p>
+
+                <figure class="fig">
+                    <div class="fig-placeholder">
+                        <p class="fig-placeholder-text">[ photo of a messy filing cabinet with colour-coded tabs, papers sticking out in every direction, chaotic but earnest ]</p>
+                    </div>
+                    <figcaption><i>FIG. 05 — The folder metaphor. Hierarchical organisation forces ideas into single categories, breaking the natural web of meaning.</i></figcaption>
+                </figure>
+
+                <p>I wanted to showcase something different. I wanted to build a system that behaved more like the thing it was meant to augment: the brain itself. Where notes could be connected to each other not because a human manually drew a line between them, but because the system <em>understood</em> what they meant — and linked them automatically.</p>
+
+                <p>The concept of synaptic plasticity gave me the frame. In the brain, connections form because neurons that activate together grow stronger bonds. I wanted notes to form connections because their <em>meaning</em> overlapped — even if their exact words did not.</p>
+            </div>
+
+            <!-- 04 -->
+            <div class="section">
+                <span class="section-number">04</span>
+                <h2>Building the Artificial Synapse</h2>
+
+                <p>This is where the biology ended and the engineering began. The project I built is called <strong>Synapse</strong>. The name was not accidental.</p>
+
+                <p>The central idea was this: every note you write gets converted into a mathematical object — a <em>vector embedding</em> — by an AI model. This vector is a list of numbers, usually several hundred of them, that encodes the <strong>semantic meaning</strong> of the text. Two notes about related concepts — even if they use completely different words — will have vectors that point in similar directions in this high-dimensional space. The angular distance between them, computed as <em>cosine similarity</em>, becomes the strength of their connection. Exactly like synaptic weight.</p>
+
+                <figure class="diagram-wrap">
+                    <svg viewBox="0 0 680 280" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+                        <circle cx="120" cy="140" r="38" fill="#efefef" stroke="#bbb" stroke-width="1.5"/>
+                        <circle cx="340" cy="60" r="38" fill="#efefef" stroke="#bbb" stroke-width="1.5"/>
+                        <circle cx="560" cy="140" r="38" fill="#efefef" stroke="#bbb" stroke-width="1.5"/>
+                        <circle cx="340" cy="220" r="38" fill="#efefef" stroke="#bbb" stroke-width="1.5"/>
+                        <circle cx="220" cy="220" r="26" fill="#f5f5f5" stroke="#ccc" stroke-width="1" opacity="0.8"/>
+                        <circle cx="460" cy="220" r="26" fill="#f5f5f5" stroke="#ccc" stroke-width="1" opacity="0.8"/>
+                        <line x1="155" y1="125" x2="305" y2="78" stroke="#999" stroke-width="1.8" opacity="0.7"/>
+                        <line x1="375" y1="78" x2="525" y2="125" stroke="#999" stroke-width="1.8" opacity="0.7"/>
+                        <line x1="155" y1="155" x2="305" y2="205" stroke="#bbb" stroke-width="1.2" opacity="0.6"/>
+                        <line x1="375" y1="205" x2="525" y2="155" stroke="#bbb" stroke-width="1.2" opacity="0.6"/>
+                        <line x1="340" y1="98" x2="340" y2="182" stroke="#bbb" stroke-width="1.5" opacity="0.6"/>
+                        <line x1="158" y1="210" x2="196" y2="220" stroke="#ccc" stroke-width="1" opacity="0.6"/>
+                        <line x1="246" y1="220" x2="302" y2="220" stroke="#ccc" stroke-width="1" opacity="0.6"/>
+                        <line x1="378" y1="220" x2="434" y2="220" stroke="#ccc" stroke-width="1" opacity="0.6"/>
+                        <rect x="196" y="88" width="52" height="16" rx="8" fill="white" opacity="0.95"/>
+                        <text x="222" y="100" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#777">82%</text>
+                        <rect x="430" y="88" width="52" height="16" rx="8" fill="white" opacity="0.95"/>
+                        <text x="456" y="100" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#777">79%</text>
+                        <rect x="310" y="132" width="52" height="16" rx="8" fill="white" opacity="0.95"/>
+                        <text x="336" y="144" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#777">71%</text>
+                        <text x="120" y="136" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#555">Neural</text>
+                        <text x="120" y="150" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#555">Networks</text>
+                        <text x="340" y="56" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#555">Machine</text>
+                        <text x="340" y="70" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#555">Learning</text>
+                        <text x="560" y="136" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#555">Deep</text>
+                        <text x="560" y="150" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#555">Learning</text>
+                        <text x="340" y="216" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#555">Gradient</text>
+                        <text x="340" y="230" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#555">Descent</text>
+                        <text x="220" y="223" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#888">Neurons</text>
+                        <text x="460" y="223" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#888">Vision</text>
+                    </svg>
+                    <figcaption><i>FIG. 06 — Synapse knowledge graph. Notes automatically connect by semantic similarity score, just as neurons connect by synaptic weight.</i></figcaption>
+                </figure>
+
+                <h3>From biology to code</h3>
+
+                <p>The technical implementation used <strong>Ollama</strong> running locally on my machine — a tool that runs AI language models without sending any data to the cloud. Every note, when saved, is embedded by a model called <em>nomic-embed-text</em>, which converts the text into a 768-dimensional vector. Then, cosine similarity is computed between every pair of notes. Any pair scoring above 0.65 — meaning their meanings overlap significantly — gets a link drawn between them.</p>
+
+                <p>The frontend renders this as an interactive force-directed graph using <strong>D3.js</strong>. Nodes are notes. Edges are connections. The weight of the edge corresponds to the strength of the semantic overlap. You can drag nodes, zoom in, explore clusters of ideas you did not know were related.</p>
+
+                <figure class="fig">
+                    <div class="fig-placeholder">
+                        <p class="fig-placeholder-text">[ screenshot of Synapse graph view — dark background, coloured nodes clustered by topic, glowing edges connecting them, force-directed layout with visible clusters ]</p>
+                    </div>
+                    <figcaption><i>FIG. 07 — Synapse running with 52 notes. Clusters emerge organically by topic. No folder was ever created.</i></figcaption>
+                </figure>
+
+                <p>I wanted to showcase what happens when you let AI handle the organisation and let humans handle the thinking. The result surprised me. After writing around 50 notes, clusters appeared that I had not planned. A note about breathing exercises sat next to one about focus, which sat next to one about code architecture. The system had discovered, without being told, that these topics share conceptual territory in the domain of <em>concentrated work</em>.</p>
+
+                <p>That is what the brain does. That is what the synapse makes possible. A connection that was never drawn by hand, but forms because the meanings are close.</p>
+            </div>
+
+            <!-- 05 -->
+            <div class="section">
+                <span class="section-number">05</span>
+                <h2>The Browser — Searching Without Being Watched</h2>
+
+                <p>There was a second project that grew alongside Synapse, more quietly. I called it <strong>Synapse Browser</strong> — and the name again was deliberate.</p>
+
+                <p>In the brain, the synapse is the place where signals are filtered. Not every signal that arrives gets passed on. The postsynaptic neuron decides, based on the sum of all incoming signals, whether to fire or not. It is an act of <em>selective transmission</em>. Some signals pass. Others are suppressed.</p>
+
+                <figure class="fig">
+                    <div class="fig-placeholder">
+                        <p class="fig-placeholder-text">[ photo of a person's hands typing on a keyboard, screen reflected in glasses, suggesting the private act of thought ]</p>
+                    </div>
+                    <figcaption><i>FIG. 08 — Every search query is a thought. The question is: who else is listening?</i></figcaption>
+                </figure>
+
+                <p>Most search engines are the opposite of selective. They are hungry. Every query you type is logged, profiled, used to build a model of who you are and what you want, and then sold. Your thoughts — your searches — become data points in someone else's graph.</p>
+
+                <p>I wanted to showcase an alternative. Synapse Browser is a self-hosted search engine built on top of <strong>Searx</strong>, an open-source meta-search engine that queries Google, Bing, and DuckDuckGo simultaneously but strips all identifying information before forwarding the request. The results come back clean. No tracking cookies. No personalisation. No profile.</p>
+
+                <p>The connection to the neural metaphor is this: <strong>privacy is a form of cognitive integrity</strong>. The brain's synapses are selective because not every signal should propagate. Some thoughts are yours. A search engine that watches your every query is a synapse that never inhibits — that passes everything on, indiscriminately, to parties you did not invite into your thinking.</p>
+
+                <blockquote>
+                    <p>A search engine that remembers everything you have ever asked is not a tool. It is a mirror that someone else owns.</p>
+                    <cite>— William Berge Grønsberg, 2025</cite>
+                </blockquote>
+
+                <p>Synapse Browser runs locally using Docker — two containers, one for the Searx backend and one serving the frontend I wrote. The UI shows GitHub profiles when you search for developers, Wikipedia summaries when you search for concepts, and clean results with no ads and no tracking.</p>
+
+                <figure class="fig">
+                    <div class="fig-placeholder">
+                        <p class="fig-placeholder-text">[ screenshot of the Synapse Browser interface — minimal search bar, clean results with favicon icons, GitHub profile card on the right ]</p>
+                    </div>
+                    <figcaption><i>FIG. 09 — Synapse Browser. Private search, local deployment, no data leaving your machine.</i></figcaption>
+                </figure>
+            </div>
+
+            <!-- 06 -->
+            <div class="section">
+                <span class="section-number">06</span>
+                <h2>What the Brain Taught Me About Software</h2>
+
+                <p>Working on these two projects changed the way I think about knowledge tools — and about the brain itself.</p>
+
+                <p>The most important lesson was about <strong>emergence</strong>. The brain does not have a central controller. There is no single neuron that is "in charge" of memory, or creativity, or understanding. Intelligence emerges from the <em>pattern</em> of connections — from the topology of the graph, not from any individual node. This is why damage to a small region of the brain sometimes has surprisingly little effect: the network reroutes. Meaning is distributed.</p>
+
+                <figure class="fig">
+                    <div class="fig-placeholder">
+                        <p class="fig-placeholder-text">[ fMRI scan of the human brain — bright spots of activation scattered across multiple regions, showing distributed cognition during a complex thinking task ]</p>
+                    </div>
+                    <figcaption><i>FIG. 10 — fMRI scan showing distributed activation during complex thought. No single region holds the answer. The pattern is the answer.</i></figcaption>
+                </figure>
+
+                <p>Synapse — the notes project — works on the same principle. No single note is the important one. What matters is the graph that forms around it. A note about meditation is ordinary in isolation. But when it links to focus, which links to flow state, which links to software architecture, which links to neural networks — suddenly you have a trail of thought that no folder ever could have revealed.</p>
+
+                <h3>The future I want to build</h3>
+
+                <p>I wanted to showcase a vision. Both Synapse and Synapse Browser are early experiments in a larger idea: that our digital tools should mirror the brain's architecture, not fight it. We should not be forced to organise our thoughts into hierarchies before we are allowed to think them. We should not have our most private cognitive acts — our searches, our questions, our uncertainties — logged and sold.</p>
+
+                <p>The neuroscientist Antonio Damasio wrote that thinking is not something the brain does <em>to</em> the body — it is something the brain does <em>with</em> it, in constant dialogue with the world. I think software should work the same way. Not a rigid container for your thoughts. A living partner in thinking — one that listens, connects, and grows stronger the more you use it.</p>
+
+                <figure class="diagram-wrap">
+                    <svg viewBox="0 0 680 180" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+                        <text x="170" y="24" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#aaa" letter-spacing="0.1em">BIOLOGICAL SYNAPSE</text>
+                        <circle cx="80" cy="90" r="22" fill="#efefef" stroke="#bbb" stroke-width="1.2"/>
+                        <circle cx="170" cy="62" r="16" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+                        <circle cx="170" cy="118" r="16" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+                        <circle cx="250" cy="90" r="22" fill="#efefef" stroke="#bbb" stroke-width="1.2"/>
+                        <line x1="100" y1="82" x2="156" y2="68" stroke="#bbb" stroke-width="1.2"/>
+                        <line x1="100" y1="98" x2="156" y2="112" stroke="#bbb" stroke-width="1.2"/>
+                        <line x1="184" y1="66" x2="230" y2="82" stroke="#bbb" stroke-width="1.2"/>
+                        <line x1="184" y1="114" x2="230" y2="98" stroke="#bbb" stroke-width="1.2"/>
+                        <text x="80" y="94" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#777">Neuron A</text>
+                        <text x="250" y="94" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#777">Neuron B</text>
+                        <text x="170" y="160" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#aaa">neurons fire together → wire together</text>
+                        <line x1="340" y1="20" x2="340" y2="155" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="4,4"/>
+                        <text x="510" y="24" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#aaa" letter-spacing="0.1em">SYNAPSE NOTES</text>
+                        <circle cx="420" cy="90" r="22" fill="#efefef" stroke="#bbb" stroke-width="1.2"/>
+                        <circle cx="510" cy="62" r="16" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+                        <circle cx="510" cy="118" r="16" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+                        <circle cx="600" cy="90" r="22" fill="#efefef" stroke="#bbb" stroke-width="1.2"/>
+                        <line x1="440" y1="82" x2="496" y2="68" stroke="#bbb" stroke-width="1.2"/>
+                        <line x1="440" y1="98" x2="496" y2="112" stroke="#bbb" stroke-width="1.2"/>
+                        <line x1="524" y1="66" x2="580" y2="82" stroke="#bbb" stroke-width="1.2"/>
+                        <line x1="524" y1="114" x2="580" y2="98" stroke="#bbb" stroke-width="1.2"/>
+                        <text x="420" y="94" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#777">Note A</text>
+                        <text x="600" y="94" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#777">Note B</text>
+                        <text x="510" y="160" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#aaa">notes share meaning → auto-linked</text>
+                    </svg>
+                    <figcaption><i>FIG. 11 — The parallel. Biological and artificial synapses follow the same logic: connection strength follows co-activation.</i></figcaption>
+                </figure>
+
+                <p>The brain took evolution 540 million years to arrive at the synapse. I built my version in a few weeks of evenings. But the principle is the same. Let the connections form where the meaning lives. Trust the graph. Explore the network.</p>
+
+                <p>That, in the end, is what both of these projects taught me. Not just about neurons and code — but about how <em>I</em> think. How all of us think. In webs. In associations. In sparks of electricity, leaping across gaps too small to see.</p>
+            </div>
+
+            <!-- 07 -->
+            <div class="section">
+                <span class="section-number">07</span>
+                <h2>What I Would Build Next</h2>
+
+                <p>If I could extend Synapse further, I wanted to showcase one more biological idea: <strong>neurogenesis</strong>. In the brain, new neurons are born — not many, and mostly in the hippocampus, but enough to show that the network is not static. It grows. It prunes. It rewires based on experience.</p>
+
+                <p>A future version of Synapse would have its own form of neurogenesis: notes that have not been visited in a long time, and have lost their connections through disuse, would fade. Notes that cluster densely with others would grow stronger, their nodes larger in the graph, their colour brighter. The graph would breathe.</p>
+
+                <figure class="fig">
+                    <div class="fig-placeholder">
+                        <p class="fig-placeholder-text">[ microscope image of a newborn neuron in the hippocampus — delicate branching dendrites just beginning to reach outward ]</p>
+                    </div>
+                    <figcaption><i>FIG. 12 — Neurogenesis. A newborn neuron in the adult hippocampus, beginning to grow connections. The brain never stops building.</i></figcaption>
+                </figure>
+
+                <p>I wanted to showcase the idea that software can have a <em>life cycle</em>. That tools do not have to be static. That a knowledge base should mirror the dynamism of the mind that feeds it — growing where attention goes, fading where attention does not, and occasionally surfacing old connections at exactly the right moment, the way a memory resurfaces years later when the context is suddenly right.</p>
+
+                <p>The synapse is not just a connection point. It is a decision point. A threshold. A moment of possibility between two states. Every note you write is a neuron. Every link the system draws is a synapse. And every time you follow a connection you did not make yourself — discovering that a thought you had about breathing exercises was always adjacent to a thought about code — that is the electricity flowing.</p>
+
+                <p>That is the whole point.</p>
+            </div>
+
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 William Berge Grønsberg | <a href="kilder.html">Kilder</a></p>
+    </footer>
+
+    <button id="a11y-btn" onclick="toggleA11y()">Aa&nbsp; Tilgjengelighet</button>
+
+    <div id="a11y-panel">
+        <div class="a11y-title">Skrifttype</div>
+        <button class="a11y-option" id="opt-normal" onclick="setFont('normal')">Standard (Georgia)</button>
+        <button class="a11y-option dyslexic-option" id="opt-dyslexic" onclick="setFont('dyslexic')">OpenDyslexic</button>
+        <button class="a11y-option comic-option" id="opt-comic" onclick="setFont('comic')">Comic Sans</button>
+    </div>
+
+    <script>
+        function toggleA11y() {
+            document.getElementById('a11y-panel').classList.toggle('open');
+        }
+
+        function setFont(type) {
+            document.body.classList.remove('dyslexic', 'comic');
+            document.querySelectorAll('.a11y-option').forEach(b => b.classList.remove('active'));
+            if (type === 'dyslexic') {
+                document.body.classList.add('dyslexic');
+                document.getElementById('opt-dyslexic').classList.add('active');
+            } else if (type === 'comic') {
+                document.body.classList.add('comic');
+                document.getElementById('opt-comic').classList.add('active');
+            } else {
+                document.getElementById('opt-normal').classList.add('active');
+            }
+            localStorage.setItem('synapse-font', type);
+        }
+
+        const saved = localStorage.getItem('synapse-font');
+        if (saved) setFont(saved);
+        else document.getElementById('opt-normal').classList.add('active');
+
+        document.addEventListener('click', function(e) {
+            const panel = document.getElementById('a11y-panel');
+            const btn = document.getElementById('a11y-btn');
+            if (!panel.contains(e.target) && !btn.contains(e.target)) {
+                panel.classList.remove('open');
+            }
+        });
+    </script>
+
+</body>
+</html>

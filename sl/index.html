@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synapse | Your Mind, Interconnected</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f9f9f7;
+            --text: #1a1a18;
+            --text-muted: #6b6b67;
+            --accent: #6C63D5;
+            --border: rgba(0, 0, 0, 0.08);
+            --card-bg: #ffffff;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: 'Instrument Serif', serif;
+            --font-mono: 'DM Mono', monospace;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0e0e0f;
+                --text: #e8e8e6;
+                --text-muted: #9a9a96;
+                --border: rgba(255, 255, 255, 0.1);
+                --card-bg: #161618;
+                --shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(var(--bg), 0.8);
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+            padding: 0 10%;
+            animation: fadeIn 1s ease-out;
+            gap: 4rem;
+        }
+
+        .hero-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .synapse-canvas-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 500px;
+            height: 500px;
+        }
+
+        .synapse-canvas-wrapper canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            letter-spacing: -0.03em;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 100px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-primary {
+            background-color: var(--text);
+            color: var(--bg);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--border);
+        }
+
+        /* Product Sections */
+        section {
+            padding: 8rem 10%;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+            max-width: 600px;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .product-visual {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            aspect-ratio: 16/10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-visual::after {
+            content: "";
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        .feature-list {
+            list-style: none;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .feature-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .feature-item p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Showcase Cards */
+        .showcase-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            transition: all 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 10%;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 4rem;
+        }
+
+        .footer-col h4 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .footer-col a {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .footer-col a:hover {
+            color: var(--text);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero {
+                flex-direction: column;
+                padding-top: 6rem;
+            }
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            .synapse-canvas-wrapper {
+                max-width: 100%;
+                height: 300px;
+            }
+            nav {
+                padding: 1.5rem 5%;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Custom Visual Elements */
+        .browser-mockup {
+            width: 80%;
+            height: 60%;
+            background: var(--bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .browser-header {
+            height: 30px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 5px;
+        }
+
+        .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
+
+        .notes-mockup {
+            width: 70%;
+            height: 70%;
+            background: var(--bg);
+            border-radius: 4px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .line { height: 2px; background: var(--border); border-radius: 2px; }
+        .line.short { width: 40%; }
+        .line.medium { width: 70%; }
+        .line.long { width: 100%; }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Synapse</div>
+        <div class="nav-links">
+            <a href="#notes">Notes</a>
+            <a href="#browser">Browser</a>
+            <a href="#features">Features</a>
+            <a href="https://github.com/sneakyturtle270508/Synapse">GitHub</a>
+        </div>
+        <a href="https://github.com/sneakyturtle270508/Synapse" class="btn btn-primary" style="padding: 0.5rem 1.5rem; font-size: 0.85rem;">Get Started</a>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Your mind,<br>interconnected.</h1>
+            <p>Synapse is a minimalist ecosystem designed for deep focus. Seamlessly capture thoughts and explore the web without distractions.</p>
+            <div class="cta-group">
+                <a href="https://github.com/sneakyturtle270508/Synapse" class="btn btn-primary">Download Synapse</a>
+                <a href="#notes" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+        <div class="synapse-canvas-wrapper">
+            <canvas id="synapseCanvas"></canvas>
+        </div>
+    </header>
+
+    <section id="notes">
+        <div class="product-grid">
+            <div class="product-info">
+                <div class="section-header">
+                    <h2>Synapse Notes</h2>
+                    <p>A private, lightweight note-taking application that stays out of your way. Built for speed and clarity.</p>
+                </div>
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <h3>Instant Capture</h3>
+                        <p>Open and write in milliseconds. No loading screens, no friction.</p>
+                    </li>
+                    <li class="feature-item">
+                        <h3>Privacy First</h3>
+                        <p>Your notes are yours alone, stored securely on your device.</p>
+                    </li>
+                    <li class="feature-item">
+                        <h3>Minimalist Interface</h3>
+                        <p>No clutter, no complex menus. Just you and your thoughts.</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="product-visual">
+                <div class="notes-mockup">
+                    <div class="line short" style="background: var(--accent); height: 4px;"></div>
+                    <div class="line long"></div>
+                    <div class="line medium"></div>
+                    <div class="line long"></div>
+                    <div class="line short"></div>
+                    <div style="margin-top: 20px;"></div>
+                    <div class="line medium"></div>
+                    <div class="line long"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="browser" style="background: rgba(var(--accent), 0.02);">
+        <div class="product-grid">
+            <div class="product-visual" style="order: 2;">
+                <div class="browser-mockup">
+                    <div class="browser-header">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                        <div style="flex: 1; height: 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 100px; margin: 0 10px;"></div>
+                    </div>
+                    <div style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px;">
+                        <div style="width: 60%; height: 2px; background: var(--border);"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="product-info" style="order: 1;">
+                <div class="section-header">
+                    <h2>Synapse Browser</h2>
+                    <p>Explore the web without footprints. A privacy-respecting search experience powered by Searx.</p>
+                </div>
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <h3>Aggregated Search</h3>
+                        <p>Get results from Google, Bing, and DuckDuckGo without the tracking.</p>
+                    </li>
+                    <li class="feature-item">
+                        <h3>Docker Ready</h3>
+                        <p>Deploy your own private instance in minutes with our optimized setup.</p>
+                    </li>
+                    <li class="feature-item">
+                        <h3>Clean UI</h3>
+                        <p>A focused browsing experience designed for the modern web.</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="features">
+        <div class="section-header" style="margin: 0 auto 4rem; text-align: center;">
+            <h2>Built for focus.</h2>
+            <p>Every detail in Synapse is crafted to help you think better.</p>
+        </div>
+        <div class="showcase-container">
+            <div class="card">
+                <div class="card-icon">✦</div>
+                <h3>Unified Ecosystem</h3>
+                <p>Notes and Browser work together to streamline your workflow and keep your data connected.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🛡️</div>
+                <h3>Privacy by Design</h3>
+                <p>We don't track you. We don't sell your data. We don't even have access to it.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h3>High Performance</h3>
+                <p>Lightweight code ensures maximum speed and efficiency on any device.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-brand">
+            <div class="logo">Synapse</div>
+            <p>Built for humanity.</p>
+            <p style="margin-top: 2rem; font-family: var(--font-mono); font-size: 0.7rem;">© 2026 SYNAPSE ECOSYSTEM</p>
+        </div>
+        <div class="footer-links">
+            <div class="footer-col">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#notes">Notes</a></li>
+                    <li><a href="#browser">Browser</a></li>
+                    <li><a href="https://github.com/sneakyturtle270508/Synapse">Download</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="https://github.com/sneakyturtle270508/Synapse">GitHub</a></li>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Privacy</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    (function() {
+        const canvas = document.getElementById('synapseCanvas');
+        const ctx = canvas.getContext('2d');
+        let w, h, nodes = [], pulses = [];
+        const accent = '#6C63D5';
+
+        function resize() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            w = rect.width;
+            h = rect.height;
+            canvas.width = w * dpr;
+            canvas.height = h * dpr;
+            ctx.scale(dpr, dpr);
+        }
+
+        function createNodes() {
+            nodes = [];
+            const count = 18;
+            const cx = w / 2, cy = h / 2;
+            // Central node
+            nodes.push({ x: cx, y: cy, r: 8, vx: 0, vy: 0, central: true });
+            for (let i = 1; i < count; i++) {
+                const angle = (Math.PI * 2 / (count - 1)) * i + (Math.random() - 0.5) * 0.8;
+                const dist = 60 + Math.random() * (Math.min(w, h) * 0.35);
+                nodes.push({
+                    x: cx + Math.cos(angle) * dist,
+                    y: cy + Math.sin(angle) * dist,
+                    r: 3 + Math.random() * 4,
+                    vx: (Math.random() - 0.5) * 0.3,
+                    vy: (Math.random() - 0.5) * 0.3,
+                    central: false
+                });
+            }
+        }
+
+        function firePulse() {
+            if (nodes.length < 2) return;
+            const from = nodes[0]; // central node
+            const to = nodes[1 + Math.floor(Math.random() * (nodes.length - 1))];
+            pulses.push({ x: from.x, y: from.y, tx: to.x, ty: to.y, progress: 0, speed: 0.015 + Math.random() * 0.015, size: 3 + Math.random() * 3 });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, w, h);
+
+            // Draw connections
+            const maxDist = Math.min(w, h) * 0.45;
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < maxDist) {
+                        const alpha = (1 - dist / maxDist) * 0.15;
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[j].y ? nodes[i].x : nodes[i].x, nodes[i].y);
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.strokeStyle = accent;
+                        ctx.globalAlpha = alpha;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                        ctx.globalAlpha = 1;
+                    }
+                }
+            }
+
+            // Draw nodes
+            nodes.forEach(n => {
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+                if (n.central) {
+                    ctx.fillStyle = accent;
+                    ctx.shadowColor = accent;
+                    ctx.shadowBlur = 20;
+                } else {
+                    ctx.fillStyle = accent;
+                    ctx.globalAlpha = 0.6;
+                    ctx.shadowBlur = 0;
+                }
+                ctx.fill();
+                ctx.globalAlpha = 1;
+                ctx.shadowBlur = 0;
+            });
+
+            // Draw pulses
+            pulses.forEach((p, idx) => {
+                p.progress += p.speed;
+                if (p.progress >= 1) { pulses.splice(idx, 1); return; }
+                const x = p.x + (p.tx - p.x) * p.progress;
+                const y = p.y + (p.ty - p.y) * p.progress;
+                const glow = Math.sin(p.progress * Math.PI);
+
+                ctx.beginPath();
+                ctx.arc(x, y, p.size * (0.5 + glow * 0.5), 0, Math.PI * 2);
+                ctx.fillStyle = '#fff';
+                ctx.shadowColor = accent;
+                ctx.shadowBlur = 15 + glow * 15;
+                ctx.globalAlpha = 0.8 + glow * 0.2;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+                ctx.shadowBlur = 0;
+
+                // Trail
+                ctx.beginPath();
+                const trailLen = 0.08;
+                const tx = p.x + (p.tx - p.x) * Math.max(0, p.progress - trailLen);
+                const ty = p.y + (p.ty - p.y) * Math.max(0, p.progress - trailLen);
+                ctx.moveTo(tx, ty);
+                ctx.lineTo(x, y);
+                ctx.strokeStyle = accent;
+                ctx.globalAlpha = 0.4 * glow;
+                ctx.lineWidth = p.size * 0.6;
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+            });
+
+            // Move nodes gently
+            nodes.forEach(n => {
+                if (n.central) return;
+                n.x += n.vx;
+                n.y += n.vy;
+                if (n.x < 20 || n.x > w - 20) n.vx *= -1;
+                if (n.y < 20 || n.y > h - 20) n.vy *= -1;
+            });
+
+            requestAnimationFrame(draw);
+        }
+
+        resize();
+        createNodes();
+        draw();
+
+        // Fire pulses periodically
+        setInterval(firePulse, 800);
+        // Fire a few immediately
+        setTimeout(firePulse, 200);
+        setTimeout(firePulse, 500);
+
+        window.addEventListener('resize', () => { resize(); createNodes(); });
+    })();
+    </script>
+
+</body>
+</html>
