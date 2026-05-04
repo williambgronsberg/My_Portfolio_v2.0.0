@@ -1,0 +1,10 @@
+{
+	"author": "HytteHub",
+	"email": "",
+	"website": "",
+	"version": "1.0.0",
+	"releaseDate": "2026-05-02",
+	"license": "MIT",
+	"compatible": "3.14,3.21",
+	"notes": "Custom cabin rental and listing theme for Bludit."
+}

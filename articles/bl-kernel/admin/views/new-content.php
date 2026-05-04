@@ -73,8 +73,15 @@ echo Bootstrap::formOpen(array(
 		<div class="nav nav-tabs" id="nav-tab" role="tablist">
 			<a class="nav-link active show" id="nav-general-tab"  data-toggle="tab" href="#nav-general"  role="tab" aria-controls="general"><?php $L->p('General') ?></a>
 			<a class="nav-link" id="nav-advanced-tab" data-toggle="tab" href="#nav-advanced" role="tab" aria-controls="advanced"><?php $L->p('Advanced') ?></a>
-			<?php if (!empty($site->customFields())): ?>
-			<a class="nav-link" id="nav-custom-tab" data-toggle="tab" href="#nav-custom" role="tab" aria-controls="custom"><?php $L->p('Custom') ?></a>
+			<?php
+			$hyttehubCustomFieldsInOptions = array();
+			foreach ($site->customFields() as $hyttehubField=>$hyttehubOptions) {
+				if ( !isset($hyttehubOptions['position']) ) {
+					$hyttehubCustomFieldsInOptions[$hyttehubField] = $hyttehubOptions;
+				}
+			}
+			if (!empty($hyttehubCustomFieldsInOptions)): ?>
+			<a class="nav-link" id="nav-custom-tab" data-toggle="tab" href="#nav-custom" role="tab" aria-controls="custom">Cabin details</a>
 			<?php endif ?>
 			<a class="nav-link" id="nav-seo-tab" data-toggle="tab" href="#nav-seo" role="tab" aria-controls="seo"><?php $L->p('SEO') ?></a>
 		</div>
@@ -106,13 +113,13 @@ echo Bootstrap::formOpen(array(
 			?>
 
 			<!-- Cover Image -->
-			<label class="mt-4 mb-2 pb-2 border-bottom text-uppercase w-100"><?php $L->p('Cover Image') ?></label>
+			<label class="mt-4 mb-2 pb-2 border-bottom text-uppercase w-100">Cabin photo / Cover image</label>
 			<div>
 				<img id="jscoverImagePreview" class="mx-auto d-block w-100" alt="Cover image preview" src="<?php echo HTML_PATH_CORE_IMG ?>default.svg" />
 			</div>
 			<div class="mt-2 text-center">
-				<button type="button" id="jsbuttonSelectCoverImage" class="btn btn-primary btn-sm"><?php echo $L->g('Select cover image') ?></button>
-				<button type="button" id="jsbuttonRemoveCoverImage" class="btn btn-secondary btn-sm"><?php echo $L->g('Remove cover image') ?></button>
+				<button type="button" id="jsbuttonSelectCoverImage" class="btn btn-primary btn-sm"><?php echo 'Select cabin photo' ?></button>
+				<button type="button" id="jsbuttonRemoveCoverImage" class="btn btn-secondary btn-sm"><?php echo 'Remove cabin photo' ?></button>
 			</div>
 			<script>
 				$(document).ready(function() {
@@ -271,10 +278,18 @@ echo Bootstrap::formOpen(array(
 			});
 			</script>
 		</div>
-		<?php if (!empty($site->customFields())): ?>
-		<div id="nav-custom" class="tab-pane fade" role="tabpanel" aria-labelledby="custom-tab">
 		<?php
-			$customFields = $site->customFields();
+			$hyttehubCustomFieldsInOptions = array();
+			foreach ($site->customFields() as $hyttehubField=>$hyttehubOptions) {
+				if ( !isset($hyttehubOptions['position']) ) {
+					$hyttehubCustomFieldsInOptions[$hyttehubField] = $hyttehubOptions;
+				}
+			}
+			if (!empty($hyttehubCustomFieldsInOptions)): ?>
+		<div id="nav-custom" class="tab-pane fade" role="tabpanel" aria-labelledby="custom-tab">
+		<div class="alert alert-info mt-3">Fill these fields to make this page appear as a cabin listing. Use the General tab cover image for the cabin photo.</div>
+		<?php
+			$customFields = $hyttehubCustomFieldsInOptions;
 			foreach ($customFields as $field=>$options) {
 				if ( !isset($options['position']) ) {
 					if ($options['type']=="string") {
