@@ -1,158 +1,97 @@
+# My Portfolio v2.0.0
 
-# William Berge Groensberg - Portfolio Website
+A modern, responsive personal portfolio website by William Berge Grønsberg. This project showcases selected web projects, photography, and small web apps with an emphasis on clean design, accessible markup, and lightweight vanilla JavaScript.
 
-A modern, responsive portfolio website showcasing web development projects and skills. Built with clean HTML, CSS, and JavaScript, featuring smooth animations and an interactive design.
+Live demo: http://im24wil27051.imporsgrunn.no/
 
-## 🌟 Features
+## Key features
 
-- **Responsive Design**: Optimized for desktop and mobile viewing
-- **Animated Navigation**: Smooth hamburger menu with morphing animations
-- **Project Showcases**: Interactive video previews with detailed project overlays
-- **Modern UI/UX**: Clean, professional design with hover effects and transitions
-- **AOS Animations**: Scroll-triggered animations for enhanced user experience
+- Responsive, mobile-first layout
+- Animated navigation and micro-interactions
+- Project showcases with video previews and overlays
+- Photography gallery and visual polish
+- Small web apps and widgets (weather, dashboard, 75-day tracker)
+- Accessibility and performance considerations (reduced-motion support, lazy media)
 
-## 🛠️ Technologies Used
+## Tech stack
 
-- **Frontend**: HTML5, CSS3, JavaScript, jQuery
-- **Animations**: AOS (Animate On Scroll) library
-- **Icons**: Font Awesome
-- **Fonts**: Google Fonts (Karla, Nanum Pen Script)
-- **Build Tools**: Native HTML/CSS/JS (no build process required)
+- HTML5, CSS3, JavaScript (vanilla) and jQuery
+- AOS (Animate On Scroll) for scroll animations
+- Font Awesome for icons
+- Google Fonts (Karla, Nanum Pen Script, etc.)
 
-## 📁 Project Structure
+## Quick start
 
-```
-portfolio/
-├── index.html         # Main portfolio page
-├── nam.html           # Weather widget component
-├── test.html          # Navigation menu prototype
-├── style.css          # Main stylesheet
-├── script.js          # Interactive functionality
-├── README.md          # Project documentation
-├── Pictures/          # Images and media files
-├── accessibility.svg  # accessibility icon
-├── adobe.svg          # adobe icon
-├── css.svg            # css icon
-├── html.svg           # html icon
-├── javascript.svg     # javascript icon
-└── one.mp4            # project video nr 1
-
-```
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Modern web browser (Chrome, Firefox, Safari, Edge)
-
-### Installation
+This is a static site — no build step required.
 
 1. Clone the repository:
+
 ```bash
-git clone [https://github.com/sneakyturtle270508/My_Portfolio_v2.0.0]
-cd index.html
+git clone https://github.com/williambgronsberg/My_Portfolio_v2.0.0.git
+cd My_Portfolio_v2.0.0
 ```
 
-2. Open `index.html` in your web browser or serve via a local server:
+2. Open `index.html` in your browser or serve the folder with a simple static server:
+
 ```bash
-# Using Python
+# Python 3
 python -m http.server 8000
-
-# Using Node.js
-npx http-server
-
-# Using PHP
-php -S localhost:8000
+# or Node.js
+npx http-server -p 8000
 ```
 
-3. Navigate to `http://localhost:8000` in your browser
+3. Visit http://localhost:8000 (or open `index.html` directly).
 
-## 📱 Features Overview
+## Project structure (high level)
 
-### Navigation Menu
-- Animated hamburger menu icon
-- Smooth slide-in navigation panel
-- Responsive design adapting to screen sizes
+- index.html — Main portfolio landing page
+- aboutmeside.html — About page
+- hub.html / man.html — Personal hub/dashboard variants
+- 75dayhard.html — 75-day challenge tracker (optionally uses Firebase)
+- nam.html — Weather widget (OpenWeatherMap)
+- assets/ or Pictures/ — Images, icons, videos and media
+- style.css / script.js — Primary styles and JavaScript
 
-### Portfolio Projects
-- **Nerdy-cmd**: Command-line interface portfolio experience
-- **Into The Void**: JavaScript asteroid-dodging game
-- **Beeline**: Bike-share station finder using APIs
-- **Versus**: React-based anonymous polling application
+(See the repository for the complete list of pages and assets.)
 
-### Interactive Elements
-- Hover effects on project videos
-- Modal overlays with project details
-- Smooth scroll animations
-- Mobile-friendly touch interactions
+## Configuration & APIs
 
-## 🎨 Design Philosophy
+- Weather features use OpenWeatherMap: add an API key in the relevant files (`nam.html`, `hub.html`) as `API_KEY`.
+- The 75-day tracker can be configured to sync with Firebase — do not commit real API keys to the public repository.
 
-The website follows modern web design principles:
+## Development notes
 
-- **Minimalist Aesthetic**: Clean layouts with ample whitespace
-- **Typography**: Carefully selected font pairings (Karla for body, Nanum Pen Script for accents)
-- **Color Scheme**: Professional palette with accent colors (#71deff, #ff7171, #e96269)
-- **Micro-interactions**: Subtle animations that enhance user experience
-- **Accessibility**: Proper contrast ratios and semantic HTML structure
+- Media files (videos/images) are included in the repo for the project previews; optimize heavy media before deploying for best performance.
+- If you need to reduce animations for accessibility, the site respects `prefers-reduced-motion`.
 
-## 📊 Browser Support
+## Deployment
 
-- Chrome 70+
-- Firefox 65+
-- Safari 12+
-- Edge 79+
-- Mobile browsers (iOS Safari, Chrome Mobile)
+The site can be hosted on any static hosting platform (GitHub Pages, Netlify, Vercel, S3 + CDN).
 
-### Customization
+- For GitHub Pages: enable Pages in the repository settings and point to the `main` branch root.
+- For Netlify/Vercel: connect the repo and deploy as a static site (no build command required).
 
-- **Colors**: Modify CSS custom properties in `style.css`
-- **Content**: Update project information in `index.html`
-- **Animations**: Adjust AOS settings in the script tags
-- **Layout**: Responsive breakpoints defined in CSS media queries
+## Contributing
 
-## 📈 Performance Optimizations
-
-- Optimized images and videos
-- Efficient CSS with minimal redundancy
-- Lazy loading for video content
-- Mobile-first responsive approach
-
-## 🤝 Contributing
+Contributions are welcome. Suggested workflow:
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/new-feature`)
-3. Commit your changes (`git commit -am 'Add new feature'`)
-4. Push to the branch (`git push origin feature/new-feature`)
-5. Create a Pull Request
+2. Create a branch (`git checkout -b feature/your-feature`)
+3. Commit your changes and open a Pull Request
 
-## 📄 License
+Please avoid committing secrets (API keys) to the repository.
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## License
 
-## 👤 Author
+This project is released under the MIT License. See the LICENSE file for details.
 
-**William Berge Groensberg**
-- Portfolio: [https://im24wil27051.imporsgrunn.no/]
-- Email: [wil27051@skole.telemarkfylke.no]
-- LinkedIn: [https://www.linkedin.com/in/william-berge-gr%C3%B8nsberg-332932307/]
-- GitHub: [https://github.com/sneakyturtle270508]
+## Author / Contact
 
-## 🙏 Acknowledgments
+William Berge Grønsberg — https://github.com/williambgronsberg
 
-- AOS Library for scroll animations
-- Font Awesome for icons
-- Google Fonts for typography
-- Design inspiration from modern web trends
-
-## 📝 Changelog
-
-### Version 2.0.0 (Current)
-- Initial portfolio release
-- Responsive design implementation
-- Project showcase functionality
-- Animated navigation system
+Email: wil27051@skole.telemarkfylke.no
+LinkedIn: https://www.linkedin.com/in/william-berge-gr%C3%B8nsberg-332932307/
 
 ---
 
-*Built with ❤️ and modern web technologies*
+If you'd like the README to include more specific details (exact npm scripts, Firebase setup values, or a tailored project gallery), tell me which sections to expand and I will update the file accordingly.
